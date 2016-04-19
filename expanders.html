@@ -38,7 +38,6 @@
 				$("#" + id).append("<p class = 'apart'>" + item + "</p>");
 				$("#" + id).append("<p class = 'apart time'>" + time + "</p>");
 				$("#" + id).append("<div class = 'big' id = " + "big" + id + ">Content</div>");
-				$("#" + id).append("<div class = 'medium' id = " + "medium" + id + ">content</div>");
 				$("#" + id).click(function(){
 				
 					expand($(this));
@@ -56,30 +55,30 @@
 				}
 			
 				moveElement(element);
-				//$("#" + "big" + id).slideToggle(1500);//, "easeInExpo");
-				//$("#" + "medium" + id).slideToggle(1500);//, "easeInExpo");
+				element.children("div").slideDown(250);
 			}
 			
-			function putBack(id, element){
+			function putBack(index, element){
 			
-				$("#" + id).after(element);
-				restoreId(parseInt(element.attr("id")), id);
+				element.children("div").slideUp(250, function(){
 				
-				element.unbind("click");
-				element.click(function(){
-				
-					expand($(this));
+					$("#" + index).after(element);
+					restoreId(parseInt(element.attr("id")), index);
+						
+					element.unbind("click");
+					element.click(function(){
+						
+						expand($(this));
+					});
 				});
 			}
 			
 			function moveElement(element){
 				
 				var position = element.index(),
+					indexInit = element.index(),
 					prev = element.position().left;
 					position--;
-			
-				activeDiv = element;
-				divID = element.index();
 			
 				while((position > -1) && ($("#main").children("#" + position).position().left < prev)){
 				
@@ -92,12 +91,15 @@
 				element.unbind("click");
 				element.click(function(){
 				
-					putBack(divID, $(this));
+					putBack(indexInit, $(this));
 				});
 				
 				$("#" + position).before(element);
 				
-				restoreId(position, divID);
+				restoreId(position, indexInit);
+				
+				activeDiv = element;
+				divID = indexInit;
 			}
 			
 			function restoreId(rowLead, maxID){
@@ -147,15 +149,8 @@
 			.big{
 			
 				display: none;
-				height: 500px;
-				width: 1200px;
-			}
-			
-			.medium{
-			
-				display: none;
 				height: 250px;
-				width: 500px;
+				width: 1200px;
 			}
 		</style>
 	</head>
