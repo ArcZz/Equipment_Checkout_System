@@ -31,31 +31,74 @@
 				
 			});
 			
-			function moveElement(id){
+			function makeExpandBox(time, name, item, id){
 			
-				var position = id,
-					prev = $("#main").children("#" + id).position().left;
+				$("#main").append("<div class = 'expander' id = " + id + "></div>");
+				$("#" + id).append("<p class = 'apart'>" + name + "</p>");
+				$("#" + id).append("<p class = 'apart'>" + item + "</p>");
+				$("#" + id).append("<p class = 'apart time'>" + time + "</p>");
+				$("#" + id).append("<div class = 'big' id = " + "big" + id + ">Content</div>");
+				$("#" + id).append("<div class = 'medium' id = " + "medium" + id + ">content</div>");
+				$("#" + id).click(function(){
+				
+					expand($(this));
+				});
+			}
+			
+			function expand(element){
+			
+				moveElement(element);
+				activeDiv = element;
+				//$("#" + "big" + id).slideToggle(1500);//, "easeInExpo");
+				//$("#" + "medium" + id).slideToggle(1500);//, "easeInExpo");
+			}
+			
+			function putBack(id, element){
+			
+				$("#" + id).after(element);
+				restoreId(parseInt(element.attr("id")), id);
+				
+				element.unbind("click");
+				element.click(function(){
+				
+					expand($(this));
+				});
+			}
+			
+			function moveElement(element){
+				
+				var position = element.index(),
+					initialId = element.index(),
+					prev = element.position().left;
 					position--;
 			
 				while((position > -1) && ($("#main").children("#" + position).position().left < prev)){
 				
-					prev = $("#main").children("#" + position).position().left;
+					prev = $("#" + position).position().left;
 					position--;
 					
 				}
 				
 				position++;
 				
-				$("#" + id).click(function(){
+				element.unbind("click");
+				element.click(function(){
 				
+					if(!$(this)[0] === activeDiv[0]){
+					
+					}
+					
+					putBack(initialId, $(this));
 				});
 				
-				$("#" + position).before($("#" + id));
+				$("#" + position).before(element);
 				
-				restoreId($("#main"), position, id);
+				console.log(position + " " + initialId);
+				
+				restoreId(position, initialId);
 			}
-		
-			function restoreId(expanderDiv, rowLead, maxID){
+			
+			function restoreId(rowLead, maxID){
 			
 				var divs = new Array();
 			
@@ -67,23 +110,6 @@
 				divs.forEach(function(currentValue){
 				
 					currentValue.attr("id", "" + currentValue.index());
-				});
-			}
-		
-			function makeExpandBox(time, name, item, id){
-			
-				$("#main").append("<div class = 'expander' id = " + id + "></div>");
-				$("#" + id).append("<p class = 'apart'>" + name + "</p>");
-				$("#" + id).append("<p class = 'apart'>" + item + "</p>");
-				$("#" + id).append("<p class = 'apart time'>" + time + "</p>");
-				$("#" + id).append("<div class = 'big' id = " + "big" + id + ">Content</div>");
-				$("#" + id).append("<div class = 'medium' id = " + "medium" + id + ">content</div>");
-				$("#" + id).click(function(){
-				
-					moveElement($(this).index());
-					activeDiv = $(this);
-					//$("#" + "big" + id).slideToggle(1500);//, "easeInExpo");
-					//$("#" + "medium" + id).slideToggle(1500);//, "easeInExpo");
 				});
 			}
 		</script>
