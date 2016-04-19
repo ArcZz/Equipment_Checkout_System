@@ -8,6 +8,7 @@
 		<script>
 		
 			var activeDiv;
+			var divID = -1;
 		
 			$(function(){
 			
@@ -28,7 +29,6 @@
 				makeExpandBox("04:15", "Junia", "Laptop", id++);
 				makeExpandBox("11:34", "Pischot", "Laptop", id++);
 				
-				
 			});
 			
 			function makeExpandBox(time, name, item, id){
@@ -47,8 +47,15 @@
 			
 			function expand(element){
 			
+				if(activeDiv){
+					
+					if(!(element[0] == activeDiv[0])){
+					
+						putBack(divID, activeDiv);
+					}
+				}
+			
 				moveElement(element);
-				activeDiv = element;
 				//$("#" + "big" + id).slideToggle(1500);//, "easeInExpo");
 				//$("#" + "medium" + id).slideToggle(1500);//, "easeInExpo");
 			}
@@ -68,15 +75,16 @@
 			function moveElement(element){
 				
 				var position = element.index(),
-					initialId = element.index(),
 					prev = element.position().left;
 					position--;
+			
+				activeDiv = element;
+				divID = element.index();
 			
 				while((position > -1) && ($("#main").children("#" + position).position().left < prev)){
 				
 					prev = $("#" + position).position().left;
 					position--;
-					
 				}
 				
 				position++;
@@ -84,18 +92,12 @@
 				element.unbind("click");
 				element.click(function(){
 				
-					if(!$(this)[0] === activeDiv[0]){
-					
-					}
-					
-					putBack(initialId, $(this));
+					putBack(divID, $(this));
 				});
 				
 				$("#" + position).before(element);
 				
-				console.log(position + " " + initialId);
-				
-				restoreId(position, initialId);
+				restoreId(position, divID);
 			}
 			
 			function restoreId(rowLead, maxID){
