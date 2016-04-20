@@ -8,7 +8,8 @@
 		<script>
 		
 			var activeDiv;
-			var divID = -1;
+			var divIndex = -1;
+			var divID = "main";
 		
 			class item{
 				
@@ -26,6 +27,8 @@
 					this.student = studentName;
 					this.time = time;
 				}
+				
+				
 			}
 		
 			$(function(){
@@ -34,9 +37,9 @@
 				
 				makeExpandBox(new checkoutItem("Guns", "Memorial", "Brai", "12:30"), id++);
 				makeExpandBox(new checkoutItem("Memes", "Memorial", "Dan", "04:14"), id++);
-				makeExpandBox(new checkoutItem("Emotion", "Memorial", "Ryan", "02:30"), id++);
+				makeExpandBox(new checkoutItem("Bike", "Memorial", "Ryan", "02:30"), id++);
 				makeExpandBox(new checkoutItem("Laptop", "Memorial", "Mathas", "11:23"), id++);
-				makeExpandBox(new checkoutItem("Toplap", "Memorial", "Josh", "01:45"), id++);
+				makeExpandBox(new checkoutItem("Toplap", "Memorial", "Abyss Watchers", "01:45"), id++);
 				makeExpandBox(new checkoutItem("Bike", "Memorial", "Nick", "06:01"), id++);
 				makeExpandBox(new checkoutItem("Laptop", "Memorial", "Vordt", "04:15"), id++);
 				makeExpandBox(new checkoutItem("Laptop", "Student Center", "Smough", "09:30"), id++);
@@ -49,9 +52,9 @@
 				
 			});
 			
-			function makeExpandBox(checkoutItem, id){//time, name, item, id){
+			function makeExpandBox(checkoutItem, id){
 			
-				$("#main").append("<div class = 'expander' id = " + id + "></div>");
+				$("#" + divID).append("<div class = 'expander' id = " + id + "></div>");
 				$("#" + id).append("<p class = 'apart'>" + checkoutItem.student + "</p>");
 				$("#" + id).append("<p class = 'apart'>" + checkoutItem.name + "</p>");
 				$("#" + id).append("<p class = 'apart time'>" + checkoutItem.time + "</p>");
@@ -68,12 +71,12 @@
 					
 					if(!(element[0] == activeDiv[0])){
 					
-						putBack(divID, activeDiv);
+						putBack(divIndex, activeDiv);
 					}
 				}
 			
 				moveElement(element);
-				element.children("div").width($("#main").width() - 70);
+				element.children("div").width($("#" + divID).width() - 70);
 				element.children("div").slideDown(250);
 			}
 			
@@ -118,7 +121,7 @@
 				restoreId(position, indexInit);
 				
 				activeDiv = element;
-				divID = indexInit;
+				divIndex = indexInit;
 			}
 			
 			function restoreId(rowLead, maxID){
