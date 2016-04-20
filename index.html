@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<title>syg84 lab7</title>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="control.css">
+		
+		<script>
+		
+			$(function(){
+			
+				if(window.location.protocol != "https:"){
+				
+					window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+				}
+			
+				var data;
+			
+				$('select').change(function() {
+					
+					switch($(this).val()){
+					
+						case "0":
+							
+							makeLogin();
+							break;
+							
+						case "1":
+						
+							makeRegister();
+							break;
+							
+						default:
+					}
+				});
+				
+				$("#submit").click(function(){
+				
+					if($("#uName").val().length < 1){
+					
+						response("No username");
+					}else if($("#pass").val().length < 8){
+					
+						response("Needs to be at least 8 letters long");
+					}else if($("select").val() === "1" && $("#confirm").val() !== $("#pass").val()){
+					
+						response("Passwords don't match");
+					}else{
+					
+						$.post("authentication.php", {"uName": $("#uName").val(), "pass": $("#pass").val(), "new": $("select").val()}, function(data){
+					
+							switch(data){
+							
+								case "Unreal":
+								
+									response("Misspelled username");
+									break;
+									
+								case "Exist":
+								
+									response("Pick a different username");
+									break;
+									
+								case "Add":
+								
+									response("Registered");
+									setTimeout(function(){
+									
+										location.reload(true);
+									}, 2000);
+									
+									break;
+								
+								case "Liar":
+								
+									response("Wrong password");
+									break;
+									
+								case "Golden":
+								
+									$(location).attr('href', 'protected.php')
+									break;
+									
+								default:
+								
+									response(data);
+							}
+						});
+					}
+					
+				});
+			});
+			
+			function makeLogin(){
+			
+				$("#confirm").addClass("hidden");
+				$("#submit").html("Login");
+			}
+			
+			function makeRegister(){
+			
+				$("#confirm").removeClass("hidden");
+				$("#submit").html("Register");
+			}
+			
+			function response(errorMessage){
+			
+				$("#hint").html("<p id = 'hintText'>" + errorMessage + "</p>");
+				$("#hintText").css("color", "#" + Math.floor(Math.random() * 16777216).toString(16));
+			}
+			
+		</script>
+	</head>
+
+	<body>
+	
+		<form>
+		
+			<input class = "border wide" id = "uName" name = "uName" placeholder = "Username" type = "text"></br>
+			<input class = "border wide" id = "pass" name = "pass" placeholder = "Password" type = "password"></br>
+			<input class = "border hidden wide" id = "confirm" name = "pass" placeholder = "Retype Password" type = "password"></br>
+			
+			<p>I am a 
+				
+				<select id = "isNew" class = "border lightHover">
+					
+					<option value = "0">returning</option>
+					<option value = "1">new</option>
+				</select> 
+			user</p>
+			
+			<button class = "border lightHover wide" id = "submit" type = "button">Login</button>
+		</form>
+		
+		<div id = "hint"></div>
+	</body>
+</html>
