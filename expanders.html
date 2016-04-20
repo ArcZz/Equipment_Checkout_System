@@ -10,33 +10,51 @@
 			var activeDiv;
 			var divID = -1;
 		
+			class item{
+				
+				constructor(name, location){
+				
+					this.name = name;
+				}
+			}
+			
+			class checkoutItem extends item{
+				
+				constructor(itemName, location, studentName, time){
+				
+					super(itemName, location);
+					this.student = studentName;
+					this.time = time;
+				}
+			}
+		
 			$(function(){
 			
 				var id = 0;
 				
-				makeExpandBox("12:30", "Mark", "Guns", id++);
-				makeExpandBox("04:14", "Dan", "Memes", id++);
-				makeExpandBox("02:30", "Ryan", "Emotion", id++);
-				makeExpandBox("11:23", "Mathas", "Laptop", id++);
-				makeExpandBox("01:45", "Josh", "Toplap", id++);
-				makeExpandBox("04:15", "Nick", "Laptop", id++);
-				makeExpandBox("06:01", "Vordt", "Laptop", id++);
-				makeExpandBox("09:30", "Smough", "Laptop", id++);
-				makeExpandBox("10:00", "Dismas", "Say laptop one more time", id++);
-				makeExpandBox("03:15", "Dumont", "Laptop", id++);
-				makeExpandBox("04:20", "Gand", "Loooooooooooooooooooooooonnnnnnnnng", id++);
-				makeExpandBox("04:00", "Barristan", "Laptop", id++);
-				makeExpandBox("04:15", "Junia", "Laptop", id++);
-				makeExpandBox("11:34", "Pischot", "Laptop", id++);
+				makeExpandBox(new checkoutItem("Guns", "Memorial", "Brai", "12:30"), id++);
+				makeExpandBox(new checkoutItem("Memes", "Memorial", "Dan", "04:14"), id++);
+				makeExpandBox(new checkoutItem("Emotion", "Memorial", "Ryan", "02:30"), id++);
+				makeExpandBox(new checkoutItem("Laptop", "Memorial", "Mathas", "11:23"), id++);
+				makeExpandBox(new checkoutItem("Toplap", "Memorial", "Josh", "01:45"), id++);
+				makeExpandBox(new checkoutItem("Bike", "Memorial", "Nick", "06:01"), id++);
+				makeExpandBox(new checkoutItem("Laptop", "Memorial", "Vordt", "04:15"), id++);
+				makeExpandBox(new checkoutItem("Laptop", "Student Center", "Smough", "09:30"), id++);
+				makeExpandBox(new checkoutItem("Say laptop one more time", "Student Center", "Dismas", "10:00"), id++);
+				makeExpandBox(new checkoutItem("Laptop", "Student Center", "Dumont", "03:15"), id++);
+				makeExpandBox(new checkoutItem("Loooooooooooooooooooooooonnnnnnnnng", "Student Center", "Gand", "04:20"), id++);
+				makeExpandBox(new checkoutItem("Laptop", "Student Center", "Barristan", "04:00"), id++);
+				makeExpandBox(new checkoutItem("Laptop", "Student Center", "Junia", "04:15"), id++);
+				makeExpandBox(new checkoutItem("Laptop", "Student Center", "Pischot", "11:34"), id++);
 				
 			});
 			
-			function makeExpandBox(time, name, item, id){
+			function makeExpandBox(checkoutItem, id){//time, name, item, id){
 			
 				$("#main").append("<div class = 'expander' id = " + id + "></div>");
-				$("#" + id).append("<p class = 'apart'>" + name + "</p>");
-				$("#" + id).append("<p class = 'apart'>" + item + "</p>");
-				$("#" + id).append("<p class = 'apart time'>" + time + "</p>");
+				$("#" + id).append("<p class = 'apart'>" + checkoutItem.student + "</p>");
+				$("#" + id).append("<p class = 'apart'>" + checkoutItem.name + "</p>");
+				$("#" + id).append("<p class = 'apart time'>" + checkoutItem.time + "</p>");
 				$("#" + id).append("<div class = 'big' id = " + "big" + id + ">Content</div>");
 				$("#" + id).click(function(){
 				
@@ -55,6 +73,7 @@
 				}
 			
 				moveElement(element);
+				element.children("div").width($("#main").width() - 70);
 				element.children("div").slideDown(250);
 			}
 			
@@ -131,8 +150,8 @@
 				border: 5px solid white;
 				border-radius: 20px;
 				display: inline-block;
-				margin: 20px;
-				padding: 20px;
+				margin: 10px;
+				padding: 10px;
 			}
 			
 			div.expander:hover{
@@ -143,7 +162,7 @@
 			p.apart{
 			
 				font-size: 18pt;
-				padding: 10px;
+				padding: 5px;
 			}
 			
 			.big{
