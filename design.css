@@ -1,0 +1,314 @@
+html, body{
+    margin: 0;
+    font-family: proxima-nova,"Helvetica Neue",Arial,sans-serif;
+    background: #EEE;
+}
+input:focus {outline:0;}
+#container{
+    min-height: 1200px;
+    min-width: 944px; 
+}
+
+#rightWrapper{
+    float: right;
+    width: 280px;
+    height: 1200px;
+    border-left: 2px solid black;
+    text-align: center;               
+}
+#overdue h1{
+    text-transform: uppercase;
+    font-size: 24pt;
+    font-weight: 200;
+
+}
+
+#leftWrapper{
+    width: auto;
+    overflow: hidden;
+    height: 1200px;
+}
+
+#topRibbon{
+    width: auto;
+    display: -webkit-flex;
+    display: flex;
+    align-items: stretch;
+    flex-direction: row-reverse;
+    border-top: 1px solid #f1b82d;
+    border-bottom: 1px solid #d39a0e;
+    margin: 25px 0;
+    padding: 6px 2% 10px 1%;
+    background: -webkit-linear-gradient(top,#fbe8bc 3%,#f6d075 16%,#f1b82d 75%);
+    box-shadow: 0 0 5px #BBBBBB; 
+}      
+#topRibbon #button-div button{
+    border: 1px solid #d39a0e;
+    font-size: 18px;
+    height: 40px;
+    width: 100px;
+    margin-top: 12px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 0 27px #EEE inset;
+}
+#topRibbon #scannedText-div{
+    width: 100%;
+}
+#topRibbon #scannedText-div .individual{
+    height: 100%;
+    width: 50%;
+    float: left;    
+}
+#topRibbon #studentID-form{
+    margin-left: 2%;
+    margin-right: 1%;
+}
+#topRibbon #barcode-form{
+    margin-left: 1%;
+    margin-right: 4%;
+}
+#topRibbon #scannedText-div input{
+    width: 100%;
+    font-size: 13pt;
+    box-shadow: 0 0 27px #EEE inset;
+    transition: 500ms all ease;
+    border-radius: 5px;
+}
+#topRibbon .scannedText-label{
+    text-transform: uppercase;
+    font-size: 15pt;
+    padding-left: 2px;
+    font-weight: 300;
+    margin-bottom: 0;
+}
+
+#searchRibbon{
+    width: auto;
+    display: -webkit-flex;
+    display: flex;
+    align-items: stretch;
+    margin: 0;
+    padding: 10px 2% 10px 12%;
+    background: #232323;
+    box-shadow: 0 0 5px #BBBBBB;   
+} 
+#searchRibbon .sortby{
+    color: #ccc;
+    font-weight: 200;
+    margin: 0 5px;
+    font-size: 11pt;
+}
+#searchRibbon .sortby:hover{
+    color: #f1b82d;
+    text-decoration: none;
+}
+#searchRibbon .sortby.clicked{
+    color: #f1b82d;
+    text-decoration: none;
+}
+#searchRibbon form{
+    width: 50%;
+    margin-left: 2%;
+}
+#searchRibbon div{
+    display: -webkit-flex;
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    height: 22px;
+    border: solid 1px #f1b82d;
+    border-radius: 2px;
+}
+#searchRibbon .searchBar{
+    height: 100%;
+    width: 100%;
+    border: 0;
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+}
+#searchRibbon .submit{
+    font-size: 8pt;
+    height: 100%;
+    width: 80px;
+    padding-top: 0;
+    padding-bottom: 0;
+    text-transform: uppercase;
+    border: 0;
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+    border-left: solid 1px #f1b82d;
+    float: right;
+    background: -webkit-linear-gradient(top,#fbe8bc 3%,#f6d075 16%,#f1b82d 75%)
+}
+#searchRibbon .submit:active{
+    background: -webkit-linear-gradient(bottom,#fbe8bc 3%,#f6d075 16%,#f1b82d 75%)
+}
+
+div.gradient-border{
+    height: 1px;
+    width: auto;  
+    background: -webkit-linear-gradient(left,#222 3%,#BBB 30%, #CCC 50%, #BBB 70%, #222 97%);
+}
+/*            
+#searchRibbon{
+    width: auto;
+    height: 31px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;       
+}
+#searchRibbon #dropdown-div{
+    width: 200px;
+    height: 100%;
+    float: right;
+    text-align: center;
+}
+#searchRibbon .dropdown-button {
+    background-color: white;
+    color: black;
+    width: 160px;
+    padding: 1px;
+    margin-top: 4px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+#searchRibbon .dropdown {
+    position: relative;
+    display: inline-block;                
+}
+
+#searchRibbon .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 999;
+}
+
+#searchRibbon .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+#searchRibbon .dropdown-content a:hover {background-color: #f1f1f1}
+
+#searchRibbon .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+#searchRibbon .dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+#searchRibbon #search-div{
+    margin-right: 200px;
+    height: 100%;
+
+}
+#searchRibbon #search-div label{
+    font-size: 18px;
+    float: left;
+    padding: 4px 0 0 28px;
+    text-transform: uppercase;
+    font-weight: 300;
+
+}
+#searchRibbon #search-div span{
+    overflow: hidden;
+    display: block;
+    padding: 4px 10px 0 4px;
+}
+#searchRibbon #search-div input{
+    font-size: 14px;
+    width: 100%;
+
+}  
+*/
+#inUse-wrapper{
+    padding: 20px 12px 0 12px;
+    background: #222;
+    min-height: 1000px;
+}
+
+#test-button{
+    background: white;
+    color: black;
+    border: 2px solid #d39a0e;
+    border-radius: 10px;
+    font-size: 9pt;
+    height: 90px;
+    width: 180px;
+    position: relative;
+    margin: 15px;
+    background: -webkit-linear-gradient(top,#fbe8bc 3%,#f6d075 16%,#f1b82d 75%);
+}
+#test-button:focus {outline:0;}
+#test-button:hover{
+    background: #EEE;
+    /*
+    background: -webkit-linear-gradient(top,rgb(251,232,188) 3%,rgb(246,208,117) 16%,rgb(241,184,45) 75%);
+    */
+    
+    
+    background: -webkit-linear-gradient(top,rgb(261,242,198) 3%,rgb(256,218,127) 16%,rgb(251,194,55) 75%);
+    
+}
+#test-button #testdiv{
+    margin-top: 10px;
+}
+#test-button .timer{
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+
+section.center {
+    border-radius: 10px;
+    border: 2px solid black;
+    padding: 20px;
+    width: 180px;
+    height: 90px;
+    float: left;
+    margin: 15px;
+    font-size: 12px;
+    position: relative;
+}
+section div.timer{
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+section.center:hover { 
+    background-color: #EEE;
+    box-shadow: 0 0 27px #EEE inset;
+}
+section.hidden {
+    display: none;
+    position: fixed;
+}
+section article.popup {
+    position: relative;
+    width: 400px;
+    height: 300px;
+    background: #e3e3e3;
+    color: #222;
+    border: 1px solid #333;
+    border-radius: 3px;
+    padding: 5px 7px;
+    margin: 10% auto;
+}
+span.close {
+    text-transform: uppercase;
+    color: #222;
+}
+span.close:hover{
+    color: red;
+    cursor: pointer;
+}
