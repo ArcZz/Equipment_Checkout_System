@@ -75,6 +75,7 @@ input:focus {outline:0;}
     box-shadow: 0 0 27px #EEE inset;
     transition: 500ms all ease;
     border-radius: 5px;
+    padding: 0 3px;
 }
 #topRibbon .scannedText-label{
     text-transform: uppercase;
@@ -122,8 +123,10 @@ input:focus {outline:0;}
     border-radius: 2px;
 }
 #searchRibbon .searchBar{
+    font-size: 10pt;
     height: 100%;
     width: 100%;
+    padding: 0 4px;
     border: 0;
     border-bottom-left-radius: 2px;
     border-top-left-radius: 2px;
@@ -151,164 +154,42 @@ div.gradient-border{
     width: auto;  
     background: -webkit-linear-gradient(left,#222 3%,#BBB 30%, #CCC 50%, #BBB 70%, #222 97%);
 }
-/*            
-#searchRibbon{
-    width: auto;
-    height: 31px;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;       
-}
-#searchRibbon #dropdown-div{
-    width: 200px;
-    height: 100%;
-    float: right;
-    text-align: center;
-}
-#searchRibbon .dropdown-button {
-    background-color: white;
-    color: black;
-    width: 160px;
-    padding: 1px;
-    margin-top: 4px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    border: 1px solid black;
-}
 
-#searchRibbon .dropdown {
-    position: relative;
-    display: inline-block;                
-}
-
-#searchRibbon .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 999;
-}
-
-#searchRibbon .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-#searchRibbon .dropdown-content a:hover {background-color: #f1f1f1}
-
-#searchRibbon .dropdown:hover .dropdown-content {
-    display: block;
-}
-
-#searchRibbon .dropdown:hover .dropbtn {
-    background-color: #3e8e41;
-}
-
-#searchRibbon #search-div{
-    margin-right: 200px;
-    height: 100%;
-
-}
-#searchRibbon #search-div label{
-    font-size: 18px;
-    float: left;
-    padding: 4px 0 0 28px;
-    text-transform: uppercase;
-    font-weight: 300;
-
-}
-#searchRibbon #search-div span{
-    overflow: hidden;
-    display: block;
-    padding: 4px 10px 0 4px;
-}
-#searchRibbon #search-div input{
-    font-size: 14px;
-    width: 100%;
-
-}  
-*/
 #inUse-wrapper{
     padding: 20px 12px 0 12px;
     background: #222;
     min-height: 1000px;
 }
-
-#test-button{
-    background: white;
-    color: black;
-    border: 2px solid #d39a0e;
-    border-radius: 10px;
-    font-size: 9pt;
-    height: 90px;
-    width: 180px;
-    position: relative;
-    margin: 15px;
-    background: -webkit-linear-gradient(top,#fbe8bc 3%,#f6d075 16%,#f1b82d 75%);
+#inUse-wrapper .modal{
+    height: auto;
+    width: auto;
+    margin: auto;
+    border-radius: 0;
+    border: 0;
 }
-#test-button:focus {outline:0;}
-#test-button:hover{
-    background: #EEE;
-    /*
-    background: -webkit-linear-gradient(top,rgb(251,232,188) 3%,rgb(246,208,117) 16%,rgb(241,184,45) 75%);
-    */
-    
-    
-    background: -webkit-linear-gradient(top,rgb(261,242,198) 3%,rgb(256,218,127) 16%,rgb(251,194,55) 75%);
-    
-}
-#test-button #testdiv{
-    margin-top: 10px;
-}
-#test-button .timer{
+#inUse-wrapper .close{
     position: absolute;
-    top: 5px;
-    right: 10px;
+    top: 3px;
+    right: 3px;
 }
-
-
-section.center {
-    border-radius: 10px;
-    border: 2px solid black;
-    padding: 20px;
-    width: 180px;
-    height: 90px;
-    float: left;
-    margin: 15px;
-    font-size: 12px;
-    position: relative;
+#inUse-wrapper .close:before{
+    content: none;
 }
-section div.timer{
-    position: absolute;
-    top: 5px;
-    right: 10px;
+.sandbox .mix:before {
+    padding-top: 0;
 }
-section.center:hover { 
-    background-color: #EEE;
-    box-shadow: 0 0 27px #EEE inset;
+.sandbox .mix {
+    padding-right: 0;
+    height: 150px;
 }
-section.hidden {
-    display: none;
-    position: fixed;
+#inUse-wrapper .mix button{
+    width: 100%;
+    height: 150px;
+    margin-top: -45px;
+    border-radius: 0;
+    background: none;
 }
-section article.popup {
-    position: relative;
-    width: 400px;
-    height: 300px;
-    background: #e3e3e3;
-    color: #222;
-    border: 1px solid #333;
-    border-radius: 3px;
-    padding: 5px 7px;
-    margin: 10% auto;
-}
-span.close {
-    text-transform: uppercase;
-    color: #222;
-}
-span.close:hover{
-    color: red;
-    cursor: pointer;
+#inUse-wrapper .mix button:focus {outline:0;}
+#inUse-wrapper button:hover{
+    background: none;
 }

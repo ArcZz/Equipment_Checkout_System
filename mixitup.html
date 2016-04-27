@@ -30,6 +30,7 @@
     <body>
         
         <div id="container">
+            
             <div id="rightWrapper">
                 <div id="overdue">
                     <h1>Overdue</h1>
@@ -76,6 +77,25 @@
                 
                     
                     <div id="inUse-wrapper">
+                                                
+                        <div class="fade modal" id="myModal" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                              <!-- Modal content-->
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Modal Header</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Some text in the modal.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                              </div>
+                            </div>
+                        </div> 
+
                         <div class="control-bar sandbox-control-bar">
                             <div class="group">
                                 <label>Sort:</label>
@@ -98,7 +118,18 @@
 
 
                         <div id="SandBox" class="sandbox">
-                            <div class="mix category-1" data-value="1" data-name="Alex" style="display: inline-block;">Val: 1 <br> Name: Alex</div>
+                            
+                            
+                            <div class="mix category-1" data-value="1" data-name="Alex" style="display: inline-block;">
+                                
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
+                                    Val: 2 <br> Name: Bishop
+                                </button>
+                                
+                                
+                            </div>
+                            
+                            
                             <div class="mix category-1" data-value="2" data-name="Bishop" style="display: inline-block;">Val: 2 <br> Name: Bishop</div>
                             <div class="mix category-2" data-value="3" data-name="Clark" style="display: inline-block;">Val: 3 <br> Name: Clark</div>
                             <div class="mix category-1" data-value="4" data-name="Don" style="display: inline-block;">Val: 4 <br> Name: Don</div>
@@ -211,28 +242,4 @@
             $(this).toggleClass("clicked");
         });
     </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script>
-    $(document).ready(function(){
- 
-        $(function(){
-            $('section.center').click(function(e){
-                var hiddenSection = $('section.hidden');
-                hiddenSection.fadeIn(250)
-                    // unhide section.hidden
-                    .css({ 'display':'block' })
-                    // set to full screen
-                    .css({ width: $(window).width() + 'px', height: $(window).height() + 'px' })
-                    .css({ top:($(window).height() - hiddenSection.height())/2 + 'px',
-                        left:($(window).width() - hiddenSection.width())/2 + 'px' })
-                    // greyed out background
-                    .css({ 'background-color': 'rgba(0,0,0,0.5)' })
-                    .appendTo('body');
-                    // console.log($(window).width() + ' - ' + $(window).height());
-                    $('span.close').click(function(){ $(hiddenSection).fadeOut(250); });
-            });
-        });
- 
-    });
-</script>
 </html>
