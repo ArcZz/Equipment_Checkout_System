@@ -193,3 +193,7 @@ div.gradient-border{
 #inUse-wrapper button:hover{
     background: none;
 }
+
+.align-left{
+    text-align: left !important;
+}

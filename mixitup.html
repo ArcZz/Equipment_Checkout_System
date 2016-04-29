@@ -10,8 +10,10 @@
 		<!--  I USE BOOTSTRAP BECAUSE IT MAKES FORMATTING/LIFE EASIER -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"><!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"><!-- Optional theme -->
+        <link rel="stylesheet" type="text/css" href="dropdown-enhancement.css">
+
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script><!-- Latest compiled and minified JavaScript -->
-		
+		<script src="dropdown-enhancement.js"></script>
     
         <link rel="stylesheet" type="text/css" href="design.css">
 	</head>
@@ -21,6 +23,49 @@
 		$(function(){
 		    $('#SandBox').mixItUp();
 		});
+        
+        var selected = [];
+        $(document).ready(function() {
+            $('.car input:checkbox, .other input:checkbox').change(function() {
+                if($(this).is(":checked")) {
+                    selected.push($(this).attr('name'));
+                    
+                    var tempName = GetTempName();
+                    $('#SandBox').mixItUp('filter', tempName);
+                } else
+                {
+                    var index = selected.indexOf($(this).attr('name'));
+                    if (index > -1) {
+                        selected.splice(index, 1);
+                    }
+                    var tempName = GetTempName();
+                    
+                    $('#SandBox').mixItUp('filter', tempName);
+                }
+                $('#textbox1').val($(this).is(':checked'));        
+            });
+
+        });
+
+        function GetTempName()
+        {
+            var tempName = "";
+            for(var i = 0; i<selected.length; i++)
+            {
+                tempName += selected[i];
+                if(i<selected.length-1)
+                {
+                    tempName += ",";
+                }
+            }
+
+            if(tempName == "")
+            {
+                tempName = "all";
+            }
+
+            return tempName;
+        }
 	</script>
 
         
@@ -101,24 +146,83 @@
                             </div>
                         </div> 
 
-                        <div class="control-bar sandbox-control-bar">
+                        <div class="control-bar sandbox-control-bar align-left" style="overflow: visible;">
+                            
+                            <div class="group">
+                                <label>Filter:</label>
+
+                                <!--<span class="btn filter active" data-filter="all">All</span>-->
+
+                                <div class="btn-group" >
+                                  <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton "> Item <span class="caret"></span></button>
+                                  <ul class="dropdown-menu car">
+                                    <li>
+                                      <input type="checkbox" id="comp" name=".category-1" value="1">
+                                      <label for="comp">Computer</label>
+                                    </li>
+                                    <li>
+                                      <input type="checkbox" id="car" name="temp" value="1">
+                                      <label for="car">Car</label>
+                                    </li>
+                                    <li>
+                                      <input type="checkbox" id="bike" name=".category-3" value="2">
+                                      <label for="bike">Bike</label>
+                                    </li>
+                                    <li>
+                                      <input type="checkbox" id="ping_pong" name="ex2" value="3">
+                                      <label for="ping_pong">Ping pong</label>
+                                    </li>
+                                    <li>
+                                      <input type="checkbox" id="donkey" name="ex2" value="4">
+                                      <label for="donkey">Donkey</label>
+                                    </li>
+                                  </ul>
+                                </div>
+
+                                <div class="btn-group">
+                                  <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton"> Category <span class="caret"></span></button>
+                                  <ul class="dropdown-menu other">
+                                    <li>
+                                      <input type="checkbox" id="group1" name=".category-2" value="1">
+                                      <label for="group1">Group 1</label>
+                                    </li>
+                                    <li>
+                                      <input type="checkbox" id="group2" name="ex2" value="1">
+                                      <label for="group2">Group 2</label>
+                                    </li>
+                                  </ul>
+                                </div>
+
+                                <div class="btn-group">
+                                  <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton"> Condition <span class="caret"></span></button>
+                                  <ul class="dropdown-menu">
+                                    <li>
+                                      <input type="checkbox" id="ex2_1" name="ex2" value="1">
+                                      <label for="ex2_1">Good</label>
+                                    </li>
+                                    <li>
+                                      <input type="checkbox" id="ex2_2" name="ex2" value="2">
+                                      <label for="ex2_2">Damaged</label>
+                                    </li>
+                                  </ul>
+                                </div>
+
+                            </div>
+
                             <div class="group">
                                 <label>Sort:</label>
                                 <span class="btn sort" data-sort="random">Random</span>
                                 <span class="btn sort" data-sort="value:asc">Ascending</span>
                                 <span class="btn sort" data-sort="value:desc">Descending</span>
-                                <span class="btn sort" data-sort="name:asc">Name: Ascending</span>
+                                <!--<span class="btn sort" data-sort="name:asc">Name: Ascending</span>
                                 <span class="btn sort" data-sort="name:desc">Name: Descending</span>
+                                -->
                             </div>
-                            <div class="group">
-                                <label>Filter:</label>
-                                <span class="btn filter active" data-filter="all">All</span>
-                                <span class="btn filter" data-filter=".category-1">Blue</span>
-                                <span class="btn filter" data-filter=".category-2">Green</span>
-                                <span class="btn filter" data-filter="none">None</span>
-                                <span id="ToggleLayout" class="btn toggle-layout">&nbsp;<i></i></span>
-                                <span id="ToggleConfig" class="btn toggle-config">&nbsp;</span>
-                            </div>
+
+                            <span id="ToggleLayout" class="btn toggle-layout">&nbsp;<i></i></span>
+                            <span id="ToggleConfig" class="btn toggle-config">&nbsp;</span>
+                            <span class="btn filter" data-filter=".category-1">Blue</span>
+
                         </div>
 
 
