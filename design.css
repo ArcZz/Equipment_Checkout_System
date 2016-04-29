@@ -167,6 +167,16 @@ div.gradient-border{
     border-radius: 0;
     border: 0;
 }
+#inUse-wrapper .modal-body input{
+    width: auto;
+    padding: 0 6px;
+    border: 2px solid black;
+}
+#inUse-wrapper .modal-body select{
+    width: 18px;
+    padding-bottom: 5px;
+}
+#inUse-wrapper .modal-body select:focus{outline: 0;}
 #inUse-wrapper .close{
     position: absolute;
     top: 3px;

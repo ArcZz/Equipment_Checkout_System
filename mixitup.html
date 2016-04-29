@@ -84,10 +84,27 @@
                                 <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Modal Header</h4>
+                                    <h4 class="modal-title">Item Details</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Some text in the modal.</p>
+                                    <p><b>Student Name:</b> <span class="modal-editable">John</span></p>
+                                    <p><b>Employee Name:</b> <span class="modal-editable"> Paul </span></p>
+                                    <p><b>Item Name:</b> <span class="modal-editable"> Computer </span></p>
+                                    <p><b>Item Category:</b> <span class="modal-editable"> Electronics </span></p>
+                                    <p><b>Location:</b> 
+                                        <span id="change-location"> Student Center </span>
+                                        <select id="select-location">
+                                            <option value="student-center">Student Center</option>
+                                            <option value="memorial">Memorial</option>
+                                        </select>
+                                    </p>
+                                    <p><b>Waiver:</b> 
+                                        <span id="change-waiver"> True </span>
+                                        <select  id="select-waiver">
+                                            <option value="true">True</option>
+                                            <option value="false">False</option>
+                                        </select>
+                                    </p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -117,30 +134,58 @@
                         </div>
 
 
-                        <div id="SandBox" class="sandbox">
+                        <div id="SandBox" class="sandbox" style = "overflow: ">
                             
                             
                             <div class="mix category-1" data-value="1" data-name="Alex" style="display: inline-block;">
-                                
-                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
-                                    Val: 2 <br> Name: Bishop
-                                </button>
-                                
-                                
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"> Val: 2 <br> Name: Bishop</button>
+                            </div>
+
+                            <div class="mix category-1" data-value="2" data-name="Bishop" style="display: inline-block;">
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Val: 2 <br> Name: Bishop</button>
+                            </div>
+
+                            <div class="mix category-2" data-value="3" data-name="Clark" style="display: inline-block;">
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Val: 3 <br> Name: Clark</button>
+                            </div>
+
+                            <div class="mix category-1" data-value="4" data-name="Don" style="display: inline-block;">
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Val: 4 <br> Name: Don</button>
+                            </div>
+
+                            <div class="mix category-2" data-value="5" data-name="Eric" style="display: inline-block;">
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Val: 5 <br> Name: Eric</button>
+                            </div>
+
+                            <div class="mix category-2" data-value="6" data-name="Fred" style="display: inline-block;">
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Val: 6 <br> Name: Fred</button>
+                            </div>
+
+                            <div class="mix category-1" data-value="7" data-name="George" style="display: inline-block;">
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Val: 7 <br> Name: George</button>
+                            </div>
+
+                            <div class="mix category-2" data-value="8" data-name="Harry" style="display: inline-block;">
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Val: 8 <br> Name: Harry</button>
+                            </div>
+
+                            <div class="mix category-2" data-value="9" data-name="Ian" style="display: inline-block;">
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Val: 9 <br> Name: Ian</button>
+                            </div>
+
+                            <div class="mix category-1" data-value="10" data-name="John" style="display: inline-block;">
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Val: 10 <br> Name: John</button>
+                            </div>
+
+                            <div class="mix category-2" data-value="11" data-name="Kal" style="display: inline-block;">
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Val: 11 <br> Name: Kal</button>
+                            </div>
+
+                            <div class="mix category-2" data-value="12" data-name="Liam" style="display: inline-block;">
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Val: 12 <br> Name: Liam</button>
                             </div>
                             
-                            
-                            <div class="mix category-1" data-value="2" data-name="Bishop" style="display: inline-block;">Val: 2 <br> Name: Bishop</div>
-                            <div class="mix category-2" data-value="3" data-name="Clark" style="display: inline-block;">Val: 3 <br> Name: Clark</div>
-                            <div class="mix category-1" data-value="4" data-name="Don" style="display: inline-block;">Val: 4 <br> Name: Don</div>
-                            <div class="mix category-2" data-value="5" data-name="Eric" style="display: inline-block;">Val: 5 <br> Name: Eric</div>
-                            <div class="mix category-2" data-value="6" data-name="Fred" style="display: inline-block;">Val: 6 <br> Name: Fred</div>
-                            <div class="mix category-1" data-value="7" data-name="George" style="display: inline-block;">Val: 7 <br> Name: George</div>
-                            <div class="mix category-2" data-value="8" data-name="Harry" style="display: inline-block;">Val: 8 <br> Name: Harry</div>
-                            <div class="mix category-2" data-value="9" data-name="Ian" style="display: inline-block;">Val: 9 <br> Name: Ian</div>
-                            <div class="mix category-1" data-value="10" data-name="John" style="display: inline-block;">Val: 10 <br> Name: John</div>
-                            <div class="mix category-2" data-value="11" data-name="Kal" style="display: inline-block;">Val: 11 <br> Name: Kal</div>
-                            <div class="mix category-2" data-value="12" data-name="Liam" style="display: inline-block;">Val: 12 <br> Name: Liam</div>
+
                             <div class="gap"></div>
                             <div class="gap"></div>
                             <form class="live-config" id="LiveConfig">
@@ -242,4 +287,64 @@
             $(this).toggleClass("clicked");
         });
     </script>
+    <script>
+        $.fn.extend({
+            editable: function () {
+                $(this).each(function () {
+                    var $el = $(this),
+                    $edittextbox = $('<input type="text"></input>').css('min-width', $el.width()),
+                    submitChanges = function () {
+                        if ($edittextbox.val() !== '') {
+                            $el.html($edittextbox.val());
+                            $el.show();
+                            $el.trigger('editsubmit', [$el.html()]);
+                            $(document).unbind('click', submitChanges);
+                            $edittextbox.detach();
+                        }
+                    },
+                    tempVal;
+                    $edittextbox.click(function (event) {
+                        event.stopPropagation();
+                    });
+
+                    $el.dblclick(function (e) {
+                        tempVal = $el.html();
+                        $edittextbox.val(tempVal).insertBefore(this)
+                        .bind('keypress', function (e) {
+                            var code = (e.keyCode ? e.keyCode : e.which);
+                            if (code == 13) {
+                                submitChanges();
+                            }
+                        }).select();
+                        $el.hide();
+                        $(document).click(submitChanges);
+                    });
+                });
+                return this;
+            }
+        });
+    </script>
+    <script>
+        document.getElementById("select-location").addEventListener('change', function() {
+            if (this.value == "student-center") { 
+              document.getElementById("change-location").innerHTML = "Student Center"; 
+            } if (this.value == "memorial"){
+              document.getElementById("change-location").innerHTML = "Memorial"; 
+            }
+        });
+    
+        document.getElementById("select-waiver").addEventListener('change', function() {
+            if (this.value == "true") { 
+              document.getElementById("change-waiver").innerHTML = "True"; 
+            } if (this.value == "false"){
+              document.getElementById("change-waiver").innerHTML = "False"; 
+            }
+        });
+    </script>
+    <script>
+        $('.modal-editable').editable().on('editsubmit', function (event, val) {
+            console.log('text changed to ' + val);
+        });
+    </script>
+    
 </html>
