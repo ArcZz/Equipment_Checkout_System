@@ -29,13 +29,13 @@ $("#submit").click(function(){
            response("Passwords don't match");
            }else{
 
-          $.post("php/login.php", {"user": $("#user").val(), "fname": $("#fname").val(), "lname": $("#lname").val(), "email": $("#email").val(), "pass": $("#pass").val(), "new": $("select").val()},
+          $.post("loginConnection.php", {"user": $("#user").val(), "fname": $("#fname").val(), "lname": $("#lname").val(), "email": $("#email").val(), "pass": $("#pass").val(), "new": $("select").val()},
 
          function(data){
          console.log(data);
          if(data=="success"){
             response("hahha");
-          $(location).attr('href', 'mixitup.html')
+          $(location).attr('href', 'index.php')
 
          return false;
 
