@@ -237,3 +237,15 @@ input:focus{
 #inUse-wrapper button:hover{
     background: none;
 }
+
+#inUse-wrapper .modal-body input{
+    width: auto;
+    padding: 0 6px;
+    border: 2px solid black;
+}
+#inUse-wrapper .modal-body select{
+    width: 18px;
+    padding-bottom: 5px;
+}
+#inUse-wrapper .modal-body select:focus{outline: 0;}
+#inUse-wrapper .close{
