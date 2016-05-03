@@ -1,9 +1,21 @@
 <!DOCTYPE html>
+
+<?php
+
+	$username = empty($_SESSION'username']) ? '' : $_SESSION'username'];
+
+	// If the user is logged in, redirect them home
+	if ($username) {
+		header("Location: login.php");
+		exit;
+	}
+
+?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-        <script src="http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
 
         <link rel="stylesheet" href="https://mixitup.kunkalabs.com/wp-content/themes/mixitup.kunkalabs/style.css?ver=1.5.4" type="text/css">
     

@@ -31,14 +31,16 @@ $("#submit").click(function(){
 
           $.post("loginConnection.php", {"user": $("#user").val(), "fname": $("#fname").val(), "lname": $("#lname").val(), "email": $("#email").val(), "pass": $("#pass").val(), "new": $("select").val()},
 
-         function(data){
+             function(data){
          console.log(data);
-         if(data=="success"){
-            response("hahha");
+         if(data=="admin"){
+           alert(" welcome admin!");
           $(location).attr('href', 'index.php')
-
          return false;
-
+         }
+         else if(data=="employee"){
+           $(location).attr('href', 'index.php')
+          return false;
          }
          else if (data=="fail") {
            response("login fail, check your username and passworld again please");
