@@ -238,10 +238,27 @@ input:focus{
     background: none;
 }
 
-#inUse-wrapper .modal-body input{
+#inUse-wrapper #myModal .modal-body input{
     width: auto;
     padding: 0 6px;
     border: 2px solid black;
+}
+#inUse-wrapper #addNew .modal-body{
+    overflow: hidden;
+}
+#inUse-wrapper #addNew .modal-body b{
+    float: left;
+}
+#inUse-wrapper #addNew .modal-body input{
+    width: 100%;
+}
+#inUse-wrapper #addNew .modal-body span{
+    display: block;
+    overflow: hidden;
+    padding: 0 5px;
+}
+#inUse-wrapper #addNew .modal-body button{
+    float: right;
 }
 #inUse-wrapper .modal-body select{
     width: 18px;

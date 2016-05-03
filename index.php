@@ -104,60 +104,7 @@
             console.log(itemName + " " +itemID);
         }
 
-        $.fn.extend({
-            editable: function () {
-                $(this).each(function () {
-                    var $el = $(this),
-                    $edittextbox = $('<input type="text"></input>').css('min-width', $el.width()),
-                    submitChanges = function () {
-                        if ($edittextbox.val() !== '') {
-                            $el.html($edittextbox.val());
-                            $el.show();
-                            $el.trigger('editsubmit', [$el.html()]);
-                            $(document).unbind('click', submitChanges);
-                            $edittextbox.detach();
-                        }
-                    },
-                    tempVal;
-                    $edittextbox.click(function (event) {
-                        event.stopPropagation();
-                    });
-  
-                    $el.dblclick(function (e) {
-                        tempVal = $el.html();
-                        $edittextbox.val(tempVal).insertBefore(this)
-                        .bind('keypress', function (e) {
-                            var code = (e.keyCode ? e.keyCode : e.which);
-                            if (code == 13) {
-                                submitChanges();
-                            }
-                        }).select();
-                        $el.hide();
-                        $(document).click(submitChanges);
-                    });
-                });
-                return this;
-            }
-        });
-
-        document.getElementById("select-location").addEventListener('change', function() {
-            if (this.value == "student-center") { 
-                document.getElementById("change-location").innerHTML = "Student Center"; 
-            } if (this.value == "memorial"){
-                document.getElementById("change-location").innerHTML = "Memorial"; 
-            }
-        });
         
-        document.getElementById("select-waiver").addEventListener('change', function() {
-            if (this.value == "true") { 
-                document.getElementById("change-waiver").innerHTML = "True"; 
-            } if (this.value == "false"){
-                document.getElementById("change-waiver").innerHTML = "False"; 
-            }
-        });
-        $('.modal-editable').editable().on('editsubmit', function (event, val) {
-            console.log('text changed to ' + val);
-        });
 
 
         function addMixBox(category, value, itemName, mixDiv){
@@ -223,8 +170,22 @@
                             <div class="modal-body">
                                 <p><b>Student Name:</b> <span class="modal-editable">John</span></p>
                                 <p><b>Employee Name:</b> <span class="modal-editable"> Paul </span></p>
-                                <p><b>Item Name:</b> <span class="modal-editable"> Computer </span></p>
-                                <p><b>Item Category:</b> <span class="modal-editable"> Electronics </span></p>
+                                <p><b>Item Name:</b> 
+                                    <span id="change-name"> Computer </span>
+                                    <select id="select-name">
+                                        <option value="computer">Computer</option>
+                                        <option value="car">Car</option>
+                                        <option value="bike">Bike</option>
+                                        <option value="charger">Charger</option>
+                                    </select>
+                                </p>
+                                <p><b>Item Category:</b> 
+                                    <span id="change-category"> Category 1 </span>
+                                    <select id="select-category">
+                                        <option value="category1">Category 1</option>
+                                        <option value="category2">Category 2</option>
+                                    </select>
+                                </p>
                                 <p><b>Location:</b> 
                                     <span id="change-location"> Student Center </span>
                                     <select id="select-location">
@@ -248,6 +209,32 @@
                           </div>
                         </div>
                     </div> 
+                    
+                    <div class="fade modal" id="addNew" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                              <!-- Modal content-->
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Add Information</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p><button type="button" class="btn btn-default" onclick="AddItem('someItem')">Add</button><b>Employee Name:</b> <span><input class="add"></span></p>
+                                    <hr>
+                                    <p><button type="button" class="btn btn-default" data-dismiss="modal">Add</button><b>Item Name:</b> <span><input class="add"></span></p>
+                                    <hr>
+                                    <p><button type="button" class="btn btn-default" data-dismiss="modal">Add</button><b>Item Category:</b> <span><input class="add"></span></p>
+                                    <hr>
+                                    <p><button type="button" class="btn btn-default" data-dismiss="modal">Add</button><b>Location:</b> <span><input class="add"></span></p>
+                                    <hr>
+                                    <p><button type="button" class="btn btn-default" data-dismiss="modal">Add</button><b>Waiver:</b> <span><input class="add"></span></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+                                </div>
+                              </div>
+                            </div>
+                        </div> 
 
                     <div class="control-bar sandbox-control-bar align-left" style="overflow: visible;">
                         
@@ -325,6 +312,8 @@
                         <span class="btn filter" data-filter=".category-1">Blue</span>
 
                     </div>
+                    
+                    <button type="button" id="plus "class="btn btn-info btn-lg" data-toggle="modal" data-target="#addNew"> + </button>
 
 
                     <div id="SandBox" class="sandbox" style = "overflow: ">
@@ -440,5 +429,83 @@
         $(".sortby").click(function () {
             $(this).toggleClass("clicked");
         });
+    </script>
+    <script>
+        $.fn.extend({
+            editable: function () {
+                $(this).each(function () {
+                    var $el = $(this),
+                    $edittextbox = $('<input type="text"></input>').css('min-width', $el.width()),
+                    submitChanges = function () {
+                        if ($edittextbox.val() !== '') {
+                            $el.html($edittextbox.val());
+                            $el.show();
+                            $el.trigger('editsubmit', [$el.html()]);
+                            $(document).unbind('click', submitChanges);
+                            $edittextbox.detach();
+                        }
+                    },
+                    tempVal;
+                    $edittextbox.click(function (event) {
+                        event.stopPropagation();
+                    });
+  
+                    $el.dblclick(function (e) {
+                        tempVal = $el.html();
+                        $edittextbox.val(tempVal).insertBefore(this)
+                        .bind('keypress', function (e) {
+                            var code = (e.keyCode ? e.keyCode : e.which);
+                            if (code == 13) {
+                                submitChanges();
+                            }
+                        }).select();
+                        $el.hide();
+                        $(document).click(submitChanges);
+                    });
+                });
+                return this;
+            }
+        });
+        
+        $('.modal-editable').editable().on('editsubmit', function (event, val) {
+            console.log('text changed to ' + val);
+        });
+
+        document.getElementById("select-name").addEventListener('change', function() {
+            if (this.value == "computer") { 
+                document.getElementById("change-name").innerHTML = "Computer"; 
+            } if (this.value == "car"){
+                document.getElementById("change-name").innerHTML = "Car"; 
+            } if (this.value == "bike"){
+                document.getElementById("change-name").innerHTML = "Bike"; 
+            } if (this.value == "charger"){
+                document.getElementById("change-name").innerHTML = "Charger"; 
+            }
+        });
+        
+        document.getElementById("select-category").addEventListener('change', function() {
+            if (this.value == "category1") { 
+                document.getElementById("change-category").innerHTML = "Category1"; 
+            } if (this.value == "category2"){
+                document.getElementById("change-category").innerHTML = "Category2"; 
+            }
+        });
+        
+        document.getElementById("select-location").addEventListener('change', function() {
+            if (this.value == "student-center") { 
+                document.getElementById("change-location").innerHTML = "Student Center"; 
+            } if (this.value == "memorial"){
+                document.getElementById("change-location").innerHTML = "Memorial"; 
+            }
+        });
+        
+        document.getElementById("select-waiver").addEventListener('change', function() {
+            if (this.value == "true") { 
+                document.getElementById("change-waiver").innerHTML = "True"; 
+            } if (this.value == "false"){
+                document.getElementById("change-waiver").innerHTML = "False"; 
+            }
+        });
+        
     </script>
 </html>
