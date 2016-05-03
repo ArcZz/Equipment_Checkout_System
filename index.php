@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 
 <?php
-
-	$username = empty($_SESSION'username']) ? '' : $_SESSION'username'];
-
-	// If the user is logged in, redirect them home
-	if ($username) {
-		header("Location: login.php");
-		exit;
-	}
-
+session_start();
 ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<?php
+
+		$username = empty($_SESSION["user"]) ? '' : $_SESSION["user"];
+
+		// If the user is logged in, redirect them home
+		if ($username) {
+			header("Location: login.php");
+			exit;
+		}
+
+	?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     
