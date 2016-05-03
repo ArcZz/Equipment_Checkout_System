@@ -482,7 +482,8 @@
         });
         
         $('.modal-editable').editable().on('editsubmit', function (event, val) {
-            console.log('text changed to ' + val);
+            
+			console.log('text changed to ' + val);
         });
 
         $("#select-name").change(function(){
@@ -513,19 +514,25 @@
             }
         });
         
-        document.getElementById("select-location").addEventListener('change', function() {
-            if (this.value == "student-center") { 
-                document.getElementById("change-location").innerHTML = "Student Center"; 
-            } if (this.value == "memorial"){
-                document.getElementById("change-location").innerHTML = "Memorial"; 
+        $("#select-location").change(function(){
+			
+            if ($(this).val() == "student-center"){ 
+                
+				$("#change-location").html("Student Center"); 
+            }if($(this).value == "memorial"){
+                
+				$("#change-location").html("Memorial"); 
             }
         });
         
-        document.getElementById("select-waiver").addEventListener('change', function() {
-            if (this.value == "true") { 
-                document.getElementById("change-waiver").innerHTML = "True"; 
-            } if (this.value == "false"){
-                document.getElementById("change-waiver").innerHTML = "False"; 
+        $("#select-waiver").change(function(){
+            
+			if ($(this).val() == "true"){ 
+                
+				$("#change-waiver").html("True"); 
+            } if ($(this).val() == "false"){
+                
+				$("#change-waiver").html("False"); 
             }
         });
         
