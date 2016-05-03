@@ -485,23 +485,31 @@
             console.log('text changed to ' + val);
         });
 
-        $("#select-name")[0].addEventListener('change', function() {
-            if (this.value == "computer") { 
-                document.getElementById("change-name").innerHTML = "Computer"; 
-            } if (this.value == "car"){
-                document.getElementById("change-name").innerHTML = "Car"; 
-            } if (this.value == "bike"){
-                document.getElementById("change-name").innerHTML = "Bike"; 
-            } if (this.value == "charger"){
-                document.getElementById("change-name").innerHTML = "Charger"; 
+        $("#select-name").change(function(){
+            
+			if($(this).val() == "computer") { 
+                
+				$("#change-name").html("Computer"); 
+            }if($(this).val() == "car"){
+                
+				$("#change-name").html("Car"); 
+            }if($(this).val() == "bike"){
+                
+				$("#change-name").html("Bike"); 
+            }if($(this).val() == "charger"){
+                
+				$("#change-name").html("Charger"); 
             }
         });
         
-        $("#select-category")[0].addEventListener('change', function() {
-            if (this.value == "category1") { 
-                document.getElementById("change-category").innerHTML = "Category1"; 
-            } if (this.value == "category2"){
-                document.getElementById("change-category").innerHTML = "Category2"; 
+        $("#select-category").change(function(){
+            
+			if ($(this).val() == "category1") { 
+                
+				$("#change-category").html("Category1"); 
+            } if ($(this).val() == "category2"){
+                
+				$("#change-category").html("Category2"); 
             }
         });
         
