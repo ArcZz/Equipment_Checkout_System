@@ -62,6 +62,23 @@
                     $("#rightWrapper").animate({width: 'toggle'}, 512);
                 });
             });
+			
+			$("#check").click(function(){
+				
+				if($("#student").val().trim().length < 1){
+					
+					$("#student").css("background-color", "gold");
+				}else if($("#item").val().trim().length < 1){
+					
+					$("#item").css("background-color", "gold");
+				}else{
+					
+					$.post("checkOut.php", {"student" : $("#student").val().trim(), "item" : $("#item").val().trim(), "time" : Date().substring(16, 24)}, function(data){
+						
+						console.log(data);
+					});
+				}
+			});
         });
         
         function GetTempName(){
@@ -99,14 +116,11 @@
             });
         }
         
-        function RemoveItem(itemName, itemID)
-        {
-            console.log(itemName + " " +itemID);
+        function RemoveItem(itemName, itemID){
+            
+			console.log(itemName + " " +itemID);
         }
-
-        
-
-
+		
         function addMixBox(category, value, itemName, mixDiv){
         
             var boxHtml = "<div class='mix category-" + category + "' data-value=" + value + " data-name=" + itemName + " style='display: inline-block;'><button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>Item: " + itemName + "</button></div>";
@@ -471,7 +485,7 @@
             console.log('text changed to ' + val);
         });
 
-        document.getElementById("select-name").addEventListener('change', function() {
+        $("#select-name")[0].addEventListener('change', function() {
             if (this.value == "computer") { 
                 document.getElementById("change-name").innerHTML = "Computer"; 
             } if (this.value == "car"){
@@ -483,7 +497,7 @@
             }
         });
         
-        document.getElementById("select-category").addEventListener('change', function() {
+        $("#select-category")[0].addEventListener('change', function() {
             if (this.value == "category1") { 
                 document.getElementById("change-category").innerHTML = "Category1"; 
             } if (this.value == "category2"){
