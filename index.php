@@ -20,8 +20,7 @@
 
     <script type="text/javascript">
         
-        var selected = [];
-        
+        var selected = [];        
         $(function(){
             
             $('#SandBox').mixItUp();
@@ -61,6 +60,77 @@
                 
                     $("#rightWrapper").animate({width: 'toggle'}, 512);
                 });
+            });
+            
+            
+            $("#addEmployee").click(function(){
+                if($("#inputEmployeeUser").val().trim().length < 1){
+                    $("#inputEmployeeUser").css("background-color", "gold");
+                }
+                else if($("#inputEmployeeFName").val().trim().length < 1){
+                   
+                    $("#inputEmployeeFName").css("background-color", "gold");
+                }
+                else if($("#inputEmployeeLName").val().trim().length < 1){
+                    $("#inputEmployeeLName").css("background-color", "gold");
+                    
+                }
+                else if($("#inputEmployeePass").val().trim().length < 1){
+                    $("#inputEmployeePass").css("background-color", "gold");               
+                }
+                else{
+                   
+                    $.post("addEmployee.php", {"username" : $("#inputEmployeeUser").val().trim(), "first" : $("#inputEmployeeFName").val().trim(), "last" : $("#inputEmployeeLName").val().trim(), "pass" : $("#inputEmployeePass").val().trim(), }, function(data){
+
+                        console.log(data);
+                    });
+                }
+            });
+            $("#addItem").click(function(){
+                if($("#inputItem").val().trim().length > 0){
+                    $.post("addItem.php", {"item" : $("#inputItem").val().trim()}, function(data){
+
+                        addMixBox(1, 50, data, $('#SandBox'));
+                    });
+                }
+                else{
+                    $("#inputItem").css("background-color", "gold");
+                }
+            });
+            $("#addCategory").click(function(){
+                if($("#inputCategory").val().trim().length > 0){
+                    $.post("addCategory.php", {"category" : $("#inputCategory").val().trim()}, function(data){
+
+                        console.log(data);
+                    });
+                }
+                else{
+                    $("#inputCategory").css("background-color", "gold");
+                }
+            });
+            $("#addLocation").click(function(){
+                if($("#inputWaiver").val().trim().length > 0){
+                    $.post("addLocation.php", {"location" : $("#inputLocation").val().trim()}, function(data){
+
+                        console.log(data);
+                    });
+                }
+                else{
+                    $("#inputLocation").css("background-color", "gold");
+                }
+            });
+            $("#addWaiver").click(function(){
+                if($("#inputWaiver").val().trim().length > 0){
+                  
+                    $.post("addWaiver.php", {"waiver" : $("#inputWaiver").val().trim()}, function(data){
+
+                        console.log(data);
+                    });
+                    
+                }
+                else{
+                    $("#inputWaiver").css("background-color", "gold");
+                }
             });
         });
         
@@ -103,7 +173,6 @@
         {
             console.log(itemName + " " +itemID);
         }
-
         
 
 
@@ -191,6 +260,19 @@
                                     <select id="select-location">
                                         <option value="student-center">Student Center</option>
                                         <option value="memorial">Memorial</option>
+                                    
+                                        <?php
+                                        
+                                        
+                                            $sql="SELECT * FROM location";
+                                            $result = mysql_query($sql);
+                                        
+                                            while($row = mysql_fetch_array($result)) {
+                                                echo $row['fieldname'];
+                                            }
+                                        
+                                        ?>
+                                        
                                     </select>
                                 </p>
                                 <p><b>Waiver:</b> 
@@ -200,6 +282,7 @@
                                         <option value="false">False</option>
                                     </select>
                                 </p>
+                                
 
                             </div>
                             <div class="modal-footer">
@@ -219,15 +302,34 @@
                                     <h4 class="modal-title">Add Information</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <p><button type="button" class="btn btn-default" onclick="AddItem('someItem')">Add</button><b>Employee Name:</b> <span><input class="add"></span></p>
+                                    <p><button id="addEmployee" type="button" class="btn btn-default">Add</button>
+                                        <b>Employee Pawprint:</b>
+                                        <span>
+                                            <input id="inputEmployeeUser" class="add">
+                                        </span>
+                                        <b>Employee First Name:</b>
+                                        <span>
+                                            <input id="inputEmployeeFName" class="add">
+                                        </span>
+                                        <b>Employee Last Name:</b><br>
+                                        <span>
+                                            <input id="inputEmployeeLName" class="add">
+                                        </span>
+                                        <b>Employee Password:</b>
+                                        <span>
+                                            <input id="inputEmployeePass" class="add">
+                                        </span>
+                                    </p>
+                                    
                                     <hr>
-                                    <p><button type="button" class="btn btn-default" data-dismiss="modal">Add</button><b>Item Name:</b> <span><input class="add"></span></p>
+                                    <p><button id="addItem" type="button" class="btn btn-default" >Add</button><b>Item Name:</b> <span><input id="inputItem" class="add"></span></p>
                                     <hr>
-                                    <p><button type="button" class="btn btn-default" data-dismiss="modal">Add</button><b>Item Category:</b> <span><input class="add"></span></p>
+                                    <p><button id="addCategory" type="button" class="btn btn-default" >Add</button><b>Item Category:</b> <span><input id="inputCategory" class="add"></span></p>
                                     <hr>
-                                    <p><button type="button" class="btn btn-default" data-dismiss="modal">Add</button><b>Location:</b> <span><input class="add"></span></p>
+                                    <p><button id="addLocation" type="button" class="btn btn-default"  name="testme">Add</button><b>Location:</b> <span><input id="inputLocation" class="add"></span></p>
+                                    
                                     <hr>
-                                    <p><button type="button" class="btn btn-default" data-dismiss="modal">Add</button><b>Waiver:</b> <span><input class="add"></span></p>
+                                    <p><button id="addWaiver" type="button" class="btn btn-default" >Add</button><b>Waiver:</b> <span><input id="inputWaiver" class="add"></span></p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
