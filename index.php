@@ -2,6 +2,17 @@
 
 <?php
 session_start();
+
+  $username = empty($_SESSION["user"]) ? '' : $_SESSION["user"];
+  if (!$username) {
+		header("Location: login.php");
+		exit;
+	}
+	// If the user is logged in, redirect them home
+
+
+
+
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -43,6 +54,13 @@ session_start();
         $(function(){
             
             $('#SandBox').mixItUp();
+           $("#logout").click(function(){
+            
+               $.post("logout.php", function(){
+            
+              $(location).attr('href', "login.php");
+               });
+             });
             
             $('.car input:checkbox, .other input:checkbox').change(function() {
                 if($(this).is(":checked")) {
