@@ -5,7 +5,7 @@ session_start();
 <?php
 $link = mysqli_connect("localhost", "root", "one", "final") or die("Connect Error " . mysqli_error($link));
 	$username = htmlspecialchars($_POST['user']);
-	
+
 	$fname = htmlspecialchars($_POST['fname']);
 	$lname = htmlspecialchars($_POST['lname']);
 	$email = htmlspecialchars($_POST['email']);
@@ -13,12 +13,11 @@ $link = mysqli_connect("localhost", "root", "one", "final") or die("Connect Erro
 	$isNew = $_POST["new"];
 
 
-		$query = "SELECT password, id FROM employee WHERE username = ?";
+	$query = "SELECT password, id FROM employee WHERE username = ?";
   $stmt=mysqli_prepare($link, $query) or die("Prepare:".mysql_error());
 	 mysqli_stmt_bind_param($stmt, "s", $username) or die("bind param");
 	 mysqli_stmt_execute($stmt) or die("execute");
 	 mysqli_stmt_store_result($stmt) or die (mysqli_stmt_error($stmt));
-
 
 //login attempt----------------+_+_+_+__+_+_++++++
 if($isNew == "0"){
@@ -71,7 +70,6 @@ if($isNew == "0"){
 }
 
 
-
       	//sign in attempt
 else{
 // | Field      | Type         | Null | Key | Default | Extra          |
@@ -84,7 +82,8 @@ else{
 // | password   | varchar(256) | YES  |     | NULL    |                        |
 // +------------+--------------+------+-----+---------+----------------+
 
-  if(mysqli_stmt_num_rows($stmt) == 1 ){
+
+		  if(mysqli_stmt_num_rows($stmt) == 1 ){
 			 mysqli_stmt_close ($stmt);
 			 echo "existed";
 		  }
