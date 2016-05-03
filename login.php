@@ -10,6 +10,12 @@ session_start();
 		<link rel="stylesheet" type="text/css" href="css/log.css">
 		<script src="js/login.js"></script>
 		<title>Check us out</title>
+    <script> $(function(){
+
+				if(window.location.protocol != "https:"){
+
+					window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+				}})</script>
 		
 	</head>
 	<body>

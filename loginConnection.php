@@ -5,7 +5,7 @@ session_start();
 <?php
 $link = mysqli_connect("localhost", "root", "one", "final") or die("Connect Error " . mysqli_error($link));
 	$username = htmlspecialchars($_POST['user']);
-	$userid= htmlspecialchars($_POST['userid']);
+	
 	$fname = htmlspecialchars($_POST['fname']);
 	$lname = htmlspecialchars($_POST['lname']);
 	$email = htmlspecialchars($_POST['email']);
@@ -13,11 +13,12 @@ $link = mysqli_connect("localhost", "root", "one", "final") or die("Connect Erro
 	$isNew = $_POST["new"];
 
 
-	$query = "SELECT password FROM employee WHERE username = ?";
+		$query = "SELECT password, id FROM employee WHERE username = ?";
   $stmt=mysqli_prepare($link, $query) or die("Prepare:".mysql_error());
 	 mysqli_stmt_bind_param($stmt, "s", $username) or die("bind param");
 	 mysqli_stmt_execute($stmt) or die("execute");
 	 mysqli_stmt_store_result($stmt) or die (mysqli_stmt_error($stmt));
+
 
 //login attempt----------------+_+_+_+__+_+_++++++
 if($isNew == "0"){
@@ -27,14 +28,40 @@ if($isNew == "0"){
 	            echo "fail";
 	          }
 	  else{
-		          mysqli_stmt_bind_result($stmt, $pass) or die (mysqli_stmt_error($stmt));
+		          mysqli_stmt_bind_result($stmt, $pass,$id) or die (mysqli_stmt_error($stmt));
 
 					  	mysqli_stmt_fetch($stmt) or die(mysqli_stmt_error($stmt));
+								$permissions_id=$id;
+
 
 	           if(password_verify($password, $pass)){
-							$_SESSION["user"] = $username;
-								echo "success";
+							 	 mysqli_stmt_close ($stmt);
 
+								 $query1 = "SELECT employee_permissions_id FROM employee_has_permissions WHERE employee_id = ?";
+								 $stmt1=mysqli_prepare($link, $query1) or die("Prepare:".mysql_error());
+
+							 	 mysqli_stmt_bind_param($stmt1, "d", $permissions_id) or die("bind param");
+							 	 mysqli_stmt_execute($stmt1) or die("execute");
+
+								 mysqli_stmt_bind_result($stmt1, $employee_permissions_id) or die (mysqli_stmt_error($stmt1));
+            		 mysqli_stmt_fetch($stmt1) or die(mysqli_stmt_error($stmt1));
+								//  echo $employee_permissions_id;
+
+
+							   if($employee_permissions_id < 2){
+
+							   $_SESSION["user"] = $username;
+								 $_SESSION["permissions"] = 1;
+								 mysqli_stmt_close ($stmt1);
+								 echo "admin";
+							}
+							  else{
+									$_SESSION["user"] = $username;
+									$_SESSION["permissions"] = 2;
+									mysqli_stmt_close ($stmt);
+									mysqli_stmt_close ($stmt1);
+									echo "employee";
+								}
 
               }
 	          	else{
@@ -42,6 +69,7 @@ if($isNew == "0"){
 	          	}
         }
 }
+
 
 
       	//sign in attempt
@@ -56,8 +84,7 @@ else{
 // | password   | varchar(256) | YES  |     | NULL    |                        |
 // +------------+--------------+------+-----+---------+----------------+
 
-
-		  if(mysqli_stmt_num_rows($stmt) == 1 ){
+  if(mysqli_stmt_num_rows($stmt) == 1 ){
 			 mysqli_stmt_close ($stmt);
 			 echo "existed";
 		  }
