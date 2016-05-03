@@ -1,5 +1,19 @@
 <?php
 session_start();
+
+
+
+// Pull username from $_COOKIE, if it exists
+setcookie('userid', '', 1);
+$username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
+
+// If the user is logged in, redirect them home
+if ($username) {
+	header("Location: index.php");
+	exit;
+}
+
+
 ?>
 <html lang="en">
 <head>

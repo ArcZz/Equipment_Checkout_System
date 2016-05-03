@@ -51,12 +51,14 @@ if($isNew == "0"){
 
 							   $_SESSION["user"] = $username;
 								 $_SESSION["permissions"] = 1;
+                                   	 setcookie('userid', $username);
 								 mysqli_stmt_close ($stmt1);
 								 echo "admin";
 							}
 							  else{
 									$_SESSION["user"] = $username;
 									$_SESSION["permissions"] = 2;
+                                  	 setcookie('userid', $username);
 									mysqli_stmt_close ($stmt);
 									mysqli_stmt_close ($stmt1);
 									echo "employee";

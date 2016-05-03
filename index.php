@@ -4,6 +4,14 @@
 session_start();
 
 
+	// A user has to have logged in order to have this 'username' cookie
+	$username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
+
+	// If the cookie isn't there, send them back to the login
+	 if (!$username) {
+	 	header("Location: login.php");
+	 	exit;
+	 }
 
 
 ?>
@@ -458,7 +466,7 @@ session_start();
                 <span class = "glyphicon glyphicon-chevron-left"></span>
             </div>
             
-            <div id="rightWrapper">
+            <div id="rightWrapper"> 
                 <div id="overdue">
                     <h1>Overdue</h1>
                 </div>
