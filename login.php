@@ -3,14 +3,14 @@ session_start();
 ?>
 <html lang="en">
 <head>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"><!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"><!-- Optional theme -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script><!-- Latest compiled and minified JavaScript -->
 		<link rel="stylesheet" type="text/css" href="css/log.css">
 		<script src="js/login.js"></script>
 		<title>Check us out</title>
-		
+
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse mizzou" style="height = 100px">

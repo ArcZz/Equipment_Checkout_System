@@ -31,26 +31,28 @@ $("#submit").click(function(){
 
           $.post("loginConnection.php", {"user": $("#user").val(), "fname": $("#fname").val(), "lname": $("#lname").val(), "email": $("#email").val(), "pass": $("#pass").val(), "new": $("select").val()},
 
-         function(data){
-         console.log(data);
-         if(data=="success"){
-            response("hahha");
-          $(location).attr('href', 'index.php')
-
-         return false;
-
-         }
-         else if (data=="fail") {
-           response("login fail, check your username and passworld again please");
-         }
-          else if (data=="existed") {
-                response("sry, this user already existed");
-            }
-              else if(data=="signin"){
-                alert(" success! Pls remember ur username and password.");
-                location.reload(true);
-              }
-     });
+          function(data){
+          console.log(data);
+          if(data=="admin"){
+            alert(" welcome admin!");
+           $(location).attr('href', "index.php")
+          return false;
+          }
+          else if(data=="employee"){
+            $(location).attr('href', "index.php")
+           return false;
+          }
+          else if (data=="fail") {
+            response("login fail, check your username and passworld again please");
+          }
+           else if (data=="existed") {
+                 response("sry, this user already existed");
+             }
+               else if(data=="signin"){
+                 alert(" success! Pls remember ur username and password.");
+                 location.reload(true);
+               }
+      });
    }
  });
 

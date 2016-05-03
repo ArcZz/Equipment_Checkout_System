@@ -1,5 +1,27 @@
 <!DOCTYPE html>
+
+<?php
+session_start();
+
+
+
+
+?>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<?php
+//
+//		$username = empty($_SESSION["user"]) ? '' : $_SESSION["user"];
+//
+//		// If the user is logged in, redirect them home
+//		if ($username) {
+//			header("Location: login.php");
+//			exit;
+//		}
+
+	?>
+<html xmlns="https://www.w3.org/1999/xhtml">
 <head>
     
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
@@ -25,6 +47,13 @@
         $(function(){
             
             $('#SandBox').mixItUp();
+//           $("#logout").click(function(){
+//            
+//               $.post("logout.php", function(){
+//            
+//              $(location).attr('href', "login.php");
+//               });
+//             });
             
             $('.car input:checkbox, .other input:checkbox').change(function() {
                 if($(this).is(":checked")) {
