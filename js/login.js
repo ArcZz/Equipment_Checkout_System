@@ -34,7 +34,7 @@ $("#submit").click(function(){
           function(data){
           console.log(data);
           if(data=="admin"){
-            alert(" welcome admin!");
+          
            $(location).attr('href', "index.php")
           return false;
           }

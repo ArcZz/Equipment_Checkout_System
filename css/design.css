@@ -1,53 +1,58 @@
+.title{
+margin-bottom:0px;
+
+}
+
 div.gradient-border{
-    
+
 	height: 1px;
-    width: auto;  
+    width: auto;
     background: -webkit-linear-gradient(left,#222 3%,#BBB 30%, #CCC 50%, #BBB 70%, #222 97%);
 }
 
 html, body{
-    
+
 	margin: 0;
     font-family: proxima-nova,"Helvetica Neue",Arial,sans-serif;
     background: #EEE;
 }
 input:focus{
-	
+
 	outline:0;
 }
 
 .align-left{
-    
+
 	text-align: left !important;
 }
 
 .sandbox .mix:before {
-    
+
 	padding-top: 0;
 }
 
 .sandbox .mix{
-    
+
 	padding-right: 0;
     height: 150px;
 }
 
 .glyphicon{
-	
+
 	font-size: 30pt;
 	margin-top: 350px;
 }
 
 #container{
-	
+
 	display: -webkit-flex;
     display: flex;
 	min-height: 1200px;
-    min-width: 944px;
+
 }
 
 #overdue h1{
-    
+
 	margin: 20px 50px 10px 50px;
     font-size: 24pt;
     font-weight: 200;
@@ -55,14 +60,14 @@ input:focus{
 }
 
 #leftWrapper{
-    
+
 	width: auto;
     overflow: hidden;
-   
+
 }
 
 #rightWrapper{
-	
+
     border-left: 2px solid black;
     width: 280px;
     text-align: center;
@@ -70,7 +75,7 @@ input:focus{
 }
 
 #rightTab{
-	
+
 	border-left: 2px solid black;
 	background-color: gold;
 	cursor: hand;
@@ -78,7 +83,7 @@ input:focus{
 }
 
 #topRibbon{
-    
+
     align-items: stretch;
     border-bottom: 1px solid #d39a0e;
     border-top: 1px solid #f1b82d;
@@ -89,9 +94,9 @@ input:focus{
     flex-direction: row-reverse;
     padding: 6px 2% 10px 1%;
 	width: auto;
-}      
+}
 #topRibbon #button-div button{
-    
+
 	border: 1px solid #d39a0e;
     font-size: 18px;
     height: 40px;
@@ -103,14 +108,14 @@ input:focus{
     box-shadow: 0 0 27px #EEE inset;
 }
 #topRibbon #scannedText-div{
-    
+
 	width: 100%;
 }
 #topRibbon #scannedText-div .individual{
-    
+
     float: left;
 	height: 100%;
-    width: 50%; 
+    width: 50%;
 }
 #topRibbon #studentID-form{
     margin-left: 2%;
@@ -144,8 +149,8 @@ input:focus{
     margin: 0;
     padding: 10px 2% 10px 12%;
     background: #232323;
-    box-shadow: 0 0 5px #BBBBBB;   
-} 
+    box-shadow: 0 0 5px #BBBBBB;
+}
 #searchRibbon .sortby{
     color: #ccc;
     font-weight: 200;
@@ -230,7 +235,7 @@ input:focus{
 }
 
 #inUse-wrapper .mix button:focus{
-	
+
 	outline:0;
 }
 #inUse-wrapper button:hover{
