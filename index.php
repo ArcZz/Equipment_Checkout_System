@@ -234,7 +234,7 @@ session_start();
                 <div id="topRibbon">                   
                     <div id="button-div">
                         <form>
-                            <button type="button">Submit</button>
+                            <button id="check" type="button">Submit</button>
                         </form>
                     </div>
                     
@@ -242,13 +242,13 @@ session_start();
                         <div class="individual">
                             <form id="studentID-form" class="scannedText-form">
                                 <label class="scannedText-label">Student ID</label>
-                                <input type="text" id="barcode"  class="scanned-text"/> 
+                                <input type="text" id="student"  class="scanned-text"/> 
                             </form>
                         </div>
                         <div class="individual">
                             <form id="barcode-form" class="scannedText-form">
                                 <label class="scannedText-label">Barcode</label>
-                                <input type="text" id="barcode"  class="scanned-text"/> 
+                                <input type="text" id="item"  class="scanned-text"/> 
                             </form>
                         </div>
                     </div>
