@@ -6,7 +6,7 @@ margin-bottom:0px;
 div.gradient-border{
 
 	height: 1px;
-    width: auto;  
+    width: auto;
     background: -webkit-linear-gradient(left,#222 3%,#BBB 30%, #CCC 50%, #BBB 70%, #222 97%);
 }
 
@@ -48,7 +48,7 @@ input:focus{
 	display: -webkit-flex;
     display: flex;
 	min-height: 1200px;
-    min-width: 944px;
+
 }
 
 #overdue h1{

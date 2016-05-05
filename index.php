@@ -263,17 +263,16 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
     </nav> -->
 
 
-			<nav class="navbar navbar-inverse title" style="height = 100px">
+			<nav class="navbar navbar-inverse title" >
 				<div class="container-fluid">
 					<form class="navbar-right">
 						<ul class="nav navbar-nav" id="navbar_top">
 						<li><a style="color:rgba(241,184,45,.7);" href="#">welcome employee</a></li>
 						<li><a style="color:white" href="login.php"><b>Log out</b></a> </li>
-
 						</ul>
 					</form>
 				</div>
-		</nav>
+			</nav>
 
         <div id="container">
             <div id="leftWrapper">
