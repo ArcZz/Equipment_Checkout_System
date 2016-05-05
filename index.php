@@ -3,12 +3,20 @@
 <?php
 session_start();
 
+// A user has to have logged in order to have this 'username' cookie
+$username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
+
+// If the cookie isn't there, send them back to the login
+ if (!$username) {
+	header("Location: login.php");
+	exit;
+ }
 
 
 
 ?>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="https://www.w3.org/1999/xhtml">
 <head>
 	<?php
 //
@@ -23,41 +31,41 @@ session_start();
 	?>
 <html xmlns="https://www.w3.org/1999/xhtml">
 <head>
-    
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
 
         <link rel="stylesheet" href="https://mixitup.kunkalabs.com/wp-content/themes/mixitup.kunkalabs/style.css?ver=1.5.4" type="text/css">
-    
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"><!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"><!-- Optional theme -->
         <link rel="stylesheet" type="text/css" href="css/dropdown-enhancement.css">
 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script><!-- Latest compiled and minified JavaScript -->
         <script src="libraries/dropdown-enhancement.js"></script>
-    
+
         <link rel="stylesheet" type="text/css" href="css/design.css">
     </head>
 
 
     <script type="text/javascript">
-        
-        var selected = [];        
+
+        var selected = [];
         $(function(){
-            
+
             $('#SandBox').mixItUp();
 //           $("#logout").click(function(){
-//            
+//
 //               $.post("logout.php", function(){
-//            
+//
 //              $(location).attr('href', "login.php");
 //               });
 //             });
-            
+
             $('.car input:checkbox, .other input:checkbox').change(function() {
                 if($(this).is(":checked")) {
                     selected.push($(this).attr('name'));
-                    
+
                     var tempName = GetTempName();
                     $('#SandBox').mixItUp('filter', tempName);
                 } else
@@ -67,64 +75,64 @@ session_start();
                         selected.splice(index, 1);
                     }
                     var tempName = GetTempName();
-                    
+
                     $('#SandBox').mixItUp('filter', tempName);
                 }
-                $('#textbox1').val($(this).is(':checked'));        
+                $('#textbox1').val($(this).is(':checked'));
             });
-            
+
             addItemMixBoxes($('#SandBox'));//new
-            
+
             $("#rightWrapper").click(function(){
-            
+
                 $(this).animate({width: 'toggle'}, 512, function(){
-                
+
                     $("#rightTab").animate({width: 'toggle'});
                 });
             });
-            
+
             $("#rightTab").click(function(){
-            
+
                 $(this).animate({width: 'toggle'}, 512, function(){
-                
+
                     $("#rightWrapper").animate({width: 'toggle'}, 512);
                 });
             });
-            
+
 			$("#check").click(function(){
-				
+
 				if($("#student").val().trim().length < 1){
-					
+
 					$("#student").css("background-color", "gold");
 				}else if($("#item").val().trim().length < 1){
-					
+
 					$("#item").css("background-color", "gold");
 				}else{
-					
+
 					$.post("checkOut.php", {"student" : $("#student").val().trim(), "item" : $("#item").val().trim(), "time" : Date().substring(16, 24)}, function(data){
-						
+
 						console.log(data);
 					});
 				}
 			});
-            
+
             $("#addEmployee").click(function(){
                 if($("#inputEmployeeUser").val().trim().length < 1){
                     $("#inputEmployeeUser").css("background-color", "gold");
                 }
                 else if($("#inputEmployeeFName").val().trim().length < 1){
-                   
+
                     $("#inputEmployeeFName").css("background-color", "gold");
                 }
                 else if($("#inputEmployeeLName").val().trim().length < 1){
                     $("#inputEmployeeLName").css("background-color", "gold");
-                    
+
                 }
                 else if($("#inputEmployeePass").val().trim().length < 1){
-                    $("#inputEmployeePass").css("background-color", "gold");               
+                    $("#inputEmployeePass").css("background-color", "gold");
                 }
                 else{
-                   
+
                     $.post("addEmployee.php", {"username" : $("#inputEmployeeUser").val().trim(), "first" : $("#inputEmployeeFName").val().trim(), "last" : $("#inputEmployeeLName").val().trim(), "pass" : $("#inputEmployeePass").val().trim(), }, function(data){
 
                         console.log(data);
@@ -166,111 +174,149 @@ session_start();
             });
             $("#addWaiver").click(function(){
                 if($("#inputWaiver").val().trim().length > 0){
-                  
+
                     $.post("addWaiver.php", {"waiver" : $("#inputWaiver").val().trim()}, function(data){
 
                         console.log(data);
                     });
-                    
+
                 }
                 else{
                     $("#inputWaiver").css("background-color", "gold");
                 }
             });
         });
-        
+
         function GetTempName(){
-            
+
             var tempName = "";
-            
+
             for(var i = 0; i < selected.length; i++){
-            
+
                 tempName += selected[i];
-                
+
                 if(i < selected.length - 1){
-                    
+
                     tempName += ",";
                 }
             }
 
             if(tempName == ""){
-            
+
                 tempName = "all";
             }
 
             return tempName;
         }
-        
+
         function addItemMixBoxes(mixDiv){//new
-        
+
             $.post("getItems.php", function(data){
-            
+
                 data = JSON.parse(data);
                 var i = 1;
                 data.forEach(function(element){
-                    
+
                     addMixBox(1, i++, element, mixDiv)
                 });
             });
         }
-        
+
         function RemoveItem(itemName, itemID){
-            
+
 			console.log(itemName + " " +itemID);
         }
 
         function addMixBox(category, value, itemName, mixDiv){
-        
+
             var boxHtml = "<div class='mix category-" + category + "' data-value=" + value + " data-name=" + itemName + " style='display: inline-block;'><button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>Item: " + itemName + "</button></div>";
             mixDiv.mixItUp("prepend", $.parseHTML(boxHtml)[0]);
         }
     </script>
-    
+
     <body>
-        
+
+
+			<!-- <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </nav> -->
+
+
+			<nav class="navbar navbar-inverse title" style="height = 100px">
+				<div class="container-fluid">
+					<form class="navbar-right">
+						<ul class="nav navbar-nav" id="navbar_top">
+						<li><a style="color:rgba(241,184,45,.7);" href="#">welcome employee</a></li>
+						<li><a style="color:white" href="login.php"><b>Log out</b></a> </li>
+
+						</ul>
+					</form>
+				</div>
+		</nav>
+
         <div id="container">
-            
-            <div id="leftWrapper">            
-                <div id="topRibbon">                   
+            <div id="leftWrapper">
+                <div id="topRibbon">
                     <div id="button-div">
                         <form>
                             <button type="button">Submit</button>
                         </form>
                     </div>
-                    
+
                     <div id="scannedText-div">
                         <div class="individual">
                             <form id="studentID-form" class="scannedText-form">
                                 <label class="scannedText-label">Student ID</label>
-                                <input type="text" id="barcode"  class="scanned-text"/> 
+                                <input type="text" id="barcode"  class="scanned-text"/>
                             </form>
                         </div>
                         <div class="individual">
                             <form id="barcode-form" class="scannedText-form">
                                 <label class="scannedText-label">Barcode</label>
-                                <input type="text" id="barcode"  class="scanned-text"/> 
+                                <input type="text" id="barcode"  class="scanned-text"/>
                             </form>
                         </div>
                     </div>
-                    
+
                 </div>
-                
-                <div id="searchRibbon" class="ribbon">       
+
+                <div id="searchRibbon" class="ribbon">
                     <a href="#" class="sortby">Name</a>
                     <a href="#" class="sortby">Location</a>
-                    <a href="#" class="sortby">Time Remaining</a>        
-                    <form> 
+                    <a href="#" class="sortby">Time Remaining</a>
+                    <form>
                         <div>
                             <input class="searchBar" type="text" >
                             <input class="submit" type="submit" value="Search">
                         </div>
-                    </form>            
+                    </form>
                 </div>
-                
+
                 <div class="gradient-border"></div>
-                
+
                 <div id="inUse-wrapper">
-                                            
+
                     <div class="fade modal" id="myModal" role="dialog">
                         <div class="modal-dialog modal-lg">
                           <!-- Modal content-->
@@ -282,7 +328,7 @@ session_start();
                             <div class="modal-body">
                                 <p><b>Student Name:</b> <span class="modal-editable">John</span></p>
                                 <p><b>Employee Name:</b> <span class="modal-editable"> Paul </span></p>
-                                <p><b>Item Name:</b> 
+                                <p><b>Item Name:</b>
                                     <span id="change-name"> Computer </span>
                                     <select id="select-name">
                                         <option value="computer">Computer</option>
@@ -291,41 +337,41 @@ session_start();
                                         <option value="charger">Charger</option>
                                     </select>
                                 </p>
-                                <p><b>Item Category:</b> 
+                                <p><b>Item Category:</b>
                                     <span id="change-category"> Category 1 </span>
                                     <select id="select-category">
                                         <option value="category1">Category 1</option>
                                         <option value="category2">Category 2</option>
                                     </select>
                                 </p>
-                                <p><b>Location:</b> 
+                                <p><b>Location:</b>
                                     <span id="change-location"> Student Center </span>
                                     <select id="select-location">
                                         <option value="student-center">Student Center</option>
                                         <option value="memorial">Memorial</option>
-                                    
+
                                         <?php
-                                        
-                                        
+
+
                                             $sql="SELECT * FROM location";
                                             $result = mysql_query($sql);
-                                        
+
                                             while($row = mysql_fetch_array($result)) {
                                                 echo $row['fieldname'];
                                             }
-                                        
+
                                         ?>
-                                        
+
                                     </select>
                                 </p>
-                                <p><b>Waiver:</b> 
+                                <p><b>Waiver:</b>
                                     <span id="change-waiver"> True </span>
                                     <select  id="select-waiver">
                                         <option value="true">True</option>
                                         <option value="false">False</option>
                                     </select>
                                 </p>
-                                
+
 
                             </div>
                             <div class="modal-footer">
@@ -334,8 +380,8 @@ session_start();
                             </div>
                           </div>
                         </div>
-                    </div> 
-                    
+                    </div>
+
                     <div class="fade modal" id="addNew" role="dialog">
                             <div class="modal-dialog modal-lg">
                               <!-- Modal content-->
@@ -363,29 +409,29 @@ session_start();
                                             <input id="inputEmployeePass" class="add">
                                         </span>
                                     </p>
-                                    
+
                                     <hr>
                                     <p><button id="addItem" type="button" class="btn btn-default" >Add</button><b>Item Name:</b> <span><input id="inputItem" class="add"></span></p>
                                     <hr>
                                     <p><button id="addCategory" type="button" class="btn btn-default" >Add</button><b>Item Category:</b> <span><input id="inputCategory" class="add"></span></p>
                                     <hr>
                                     <p><button id="addLocation" type="button" class="btn btn-default"  name="testme">Add</button><b>Location:</b> <span><input id="inputLocation" class="add"></span></p>
-                                    
+
                                     <hr>
                                     <p><button id="addWaiver" type="button" class="btn btn-default" >Add</button><b>Waiver:</b> <span><input id="inputWaiver" class="add"></span></p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 </div>
                               </div>
                             </div>
-                        </div> 
+                        </div>
 
                     <div class="control-bar sandbox-control-bar align-left" style="overflow: visible;">
-                        
+
                         <div class="group">
                             <label>Filter:</label>
-                            
+
                             <div class="btn-group" >
                               <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton "> Item <span class="caret"></span></button>
                               <ul class="dropdown-menu car">
@@ -457,12 +503,12 @@ session_start();
                         <span class="btn filter" data-filter=".category-1">Blue</span>
 
                     </div>
-                    
+
                     <button type="button" id="plus "class="btn btn-info btn-lg" data-toggle="modal" data-target="#addNew"> + </button>
 
 
                     <div id="SandBox" class="sandbox" style = "overflow: ">
-                        
+
                         <div class="gap"></div>
                         <div class="gap"></div>
                         <form class="live-config" id="LiveConfig">
@@ -550,25 +596,25 @@ session_start();
                                     <option value="cubic-bezier(0.68, -0.55, 0.265, 1.55)">easeInOutBack</option>
                                 </select></span><span class="selected">ease</span><span class="carat"></span><div><ul><li class="active">ease</li><li>easeInSine</li><li>easeOutSine</li><li>easeInOutSine</li><li>easeInQuad</li><li>easeOutQuad</li><li>easeInOutQuad</li><li>easeInCubic</li><li>easeOutCubic</li><li>easeInOutCubic</li><li>easeInBack</li><li>easeOutBack</li><li>easeInOutBack</li></ul></div></div>
                             </div>
-                            
+
                             <div class="spacer"></div>
-                            
+
                             <div class="btn" id="Export">Export Configuration</div>
                         </form>
                     </div>
                 </div>
             </div>
-            
+
             <div id = "rightTab" style = "display: none;">
                 <span class = "glyphicon glyphicon-chevron-left"></span>
             </div>
-            
+
             <div id="rightWrapper">
                 <div id="overdue">
                     <h1>Overdue</h1>
                 </div>
             </div>
-        </div>      
+        </div>
     </body>
     <script>
         $(".sortby").click(function () {
@@ -594,7 +640,7 @@ session_start();
                     $edittextbox.click(function (event) {
                         event.stopPropagation();
                     });
-  
+
                     $el.dblclick(function (e) {
                         tempVal = $el.html();
                         $edittextbox.val(tempVal).insertBefore(this)
@@ -611,61 +657,61 @@ session_start();
                 return this;
             }
         });
-        
+
         $('.modal-editable').editable().on('editsubmit', function (event, val) {
-            
+
 			console.log('text changed to ' + val);
         });
 
         $("#select-name").change(function(){
-            
-			if($(this).val() == "computer") { 
-                
-				$("#change-name").html("Computer"); 
+
+			if($(this).val() == "computer") {
+
+				$("#change-name").html("Computer");
             }if($(this).val() == "car"){
-                
-				$("#change-name").html("Car"); 
+
+				$("#change-name").html("Car");
             }if($(this).val() == "bike"){
-                
-				$("#change-name").html("Bike"); 
+
+				$("#change-name").html("Bike");
             }if($(this).val() == "charger"){
-                
-				$("#change-name").html("Charger"); 
+
+				$("#change-name").html("Charger");
             }
         });
-        
+
         $("#select-category").change(function(){
-            
-			if ($(this).val() == "category1") { 
-                
-				$("#change-category").html("Category1"); 
+
+			if ($(this).val() == "category1") {
+
+				$("#change-category").html("Category1");
             } if ($(this).val() == "category2"){
-                
-				$("#change-category").html("Category2"); 
+
+				$("#change-category").html("Category2");
             }
         });
-        
+
         $("#select-location").change(function(){
-			
-            if ($(this).val() == "student-center"){ 
-                
-				$("#change-location").html("Student Center"); 
+
+            if ($(this).val() == "student-center"){
+
+				$("#change-location").html("Student Center");
             }if($(this).value == "memorial"){
-                
-				$("#change-location").html("Memorial"); 
+
+				$("#change-location").html("Memorial");
             }
         });
-        
+
         $("#select-waiver").change(function(){
-            
-			if ($(this).val() == "true"){ 
-                
-				$("#change-waiver").html("True"); 
+
+			if ($(this).val() == "true"){
+
+				$("#change-waiver").html("True");
             } if ($(this).val() == "false"){
-                
-				$("#change-waiver").html("False"); 
+
+				$("#change-waiver").html("False");
             }
         });
-        
+
     </script>
 </html>
