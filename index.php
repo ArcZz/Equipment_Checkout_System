@@ -443,8 +443,7 @@
         $(".sortby").click(function () {
             $(this).toggleClass("clicked");
         });
-    </script>
-    <script>
+		
         $.fn.extend({
             editable: function () {
                 $(this).each(function () {
