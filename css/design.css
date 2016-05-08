@@ -261,7 +261,7 @@ input:focus{
     float: right;
 }
 #inUse-wrapper .modal-body select{
-    width: 18px;
+    width: 30%;
     padding-bottom: 5px;
 }
 #inUse-wrapper .modal-body select:focus{outline: 0;}
