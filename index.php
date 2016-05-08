@@ -107,12 +107,15 @@
         
             $.post("getItems.php", function(data){
             
-                data = JSON.parse(data);
-                var i = 1;
-                data.forEach(function(element){
-                    
-                    addMixBox(1, i++, element, mixDiv)
-                });
+				if(data != "Empty Set"){
+					
+					data = JSON.parse(data);
+					var i = 1;
+					data.forEach(function(element){
+						
+						addMixBox(1, i++, element, mixDiv)
+					});
+				}
             });
         }
         
@@ -121,10 +124,21 @@
 			console.log(itemName + " " +itemID);
         }
 		
-        function addMixBox(category, value, itemName, mixDiv){
+        function addMixBox(category, value, itemInfo, mixDiv){
         
-            var boxHtml = "<div class='mix category-" + category + "' data-value=" + value + " data-name=" + itemName + " style='display: inline-block;'><button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>Item: " + itemName + "</button></div>";
-            mixDiv.mixItUp("prepend", $.parseHTML(boxHtml)[0]);
+            var box = "<div class='mix category-" + category + "' data-value=" + value + " data-name=" + itemInfo.name + " style='display: inline-block;'>";
+            var button = "<button type='button' class='displayItemInfo btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>Item: " + itemInfo.name + "</button></div>";
+			var newBox = $.parseHTML(box + button);
+			
+            mixDiv.mixItUp("prepend", newBox[0]);
+			
+			$(newBox).click(function(){
+				
+				$("#myModal .modal-header").html("<button type = 'button' class = 'close' data-dismiss = 'modal'>x</button><h4 class = 'modal-title'>" + itemInfo.name + " details</h4>");
+				
+				console.log(itemInfo);
+				var loanerName = (itemInfo.outName) ? "<p><b>Student Name:</b> <span class='modal-editable'>" + itemInfo.outName + "</span></p>" : "";
+			});
         }
     </script>
     
@@ -177,10 +191,7 @@
                         <div class="modal-dialog modal-lg">
                           <!-- Modal content-->
                             <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Item Details</h4>
-                            </div>
+                            <div class="modal-header"></div>
                             <div class="modal-body">
                                 <p><b>Student Name:</b> <span class="modal-editable">John</span></p>
                                 <p><b>Employee Name:</b> <span class="modal-editable"> Paul </span></p>
@@ -193,12 +204,9 @@
                                         <option value="charger">Charger</option>
                                     </select>
                                 </p>
-                                <p><b>Item Category:</b> 
+                                <p><b>Tags:</b> 
                                     <span id="change-category"> Category 1 </span>
-                                    <select id="select-category">
-                                        <option value="category1">Category 1</option>
-                                        <option value="category2">Category 2</option>
-                                    </select>
+                                    <!--add tags or something-->
                                 </p>
                                 <p><b>Location:</b> 
                                     <span id="change-location"> Student Center </span>
@@ -207,14 +215,6 @@
                                         <option value="memorial">Memorial</option>
                                     </select>
                                 </p>
-                                <p><b>Waiver:</b> 
-                                    <span id="change-waiver"> True </span>
-                                    <select  id="select-waiver">
-                                        <option value="true">True</option>
-                                        <option value="false">False</option>
-                                    </select>
-                                </p>
-
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="RemoveItem('someName', '123')">Remove</button>
@@ -328,7 +328,6 @@
                     </div>
                     
                     <button type="button" id="plus "class="btn btn-info btn-lg" data-toggle="modal" data-target="#addNew"> + </button>
-
 
                     <div id="SandBox" class="sandbox" style = "overflow: ">
                         
