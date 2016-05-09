@@ -237,7 +237,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                 <div id="topRibbon">
                     <div id="button-div">
                         <form>
-                            <button id="check" type="button">Submit</button>
+                            <button class = "submit" id="check" type="button">Submit</button>
                         </form>
                         <div class="btn-group" >
                             <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton time"> Time <span class="caret"></span></button>
