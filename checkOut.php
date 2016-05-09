@@ -7,16 +7,16 @@
 	$link = mysqli_connect($host, $user, $pass) or die("Connect Error " . mysql_error());
 	mysqli_select_db($link, "final") or die ("Database Error " . mysqli_error($link));
 	
-  /*+-------------------+---------+------+-----+---------+-------+
-	| Field             | Type    | Null | Key | Default | Extra |
-	+-------------------+---------+------+-----+---------+-------+
-	| student_id        | int(11) | NO   | PRI | NULL    |       |
-	| item_id           | int(11) | NO   | PRI | NULL    |       |
-	| item_condition_id | int(11) | NO   | PRI | 0       |       |
-	| location_id       | int(11) | NO   | PRI | NULL    |       |
-	| employee_id       | int(11) | NO   | PRI | NULL    |       |
-	| time_expire       | time    | NO   |     | NULL    |       |
-	+-------------------+---------+------+-----+---------+-------+
+  /*+-------------------+-----------+------+-----+---------+-------+
+	| Field             | Type      | Null | Key | Default | Extra |
+	+-------------------+-----------+------+-----+---------+-------+
+	| student_id        | int(11)   | NO   | PRI | NULL    |       |
+	| item_id           | int(11)   | NO   | PRI | NULL    |       |
+	| item_condition_id | int(11)   | NO   | PRI | 0       |       |
+	| location_id       | int(11)   | NO   | PRI | NULL    |       |
+	| employee_id       | int(11)   | NO   | PRI | NULL    |       |
+	| time_expire       | dasetime	| NO   |     | NULL    |       |
+	+-------------------+-----------+------+-----+---------+-------+
 	*/
 	
 	$student_id = intval(mysqli_real_escape_string($link, htmlspecialchars($_POST['student'])));

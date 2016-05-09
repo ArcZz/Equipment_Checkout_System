@@ -20,12 +20,13 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
         <script src="https://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
 
         <link rel="stylesheet" href="https://mixitup.kunkalabs.com/wp-content/themes/mixitup.kunkalabs/style.css?ver=1.5.4" type="text/css">
+    
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"><!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"><!-- Optional theme -->
         <link rel="stylesheet" type="text/css" href="css/dropdown-enhancement.css">
 
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script><!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script src="libraries/dropdown-enhancement.js"></script>
 
         <link rel="stylesheet" type="text/css" href="css/design.css">
@@ -35,6 +36,8 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
     <script type="text/javascript">
 
         var selected = [];
+        var currentBox = -1;
+        
         $(function(){
 
             $('#SandBox').mixItUp();
@@ -92,6 +95,10 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 
 					$("#item").css("background-color", "gold");
 				}else{
+					
+					var date = new Date();
+					date.setHours(date.getHours() + 2);
+					var timeDue = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":00";
 
 					$.post("checkOut.php", {"student" : $("#student").val().trim(), "item" : $("#item").val().trim(), "time" : Date().substring(16, 24)}, function(data){
 
@@ -196,25 +203,77 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
         function addItemMixBoxes(mixDiv){//new
 
             $.post("getItems.php", function(data){
-
-                data = JSON.parse(data);
-                var i = 1;
-                data.forEach(function(element){
-
-                    addMixBox(1, i++, element, mixDiv)
-                });
+            
+				if(data != "Empty Set"){
+					
+					data = JSON.parse(data);
+					var i = 1;
+					data.forEach(function(element){
+						
+						addMixBox(1, i++, element, mixDiv);
+					});
+				}
             });
         }
-
-        function RemoveItem(itemName, itemID){
-
-			console.log(itemName + " " +itemID);
+        
+        function removeItem(itemID){
+            
+			$.post("deleteItem.php", {"id" : currentBox}, function(data){
+				
+				console.log(data);
+				
+				if(data == "success"){
+					
+					$("#itemQuickDisplayBox" + itemID).remove();
+				}
+			});
         }
-
-        function addMixBox(category, value, itemName, mixDiv){
-
-            var boxHtml = "<div class='mix category-" + category + "' data-value=" + value + " data-name=" + itemName + " style='display: inline-block;'><button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>Item: " + itemName + "</button></div>";
-            mixDiv.mixItUp("prepend", $.parseHTML(boxHtml)[0]);
+		
+        function addMixBox(category, value, itemInfo, mixDiv){
+        
+            var box = "<div id = 'itemQuickDisplayBox" + itemInfo.id + "' class='mix category-" + category + "' data-value=" + value + " data-name=" + itemInfo.name + " style='display: inline-block;'>";
+            var button = "<button type='button' class='displayItemInfo btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>" + itemInfo.name + "</button></div>";
+			var newBox = $.parseHTML(box + button);
+			
+            mixDiv.mixItUp("prepend", newBox[0]);
+			
+			$(newBox).click(function(){
+				
+				currentBox = itemInfo.id;
+				
+				$("#myModal .modal-header").html("<button type = 'button' class = 'close' data-dismiss = 'modal'>x</button><h4 class = 'modal-title'>" + itemInfo.name + " details</h4>");
+				
+				console.log(itemInfo);
+				
+				var itemName = "<p><b>Item Name:</b><span id = 'change-name'>" + itemInfo.name + "</span></p>";
+				var itemLocation = "<p><b>Location:</b><select id = 'select-location'>";
+				
+				$.get("getLocations.php", function(data){
+					
+					data = JSON.parse(data);
+					data.forEach(function(element){
+						
+						$("#myModal .modal-body p #select-location").append("<option value = '" + element + "'>" + element + "</option>");
+					});
+					
+					$("#myModal .modal-body p #select-location").val(itemInfo.location);
+				});
+				
+				itemLocation += "</select>";
+				var tags = "<p><b>Tags:</b>";
+				
+				itemInfo.tags.forEach(function(tag){
+					
+					tags += "<span>" + tag + ", </span>";
+				});
+				
+				tags = tags.substring(0, tags.length - 9);
+				tags += "</span></p>";
+				
+				$("#myModal .modal-body").html(itemName + itemLocation + tags);
+				$("#myModal .modal-footer .removeItem").attr("onClick", "removeItem(" + itemInfo.id + ")");
+				var loanerName = (itemInfo.outName) ? "<p><b>Student Name:</b> <span class='modal-editable'>" + itemInfo.outName + "</span></p>" : "";
+			});
         }
     </script>
 
@@ -233,9 +292,13 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 			</nav>
 
         <div id="container">
+            
             <div id="leftWrapper">
+			
                 <div id="topRibbon">
+
                     <div id="button-div">
+					
                         <form>
                             <button class = "submit" id="check" type="button">Submit</button>
                         </form>
@@ -259,95 +322,79 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                     </div>
 
                     <div id="scannedText-div">
+					
                         <div class="individual">
+						
                             <form id="studentID-form" class="scannedText-form">
+							
                                 <label class="scannedText-label">Student ID</label>
                                 <input type="text" id="student"  class="scanned-text"/> 
                             </form>
                         </div>
                         <div class="individual">
+						
                             <form id="barcode-form" class="scannedText-form">
+							
                                 <label class="scannedText-label">Barcode</label>
                                 <input type="text" id="item"  class="scanned-text"/> 
                             </form>
                         </div>
                     </div>
-
                 </div>
-
+                
+				<div id="searchRibbon" class="ribbon">
+					
+					<a href="#" class="sortby">Name</a>
+					<a href="#" class="sortby">Location</a>
+					<a href="#" class="sortby">Time Remaining</a>        
+					
+					<form> 
+						
+						<div>
+                        
+							<input class="searchBar" type="text" >
+							<input class="submit" type="submit" value="Search">
+						</div>
+					</form>            
+				</div>
+                
+                <div class="gradient-border"></div>
+                
                 <div id="inUse-wrapper">
-
-                    <div class="fade modal" id="myModal" role="dialog">
-                        <div class="modal-dialog modal-lg">
-                          <!-- Modal content-->
+				
+					<div class="fade modal" id="myModal" role="dialog">
+                    
+						<div class="modal-dialog modal-lg">
+                        
+							<!-- Modal content-->
                             <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Item Details</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p><b>Student Name:</b> <span class="modal-editable">John</span></p>
-                                <p><b>Employee Name:</b> <span class="modal-editable"> Paul </span></p>
-                                <p><b>Item Name:</b>
-                                    <span id="change-name"> Computer </span>
-                                    <select id="select-name">
-                                        <option value="computer">Computer</option>
-                                        <option value="car">Car</option>
-                                        <option value="bike">Bike</option>
-                                        <option value="charger">Charger</option>
-                                    </select>
-                                </p>
-                                <p><b>Item Category:</b>
-                                    <span id="change-category"> Category 1 </span>
-                                    <select id="select-category">
-                                        <option value="category1">Category 1</option>
-                                        <option value="category2">Category 2</option>
-                                    </select>
-                                </p>
-                                <p><b>Location:</b>
-                                    <span id="change-location"> Student Center </span>
-                                    <select id="select-location">
-                                        <option value="student-center">Student Center</option>
-                                        <option value="memorial">Memorial</option>
 
-                                        <?php
-
-
-                                            $sql="SELECT * FROM location";
-                                            $result = mysql_query($sql);
-
-                                            while($row = mysql_fetch_array($result)) {
-                                                echo $row['fieldname'];
-                                            }
-
-                                        ?>
-
-                                    </select>
-                                </p>
-                                <p><b>Waiver:</b>
-                                    <span id="change-waiver"> True </span>
-                                    <select  id="select-waiver">
-                                        <option value="true">True</option>
-                                        <option value="false">False</option>
-                                    </select>
-                                </p>
-
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="RemoveItem('someName', '123')">Remove</button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-
+								<div class="modal-header"></div>
+								<div class="modal-body">
+								
+									<p><b>Student Name:</b> <span class="modal-editable">John</span></p>
+									<p><b>Employee Name:</b> <span class="modal-editable"> Paul </span></p>
+								</div>
+								<div class="modal-footer">
+								
+									<button type="button" class="btn btn-danger removeItem" data-dismiss="modal">Remove</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Save</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+                    </div> 
+                    
                     <div class="fade modal" id="addNew" role="dialog">
-                            <div class="modal-dialog modal-lg">
-                              <!-- Modal content-->
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+						
+						<div class="modal-dialog modal-lg">
+							
+							<!-- Modal content-->
+							<div class="modal-content">
+								
+								<div class="modal-header">
+                                
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
                                     <h4 class="modal-title">Add Information</h4>
                                 </div>
                                 <div class="modal-body">
@@ -385,83 +432,96 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                                     <p><button id="addWaiver" type="button" class="btn btn-default" >Add</button><b>Waiver:</b> <span><input id="inputWaiver" class="add"></span></p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                 
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
                                 </div>
-                              </div>
                             </div>
                         </div>
+                    </div>
 
                     <div class="control-bar sandbox-control-bar" style="overflow: visible;">
                         
                         <div class="group filterAlign">
-                            <label>Filter:</label>
+						
+							<label>Filter:</label>
+                            
+							<div class="btn-group">
+								
+								<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton "> Item <span class="caret"></span></button>
+								<ul class="dropdown-menu car">
+									<li>
+									  
+										<input type="checkbox" id="comp" name=".category-1" value="1">
+										<label for="comp">Computer</label>
+									</li>
+									<li>
+										
+										<input type="checkbox" id="car" name="temp" value="1">
+										<label for="car">Car</label>
+									</li>
+									<li>
+										
+										<input type="checkbox" id="bike" name=".category-3" value="2">
+										<label for="bike">Bike</label>
+									</li>
+									<li>
+										
+										<input type="checkbox" id="ping_pong" name="ex2" value="3">
+										<label for="ping_pong">Ping pong</label>
+									</li>
+									<li>
+										
+										<input type="checkbox" id="donkey" name="ex2" value="4">
+										<label for="donkey">Donkey</label>
+									</li>
+								</ul>
+                            </div>
 
-                            <div class="btn-group" >
-                              <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton "> Item <span class="caret"></span></button>
-                              <ul class="dropdown-menu car">
-                                <li>
-                                  <input type="checkbox" id="comp" name=".category-1" value="1">
-                                  <label for="comp">Computer</label>
-                                </li>
-                                <li>
-                                  <input type="checkbox" id="car" name="temp" value="1">
-                                  <label for="car">Car</label>
-                                </li>
-                                <li>
-                                  <input type="checkbox" id="bike" name=".category-3" value="2">
-                                  <label for="bike">Bike</label>
-                                </li>
-                                <li>
-                                  <input type="checkbox" id="ping_pong" name="ex2" value="3">
-                                  <label for="ping_pong">Ping pong</label>
-                                </li>
-                                <li>
-                                  <input type="checkbox" id="donkey" name="ex2" value="4">
-                                  <label for="donkey">Donkey</label>
-                                </li>
-                              </ul>
+							<div class="btn-group">
+								
+								<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton"> Category <span class="caret"></span></button>
+								<ul class="dropdown-menu other">
+									
+									<li>
+									
+										<input type="checkbox" id="group1" name=".category-2" value="1">
+										<label for="group1">Group 1</label>
+									</li>
+									<li>
+									
+										<input type="checkbox" id="group2" name="ex2" value="1">
+										<label for="group2">Group 2</label>
+									</li>
+								</ul>
                             </div>
 
                             <div class="btn-group">
-                              <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton"> Category <span class="caret"></span></button>
-                              <ul class="dropdown-menu other">
-                                <li>
-                                  <input type="checkbox" id="group1" name=".category-2" value="1">
-                                  <label for="group1">Group 1</label>
-                                </li>
-                                <li>
-                                  <input type="checkbox" id="group2" name="ex2" value="1">
-                                  <label for="group2">Group 2</label>
-                                </li>
-                              </ul>
+								
+								<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton"> Condition <span class="caret"></span></button>
+								<ul class="dropdown-menu">
+									
+									<li>
+										
+										<input type="checkbox" id="ex2_1" name="ex2" value="1">
+										<label for="ex2_1">Good</label>
+									</li>
+									<li>
+									
+										<input type="checkbox" id="ex2_2" name="ex2" value="2">
+										<label for="ex2_2">Damaged</label>
+									</li>
+								</ul>
                             </div>
-
-                            <div class="btn-group">
-                              <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton"> Condition <span class="caret"></span></button>
-                              <ul class="dropdown-menu">
-                                <li>
-                                  <input type="checkbox" id="ex2_1" name="ex2" value="1">
-                                  <label for="ex2_1">Good</label>
-                                </li>
-                                <li>
-                                  <input type="checkbox" id="ex2_2" name="ex2" value="2">
-                                  <label for="ex2_2">Damaged</label>
-                                </li>
-                              </ul>
-                            </div>
-
                         </div>
 
-                        <div class="group">
-                            <label>Sort:</label>
+                        <div class = "group">
+                            
+							<label>Sort:</label>
                             <span class="btn sort" data-sort="random">Random</span>
                             <span class="btn sort" data-sort="value:asc">Ascending</span>
                             <span class="btn sort" data-sort="value:desc">Descending</span>
-                            <!--<span class="btn sort" data-sort="name:asc">Name: Ascending</span>
-                            <span class="btn sort" data-sort="name:desc">Name: Descending</span>
-                            -->
                         </div>
-                        
+
                         <button type="button" id="plus "class="btn btn-info" data-toggle="modal" data-target="#addNew"> + </button>
 
                     </div>
@@ -567,22 +627,25 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
             </div>
 
             <div id = "rightTab" style = "display: none;">
-                <span class = "glyphicon glyphicon-chevron-left"></span>
+                
+				<span class = "glyphicon glyphicon-chevron-left"></span>
             </div>
-
-            <div id="rightWrapper">
-                <div id="overdue">
-                    <h1>Overdue</h1>
+            
+            <div id = "rightWrapper">
+			
+				<div id = "overdue">
+                    
+					<h1>Overdue</h1>
                 </div>
             </div>
         </div>
     </body>
     <script>
-        $(".sortby").click(function () {
-            $(this).toggleClass("clicked");
+        $(".sortby").click(function(){
+			
+			$(this).toggleClass("clicked");
         });
-    </script>
-    <script>
+		
         $.fn.extend({
             editable: function () {
                 $(this).each(function () {
@@ -623,56 +686,5 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 
 			console.log('text changed to ' + val);
         });
-
-        $("#select-name").change(function(){
-
-			if($(this).val() == "computer") {
-
-				$("#change-name").html("Computer");
-            }if($(this).val() == "car"){
-
-				$("#change-name").html("Car");
-            }if($(this).val() == "bike"){
-
-				$("#change-name").html("Bike");
-            }if($(this).val() == "charger"){
-
-				$("#change-name").html("Charger");
-            }
-        });
-
-        $("#select-category").change(function(){
-
-			if ($(this).val() == "category1") {
-
-				$("#change-category").html("Category1");
-            } if ($(this).val() == "category2"){
-
-				$("#change-category").html("Category2");
-            }
-        });
-
-        $("#select-location").change(function(){
-
-            if ($(this).val() == "student-center"){
-
-				$("#change-location").html("Student Center");
-            }if($(this).value == "memorial"){
-
-				$("#change-location").html("Memorial");
-            }
-        });
-
-        $("#select-waiver").change(function(){
-
-			if ($(this).val() == "true"){
-
-				$("#change-waiver").html("True");
-            } if ($(this).val() == "false"){
-
-				$("#change-waiver").html("False");
-            }
-        });
-
     </script>
 </html>

@@ -61,7 +61,6 @@ input:focus{
 
 	width: auto;
     overflow: hidden;
-
 }
 
 #rightWrapper{
@@ -303,8 +302,10 @@ input:focus{
     margin-top: 0;
 }
 #inUse-wrapper .modal-body select{
-    width: 18px;
+    width: 30%;
     padding-bottom: 5px;
 }
-#inUse-wrapper .modal-body select:focus{outline: 0;}
-
+#inUse-wrapper .modal-body select:focus{
+	
+	outline: 0;
+}
