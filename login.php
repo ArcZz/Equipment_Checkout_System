@@ -1,6 +1,8 @@
 <?php
-session_start();
+session_unset(); 
+session_destroy();
 setcookie('userid', '', 1);
+session_start();
 $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 
 // If the user is logged in, redirect them home
