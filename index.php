@@ -342,22 +342,6 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                     </div>
                 </div>
                 
-				<div id="searchRibbon" class="ribbon">
-					
-					<a href="#" class="sortby">Name</a>
-					<a href="#" class="sortby">Location</a>
-					<a href="#" class="sortby">Time Remaining</a>        
-					
-					<form> 
-						
-						<div>
-                        
-							<input class="searchBar" type="text" >
-							<input class="submit" type="submit" value="Search">
-						</div>
-					</form>            
-				</div>
-                
                 <div class="gradient-border"></div>
                 
                 <div id="inUse-wrapper">
