@@ -21,6 +21,7 @@
     <script type="text/javascript">
         
         var selected = [];
+		var currentBox = -1;
         
         $(function(){
             
@@ -119,14 +120,14 @@
             });
         }
         
-        function RemoveItem(itemName, itemID){
+        function removeItem(itemID){
             
-			console.log(itemName + " " +itemID);
+			$("#itemQuickDisplayBox" + itemID).remove();
         }
 		
         function addMixBox(category, value, itemInfo, mixDiv){
         
-            var box = "<div class='mix category-" + category + "' data-value=" + value + " data-name=" + itemInfo.name + " style='display: inline-block;'>";
+            var box = "<div id = 'itemQuickDisplayBox" + itemInfo.id + "' class='mix category-" + category + "' data-value=" + value + " data-name=" + itemInfo.name + " style='display: inline-block;'>";
             var button = "<button type='button' class='displayItemInfo btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>Item: " + itemInfo.name + "</button></div>";
 			var newBox = $.parseHTML(box + button);
 			
@@ -163,8 +164,8 @@
 				tags = tags.substring(0, tags.length - 9);
 				tags += "</span></p>";
 				
-				$("#myModal .modal-body").html(itemName + itemLocation + tags);;
-				
+				$("#myModal .modal-body").html(itemName + itemLocation + tags);
+				$("#myModal .modal-footer .removeItem").attr("onClick", "removeItem(" + itemInfo.id + ")");
 				//var loanerName = (itemInfo.outName) ? "<p><b>Student Name:</b> <span class='modal-editable'>" + itemInfo.outName + "</span></p>" : "";
 			});
         }
@@ -174,23 +175,32 @@
         
         <div id="container">
             
-            <div id="leftWrapper">            
-                <div id="topRibbon">                   
+            <div id="leftWrapper">
+			
+                <div id="topRibbon">
+				
                     <div id="button-div">
+					
                         <form>
+						
                             <button type="button">Submit</button>
                         </form>
                     </div>
                     
                     <div id="scannedText-div">
+					
                         <div class="individual">
+						
                             <form id="studentID-form" class="scannedText-form">
+							
                                 <label class="scannedText-label">Student ID</label>
                                 <input type="text" id="barcode"  class="scanned-text"/> 
                             </form>
                         </div>
                         <div class="individual">
+						
                             <form id="barcode-form" class="scannedText-form">
+							
                                 <label class="scannedText-label">Barcode</label>
                                 <input type="text" id="barcode"  class="scanned-text"/> 
                             </form>
@@ -199,55 +209,65 @@
                     
                 </div>
                 
-                <div id="searchRibbon" class="ribbon">       
-                    <a href="#" class="sortby">Name</a>
-                    <a href="#" class="sortby">Location</a>
-                    <a href="#" class="sortby">Time Remaining</a>        
-                    <form> 
-                        <div>
-                            <input class="searchBar" type="text" >
-                            <input class="submit" type="submit" value="Search">
-                        </div>
-                    </form>            
-                </div>
+				<div id="searchRibbon" class="ribbon">
+					
+					<a href="#" class="sortby">Name</a>
+					<a href="#" class="sortby">Location</a>
+					<a href="#" class="sortby">Time Remaining</a>        
+					
+					<form> 
+						
+						<div>
+                        
+							<input class="searchBar" type="text" >
+							<input class="submit" type="submit" value="Search">
+						</div>
+					</form>            
+				</div>
                 
                 <div class="gradient-border"></div>
                 
                 <div id="inUse-wrapper">
-                                            
-                    <div class="fade modal" id="myModal" role="dialog">
-                        <div class="modal-dialog modal-lg">
-                          <!-- Modal content-->
+				
+					<div class="fade modal" id="myModal" role="dialog">
+                    
+						<div class="modal-dialog modal-lg">
+                        
+							<!-- Modal content-->
                             <div class="modal-content">
-                            <div class="modal-header"></div>
-                            <div class="modal-body">
-                                <p><b>Student Name:</b> <span class="modal-editable">John</span></p>
-                                <p><b>Employee Name:</b> <span class="modal-editable"> Paul </span></p>
-                                <p><b>Location:</b> 
-                                    <select id="select-location">
-                                        <option value="student-center">Student Center</option>
-                                        <option value="memorial">Memorial</option>
-                                    </select>
-                                </p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="RemoveItem('someName', '123')">Remove</button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
+
+								<div class="modal-header"></div>
+								<div class="modal-body">
+								
+									<p><b>Student Name:</b> <span class="modal-editable">John</span></p>
+									<p><b>Employee Name:</b> <span class="modal-editable"> Paul </span></p>
+								</div>
+								<div class="modal-footer">
+								
+									<button type="button" class="btn btn-danger removeItem" data-dismiss="modal">Remove</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Save</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
                     </div> 
                     
                     <div class="fade modal" id="addNew" role="dialog">
-                            <div class="modal-dialog modal-lg">
-                              <!-- Modal content-->
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+						
+						<div class="modal-dialog modal-lg">
+							
+							<!-- Modal content-->
+							<div class="modal-content">
+								
+								<div class="modal-header">
+                                
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
                                     <h4 class="modal-title">Add Information</h4>
                                 </div>
-                                <div class="modal-body">
-                                    <p><button type="button" class="btn btn-default" onclick="AddItem('someItem')">Add</button><b>Employee Name:</b> <span><input class="add"></span></p>
+								
+								<div class="modal-body">
+                                
+									<p><button type="button" class="btn btn-default" onclick="AddItem('someItem')">Add</button><b>Employee Name:</b> <span><input class="add"></span></p>
                                     <hr>
                                     <p><button type="button" class="btn btn-default" data-dismiss="modal">Add</button><b>Item Name:</b> <span><input class="add"></span></p>
                                     <hr>
@@ -258,87 +278,99 @@
                                     <p><button type="button" class="btn btn-default" data-dismiss="modal">Add</button><b>Waiver:</b> <span><input class="add"></span></p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+                                 
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
                                 </div>
-                              </div>
                             </div>
-                        </div> 
+                        </div>
+                    </div> 
 
                     <div class="control-bar sandbox-control-bar align-left" style="overflow: visible;">
                         
                         <div class="group">
-                            <label>Filter:</label>
+						
+							<label>Filter:</label>
                             
-                            <div class="btn-group" >
-                              <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton "> Item <span class="caret"></span></button>
-                              <ul class="dropdown-menu car">
-                                <li>
-                                  <input type="checkbox" id="comp" name=".category-1" value="1">
-                                  <label for="comp">Computer</label>
-                                </li>
-                                <li>
-                                  <input type="checkbox" id="car" name="temp" value="1">
-                                  <label for="car">Car</label>
-                                </li>
-                                <li>
-                                  <input type="checkbox" id="bike" name=".category-3" value="2">
-                                  <label for="bike">Bike</label>
-                                </li>
-                                <li>
-                                  <input type="checkbox" id="ping_pong" name="ex2" value="3">
-                                  <label for="ping_pong">Ping pong</label>
-                                </li>
-                                <li>
-                                  <input type="checkbox" id="donkey" name="ex2" value="4">
-                                  <label for="donkey">Donkey</label>
-                                </li>
-                              </ul>
+							<div class="btn-group">
+								
+								<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton "> Item <span class="caret"></span></button>
+								<ul class="dropdown-menu car">
+									<li>
+									  
+										<input type="checkbox" id="comp" name=".category-1" value="1">
+										<label for="comp">Computer</label>
+									</li>
+									<li>
+										
+										<input type="checkbox" id="car" name="temp" value="1">
+										<label for="car">Car</label>
+									</li>
+									<li>
+										
+										<input type="checkbox" id="bike" name=".category-3" value="2">
+										<label for="bike">Bike</label>
+									</li>
+									<li>
+										
+										<input type="checkbox" id="ping_pong" name="ex2" value="3">
+										<label for="ping_pong">Ping pong</label>
+									</li>
+									<li>
+										
+										<input type="checkbox" id="donkey" name="ex2" value="4">
+										<label for="donkey">Donkey</label>
+									</li>
+								</ul>
+                            </div>
+
+							<div class="btn-group">
+								
+								<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton"> Category <span class="caret"></span></button>
+								<ul class="dropdown-menu other">
+									
+									<li>
+									
+										<input type="checkbox" id="group1" name=".category-2" value="1">
+										<label for="group1">Group 1</label>
+									</li>
+									<li>
+									
+										<input type="checkbox" id="group2" name="ex2" value="1">
+										<label for="group2">Group 2</label>
+									</li>
+								</ul>
                             </div>
 
                             <div class="btn-group">
-                              <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton"> Category <span class="caret"></span></button>
-                              <ul class="dropdown-menu other">
-                                <li>
-                                  <input type="checkbox" id="group1" name=".category-2" value="1">
-                                  <label for="group1">Group 1</label>
-                                </li>
-                                <li>
-                                  <input type="checkbox" id="group2" name="ex2" value="1">
-                                  <label for="group2">Group 2</label>
-                                </li>
-                              </ul>
+								
+								<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton"> Condition <span class="caret"></span></button>
+								<ul class="dropdown-menu">
+									
+									<li>
+										
+										<input type="checkbox" id="ex2_1" name="ex2" value="1">
+										<label for="ex2_1">Good</label>
+									</li>
+									<li>
+									
+										<input type="checkbox" id="ex2_2" name="ex2" value="2">
+										<label for="ex2_2">Damaged</label>
+									</li>
+								</ul>
                             </div>
-
-                            <div class="btn-group">
-                              <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton"> Condition <span class="caret"></span></button>
-                              <ul class="dropdown-menu">
-                                <li>
-                                  <input type="checkbox" id="ex2_1" name="ex2" value="1">
-                                  <label for="ex2_1">Good</label>
-                                </li>
-                                <li>
-                                  <input type="checkbox" id="ex2_2" name="ex2" value="2">
-                                  <label for="ex2_2">Damaged</label>
-                                </li>
-                              </ul>
-                            </div>
-
                         </div>
 
-                        <div class="group">
-                            <label>Sort:</label>
+                        <div class = "group">
+                            
+							<label>Sort:</label>
                             <span class="btn sort" data-sort="random">Random</span>
                             <span class="btn sort" data-sort="value:asc">Ascending</span>
                             <span class="btn sort" data-sort="value:desc">Descending</span>
-                            <!--<span class="btn sort" data-sort="name:asc">Name: Ascending</span>
-                            <span class="btn sort" data-sort="name:desc">Name: Descending</span>
-                            -->
                         </div>
 
                         <span id="ToggleLayout" class="btn toggle-layout">&nbsp;<i></i></span>
                         <span id="ToggleConfig" class="btn toggle-config">&nbsp;</span>
                         <span class="btn filter" data-filter=".category-1">Blue</span>
-
                     </div>
                     
                     <button type="button" id="plus "class="btn btn-info btn-lg" data-toggle="modal" data-target="#addNew"> + </button>
@@ -440,21 +472,25 @@
                     </div>
                 </div>
             </div>
-            
+            <!--overdue section-->
             <div id = "rightTab" style = "display: none;">
-                <span class = "glyphicon glyphicon-chevron-left"></span>
+                
+				<span class = "glyphicon glyphicon-chevron-left"></span>
             </div>
             
-            <div id="rightWrapper">
-                <div id="overdue">
-                    <h1>Overdue</h1>
+            <div id = "rightWrapper">
+			
+				<div id = "overdue">
+                    
+					<h1>Overdue</h1>
                 </div>
             </div>
         </div>      
     </body>
     <script>
-        $(".sortby").click(function () {
-            $(this).toggleClass("clicked");
+        $(".sortby").click(function(){
+			
+			$(this).toggleClass("clicked");
         });
 		
         $.fn.extend({
