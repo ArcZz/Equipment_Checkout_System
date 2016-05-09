@@ -16,19 +16,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 
 ?>
 
-<html xmlns="https://www.w3.org/1999/xhtml">
 <head>
-	<?php
-//
-//		$username = empty($_SESSION["user"]) ? '' : $_SESSION["user"];
-//
-//		// If the user is logged in, redirect them home
-//		if ($username) {
-//			header("Location: login.php");
-//			exit;
-//		}
-
-	?>
 <html xmlns="https://www.w3.org/1999/xhtml">
 <head>
 
@@ -236,39 +224,13 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 
     <body>
 
-
-			<!-- <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Help</a></li>
-          </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>
-        </div>
-      </div>
-    </nav> -->
-
-
 			<nav class="navbar navbar-inverse title" >
 				<div class="container-fluid">
 					<form class="navbar-right">
 						<ul class="nav navbar-nav" id="navbar_top">
-						<li><a style="color:rgba(241,184,45,.7);" href="#">welcome employee</a></li>
-						<li><a style="color:white" href="login.php"><b>Log out</b></a> </li>
+						<li><a style="color:rgba(241,184,45,.7);" href="#">welcome <?php echo $username;?></a></li>
+            <li><a style="color:rgba(241,184,45,.7);" href="#"><?php if($_SESSION["permissions"]<2){ echo "Admin Model";} else{echo "Employee Model";};?></a></li>
+        		<li><a style="color:white" href="login.php"><b>Log out</b></a> </li>
 						</ul>
 					</form>
 				</div>
