@@ -58,13 +58,11 @@ input:focus{
     
 	width: auto;
     overflow: hidden;
-    height: 1200px;
 }
 
 #rightWrapper{
 	
     border-left: 2px solid black;
-    height: 1200px;
     width: 280px;
     text-align: center;
 	background-color: gold;
