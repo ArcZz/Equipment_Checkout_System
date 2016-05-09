@@ -74,6 +74,10 @@
 					$("#item").css("background-color", "gold");
 				}else{
 					
+					var date = new Date();
+					date.setHours(date.getHours() + 2);
+					var timeDue = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":00";
+					
 					$.post("checkOut.php", {"student" : $("#student").val().trim(), "item" : $("#item").val().trim(), "time" : Date().substring(16, 24)}, function(data){
 						
 						console.log(data);
@@ -114,7 +118,7 @@
 					var i = 1;
 					data.forEach(function(element){
 						
-						addMixBox(1, i++, element, mixDiv)
+						addMixBox(1, i++, element, mixDiv);
 					});
 				}
             });
@@ -122,22 +126,32 @@
         
         function removeItem(itemID){
             
-			$("#itemQuickDisplayBox" + itemID).remove();
+			$.post("deleteItem.php", {"id" : currentBox}, function(data){
+				
+				console.log(data);
+				
+				if(data == "success"){
+					
+					$("#itemQuickDisplayBox" + itemID).remove();
+				}
+			});
         }
 		
         function addMixBox(category, value, itemInfo, mixDiv){
         
             var box = "<div id = 'itemQuickDisplayBox" + itemInfo.id + "' class='mix category-" + category + "' data-value=" + value + " data-name=" + itemInfo.name + " style='display: inline-block;'>";
-            var button = "<button type='button' class='displayItemInfo btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>Item: " + itemInfo.name + "</button></div>";
+            var button = "<button type='button' class='displayItemInfo btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>" + itemInfo.name + "</button></div>";
 			var newBox = $.parseHTML(box + button);
 			
             mixDiv.mixItUp("prepend", newBox[0]);
 			
 			$(newBox).click(function(){
 				
+				currentBox = itemInfo.id;
+				
 				$("#myModal .modal-header").html("<button type = 'button' class = 'close' data-dismiss = 'modal'>x</button><h4 class = 'modal-title'>" + itemInfo.name + " details</h4>");
 				
-				//console.log(itemInfo);
+				console.log(itemInfo);
 				
 				var itemName = "<p><b>Item Name:</b><span id = 'change-name'>" + itemInfo.name + "</span></p>";
 				var itemLocation = "<p><b>Location:</b><select id = 'select-location'>";
@@ -166,7 +180,7 @@
 				
 				$("#myModal .modal-body").html(itemName + itemLocation + tags);
 				$("#myModal .modal-footer .removeItem").attr("onClick", "removeItem(" + itemInfo.id + ")");
-				//var loanerName = (itemInfo.outName) ? "<p><b>Student Name:</b> <span class='modal-editable'>" + itemInfo.outName + "</span></p>" : "";
+				var loanerName = (itemInfo.outName) ? "<p><b>Student Name:</b> <span class='modal-editable'>" + itemInfo.outName + "</span></p>" : "";
 			});
         }
     </script>
