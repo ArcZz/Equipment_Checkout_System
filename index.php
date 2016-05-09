@@ -234,8 +234,25 @@ session_start();
                 <div id="topRibbon">                   
                     <div id="button-div">
                         <form>
-                            <button type="button">Submit</button>
+                            <button class="submit" type="button">Submit</button>
                         </form>
+                        <div class="btn-group" >
+                            <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton time"> Time <span class="caret"></span></button>
+                            <ul class="dropdown-menu car">
+                                <li>
+                                    <input type="checkbox" id="comp" name=".category-1" value="1">
+                                    <label for="comp">1 hour</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="car" name="temp" value="1">
+                                    <label for="car">2 hours</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="car" name="temp" value="1">
+                                    <label for="car">3 hours</label>
+                                </li>
+                            </ul>      
+                        </div>
                     </div>
                     
                     <div id="scannedText-div">
@@ -254,7 +271,7 @@ session_start();
                     </div>
                     
                 </div>
-                
+                <!--
                 <div id="searchRibbon" class="ribbon">       
                     <a href="#" class="sortby">Name</a>
                     <a href="#" class="sortby">Location</a>
@@ -266,8 +283,8 @@ session_start();
                         </div>
                     </form>            
                 </div>
+                -->
                 
-                <div class="gradient-border"></div>
                 
                 <div id="inUse-wrapper">
                                             
@@ -345,7 +362,10 @@ session_start();
                                     <h4 class="modal-title">Add Information</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <p><button id="addEmployee" type="button" class="btn btn-default">Add</button>
+                                    <p>
+                                        <span class="fill">
+                                            <button id="addEmployee" type="button" class="btn btn-default">Add</button>
+                                        </span>
                                         <b>Employee Pawprint:</b>
                                         <span>
                                             <input id="inputEmployeeUser" class="add">
@@ -354,11 +374,12 @@ session_start();
                                         <span>
                                             <input id="inputEmployeeFName" class="add">
                                         </span>
-                                        <b>Employee Last Name:</b><br>
+                                        <b>Employee Last Name:</b>
                                         <span>
                                             <input id="inputEmployeeLName" class="add">
                                         </span>
                                         <b>Employee Password:</b>
+                                        
                                         <span>
                                             <input id="inputEmployeePass" class="add">
                                         </span>
@@ -381,9 +402,9 @@ session_start();
                             </div>
                         </div> 
 
-                    <div class="control-bar sandbox-control-bar align-left" style="overflow: visible;">
+                    <div class="control-bar sandbox-control-bar" style="overflow: visible;">
                         
-                        <div class="group">
+                        <div class="group filterAlign">
                             <label>Filter:</label>
                             
                             <div class="btn-group" >
@@ -451,15 +472,12 @@ session_start();
                             <span class="btn sort" data-sort="name:desc">Name: Descending</span>
                             -->
                         </div>
-
-                        <span id="ToggleLayout" class="btn toggle-layout">&nbsp;<i></i></span>
-                        <span id="ToggleConfig" class="btn toggle-config">&nbsp;</span>
-                        <span class="btn filter" data-filter=".category-1">Blue</span>
+                        
+                        <button type="button" id="plus "class="btn btn-info" data-toggle="modal" data-target="#addNew"> + </button>
 
                     </div>
                     
-                    <button type="button" id="plus "class="btn btn-info btn-lg" data-toggle="modal" data-target="#addNew"> + </button>
-
+                    <div class="gradient-border"></div>
 
                     <div id="SandBox" class="sandbox" style = "overflow: ">
                         
