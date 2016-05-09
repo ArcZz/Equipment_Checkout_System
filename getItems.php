@@ -10,6 +10,7 @@
 		public $name = '';
 		public $id = -1;
 		public $location = "";
+		public $tags = array();
 		//checked out fields
 		public $outName = "";
 	}
@@ -38,7 +39,7 @@
 					
 					if($stmtLocation = mysqli_prepare($link, "SELECT name FROM location WHERE id = ?") or die ("prepare error" . mysqli_error($link))){
 						
-						mysqli_stmt_bind_param($stmtLocation, "i", $locationId) or die ("bind param" . mysqli_stmt_error($stmtLocation));
+						mysqli_stmt_bind_param($stmtLocation, "s", $locationId) or die ("bind param" . mysqli_stmt_error($stmtLocation));
 						
 						if(mysqli_stmt_execute($stmtLocation) or die ("not executed")){
 							
@@ -57,6 +58,54 @@
 					
 					mysqli_stmt_close($stmtLocation);
 					
+					if($stmtTag = mysqli_prepare($link, "SELECT item_category_id FROM item_has_category WHERE item_id = ?") or die ("prepare error" . mysqli_error($link))){
+										
+						mysqli_stmt_bind_param($stmtTag, "i", $id) or die ("bind param" . mysqli_stmt_error($stmtTag));
+						
+						if(mysqli_stmt_execute($stmtTag) or die ("not executed")){
+							
+							mysqli_stmt_store_result($stmtTag) or die (mysqli_stmt_error($stmtTag));
+							
+							$tagList = array();
+							
+							if(mysqli_stmt_num_rows($stmtTag) != 0){
+								
+								mysqli_stmt_bind_result($stmtTag, $tagId) or die (mysqli_stmt_error($stmtTag));
+								
+								while(mysqli_stmt_fetch($stmtTag)){
+								
+									$tagList[] = $tagId;
+								}
+							}
+						}
+					}
+					
+					mysqli_stmt_close($stmtTag);
+					
+					for($i = 0; $i < count($tagList); $i++){
+						
+						if($stmtTag = mysqli_prepare($link, "SELECT name FROM item_category WHERE id = ?") or die ("prepare error" . mysqli_error($link))){
+										
+							mysqli_stmt_bind_param($stmtTag, "i", $tagList[$i]) or die ("bind param" . mysqli_stmt_error($stmtTag));
+							
+							if(mysqli_stmt_execute($stmtTag) or die ("not executed")){
+								
+								mysqli_stmt_store_result($stmtTag) or die (mysqli_stmt_error($stmtTag));
+								
+								if(mysqli_stmt_num_rows($stmtTag) != 0){
+									
+									mysqli_stmt_bind_result($stmtTag, $tagName) or die (mysqli_stmt_error($stmtTag));
+									
+									while(mysqli_stmt_fetch($stmtTag)){
+									
+										$tagList[$i] = $tagName;
+									}
+								}
+							}
+						}
+					}
+					
+					$new->tags = $tagList;
 					$itemList[] = $new;
 				}
 			}

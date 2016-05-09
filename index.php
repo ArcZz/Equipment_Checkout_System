@@ -136,8 +136,36 @@
 				
 				$("#myModal .modal-header").html("<button type = 'button' class = 'close' data-dismiss = 'modal'>x</button><h4 class = 'modal-title'>" + itemInfo.name + " details</h4>");
 				
-				console.log(itemInfo);
-				var loanerName = (itemInfo.outName) ? "<p><b>Student Name:</b> <span class='modal-editable'>" + itemInfo.outName + "</span></p>" : "";
+				//console.log(itemInfo);
+				
+				var itemName = "<p><b>Item Name:</b><span id = 'change-name'>" + itemInfo.name + "</span></p>";
+				var itemLocation = "<p><b>Location:</b><select id = 'select-location'>";
+				
+				$.get("getLocations.php", function(data){
+					
+					data = JSON.parse(data);
+					data.forEach(function(element){
+						
+						$("#myModal .modal-body p #select-location").append("<option value = '" + element + "'>" + element + "</option>");
+					});
+					
+					$("#myModal .modal-body p #select-location").val(itemInfo.location);
+				});
+				
+				itemLocation += "</select>";
+				var tags = "<p><b>Tags:</b>";
+				
+				itemInfo.tags.forEach(function(tag){
+					
+					tags += "<span>" + tag + ", </span>";
+				});
+				
+				tags = tags.substring(0, tags.length - 9);
+				tags += "</span></p>";
+				
+				$("#myModal .modal-body").html(itemName + itemLocation + tags);;
+				
+				//var loanerName = (itemInfo.outName) ? "<p><b>Student Name:</b> <span class='modal-editable'>" + itemInfo.outName + "</span></p>" : "";
 			});
         }
     </script>
@@ -195,21 +223,7 @@
                             <div class="modal-body">
                                 <p><b>Student Name:</b> <span class="modal-editable">John</span></p>
                                 <p><b>Employee Name:</b> <span class="modal-editable"> Paul </span></p>
-                                <p><b>Item Name:</b> 
-                                    <span id="change-name"> Computer </span>
-                                    <select id="select-name">
-                                        <option value="computer">Computer</option>
-                                        <option value="car">Car</option>
-                                        <option value="bike">Bike</option>
-                                        <option value="charger">Charger</option>
-                                    </select>
-                                </p>
-                                <p><b>Tags:</b> 
-                                    <span id="change-category"> Category 1 </span>
-                                    <!--add tags or something-->
-                                </p>
                                 <p><b>Location:</b> 
-                                    <span id="change-location"> Student Center </span>
                                     <select id="select-location">
                                         <option value="student-center">Student Center</option>
                                         <option value="memorial">Memorial</option>
@@ -483,56 +497,5 @@
             
 			console.log('text changed to ' + val);
         });
-
-        $("#select-name").change(function(){
-            
-			if($(this).val() == "computer") { 
-                
-				$("#change-name").html("Computer"); 
-            }if($(this).val() == "car"){
-                
-				$("#change-name").html("Car"); 
-            }if($(this).val() == "bike"){
-                
-				$("#change-name").html("Bike"); 
-            }if($(this).val() == "charger"){
-                
-				$("#change-name").html("Charger"); 
-            }
-        });
-        
-        $("#select-category").change(function(){
-            
-			if ($(this).val() == "category1") { 
-                
-				$("#change-category").html("Category1"); 
-            } if ($(this).val() == "category2"){
-                
-				$("#change-category").html("Category2"); 
-            }
-        });
-        
-        $("#select-location").change(function(){
-			
-            if ($(this).val() == "student-center"){ 
-                
-				$("#change-location").html("Student Center"); 
-            }if($(this).value == "memorial"){
-                
-				$("#change-location").html("Memorial"); 
-            }
-        });
-        
-        $("#select-waiver").change(function(){
-            
-			if ($(this).val() == "true"){ 
-                
-				$("#change-waiver").html("True"); 
-            } if ($(this).val() == "false"){
-                
-				$("#change-waiver").html("False"); 
-            }
-        });
-        
     </script>
 </html>
