@@ -80,7 +80,6 @@ input:focus{
 }
 
 #topRibbon{
-    margin-top: 20px;
     align-items: stretch;
     border-bottom: 1px solid #DDD;
     border-top: 1px solid #DDD;

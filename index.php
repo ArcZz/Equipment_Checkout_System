@@ -8,6 +8,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 
 // If the cookie isn't there, send them back to the login
  if (!$username) {
+
 	header("Location: login.php");
 	exit;
  }
@@ -49,16 +50,19 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 //               });
 //             });
 
-            $('.car input:checkbox, .other input:checkbox').change(function() {
-                if($(this).is(":checked")) {
+            $('.car input:checkbox, .other input:checkbox').change(function(){
+
+                if($(this).is(":checked")){
+
                     selected.push($(this).attr('name'));
 
                     var tempName = GetTempName();
                     $('#SandBox').mixItUp('filter', tempName);
-                } else
-                {
+                }else{
+
                     var index = selected.indexOf($(this).attr('name'));
                     if (index > -1) {
+
                         selected.splice(index, 1);
                     }
                     var tempName = GetTempName();
@@ -279,13 +283,17 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 
     <body>
 
-			<nav class="navbar navbar-inverse title" >
+			<nav class="navbar navbar-inverse title">
+
 				<div class="container-fluid">
+
 					<form class="navbar-right">
+
 						<ul class="nav navbar-nav" id="navbar_top">
-						<li><a style="color:rgba(241,184,45,.7);" href="#">welcome <?php echo $username;?></a></li>
-            <li><a style="color:rgba(241,184,45,.7);" href="#"><?php if($_SESSION["permissions"]<2){ echo "Admin Model";} else{echo "Employee Model";};?></a></li>
-        		<li><a style="color:white" href="login.php"><b>Log out</b></a> </li>
+
+						    <li><a style="color:rgba(241,184,45,.7);" href="#">welcome <?php echo $username;?></a></li>
+                            <li><a style="color:rgba(241,184,45,.7);" href="#"><?php if($_SESSION["permissions"]<2){ echo "Admin Model";} else{echo "Employee Model";};?></a></li>
+        		            <li><a style="color:white" href="login.php"><b>Log out</b></a> </li>
 						</ul>
 					</form>
 				</div>
@@ -300,11 +308,16 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                     <div id="button-div">
 					
                         <form>
+          
                             <button class = "submit" id="check" type="button">Submit</button>
                         </form>
+          
                         <div class="btn-group" >
+          
                             <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton time"> Time <span class="caret"></span></button>
+          
                             <ul class="dropdown-menu car">
+          
                                 <li>
                                     <input type="checkbox" id="comp" name=".category-1" value="1">
                                     <label for="comp">1 hour</label>
@@ -354,12 +367,14 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                             <div class="modal-content">
 
 								<div class="modal-header"></div>
-								<div class="modal-body">
+								
+                                <div class="modal-body">
 								
 									<p><b>Student Name:</b> <span class="modal-editable">John</span></p>
 									<p><b>Employee Name:</b> <span class="modal-editable"> Paul </span></p>
 								</div>
-								<div class="modal-footer">
+								
+                                <div class="modal-footer">
 								
 									<button type="button" class="btn btn-danger removeItem" data-dismiss="modal">Remove</button>
 									<button type="button" class="btn btn-default" data-dismiss="modal">Save</button>
@@ -381,39 +396,62 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 									<button type="button" class="close" data-dismiss="modal">&times;</button>
                                     <h4 class="modal-title">Add Information</h4>
                                 </div>
+                                
                                 <div class="modal-body">
+                                    
                                     <p>
+                                        
                                         <span class="fill">
+                                            
                                             <button id="addEmployee" type="button" class="btn btn-default">Add</button>
                                         </span>
                                         <b>Employee Pawprint:</b>
                                         <span>
+                                            
                                             <input id="inputEmployeeUser" class="add">
                                         </span>
                                         <b>Employee First Name:</b>
                                         <span>
+                                            
                                             <input id="inputEmployeeFName" class="add">
                                         </span>
                                         <b>Employee Last Name:</b>
                                         <span>
+                                            
                                             <input id="inputEmployeeLName" class="add">
                                         </span>
                                         <b>Employee Password:</b>
                                         
                                         <span>
+                                            
                                             <input id="inputEmployeePass" class="add">
                                         </span>
                                     </p>
 
                                     <hr>
-                                    <p><button id="addItem" type="button" class="btn btn-default" >Add</button><b>Item Name:</b> <span><input id="inputItem" class="add"></span></p>
+                                    <p>
+                                        <button id="addItem" type="button" class="btn btn-default" >Add</button>
+                                        <b>Item Name:</b>
+                                        <span><input id="inputItem" class="add"></span>
+                                    </p>
                                     <hr>
-                                    <p><button id="addCategory" type="button" class="btn btn-default" >Add</button><b>Item Category:</b> <span><input id="inputCategory" class="add"></span></p>
+                                    <p>
+                                        <button id="addCategory" type="button" class="btn btn-default" >Add</button>
+                                        <b>Item Category:</b>
+                                        <span><input id="inputCategory" class="add"></span>
+                                    </p>
                                     <hr>
-                                    <p><button id="addLocation" type="button" class="btn btn-default"  name="testme">Add</button><b>Location:</b> <span><input id="inputLocation" class="add"></span></p>
-
+                                    <p>
+                                        <button id="addLocation" type="button" class="btn btn-default" name="testme">Add</button>
+                                        <b>Location:</b>
+                                        <span><input id="inputLocation" class="add"></span>
+                                    </p>
                                     <hr>
-                                    <p><button id="addWaiver" type="button" class="btn btn-default" >Add</button><b>Waiver:</b> <span><input id="inputWaiver" class="add"></span></p>
+                                    <p>
+                                        <button id="addWaiver" type="button" class="btn btn-default" >Add</button>
+                                        <b>Waiver:</b>
+                                        <span><input id="inputWaiver" class="add"></span>
+                                    </p>
                                 </div>
                                 <div class="modal-footer">
                                  
@@ -512,100 +550,11 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                     
                     <div class="gradient-border"></div>
 
-                    <div id="SandBox" class="sandbox" style = "overflow: ">
+                    <div id="SandBox" class="sandbox">
 
                         <div class="gap"></div>
                         <div class="gap"></div>
-                        <form class="live-config" id="LiveConfig">
-                            <div class="field effect no-checkbox active" data-effect="duration">
-                                <label>Duration</label>
-                                <div class="slider long" data-min="0" data-max="1000" data-unit="ms">
-                                    <div class="scrubber" data-value="400ms" style="left: 40%;"></div>
-                                </div>
-                            </div>
-                            <div class="field effect checkbox active" data-effect="fade">
-                                <input type="checkbox" checked="">
-                                <label>Fade</label>
-                            </div>
-                            <div class="field effect checkbox" data-effect="scale">
-                                <input type="checkbox">
-                                <label>Scale</label>
-                                <div class="slider" data-min="0.01" data-max="2" data-unit="">
-                                    <div class="scrubber" data-value="0.01" style="left: 0%;"></div>
-                                </div>
-                            </div>
-                            <div class="field effect checkbox" data-effect="translateX">
-                                <input type="checkbox">
-                                <label>TranslateX</label>
-                                <div class="slider" data-min="-100" data-max="100" data-unit="%">
-                                    <div class="scrubber" data-value="10%" style="left: 55%;"></div>
-                                </div>
-                            </div>
-                            <div class="field effect checkbox" data-effect="translateY">
-                                <input type="checkbox">
-                                <label>TranslateY</label>
-                                <div class="slider" data-min="-100" data-max="100" data-unit="%">
-                                    <div class="scrubber" data-value="10%" style="left: 55%;"></div>
-                                </div>
-                            </div>
-                            <div class="field effect checkbox active" data-effect="translateZ">
-                                <input type="checkbox" checked="">
-                                <label>TranslateZ</label>
-                                <div class="slider" data-min="-1000" data-max="1000" data-unit="px">
-                                    <div class="scrubber" data-value="-360px" style="left: 32%;"></div>
-                                </div>
-                            </div>
-                            <div class="field effect checkbox" data-effect="rotateX">
-                                <input type="checkbox">
-                                <label>RotateX</label>
-                                <div class="slider" data-min="-180" data-max="180" data-unit="deg">
-                                    <div class="scrubber" data-value="20deg" style="left: 55.5556%;"></div>
-                                </div>
-                            </div>
-                            <div class="field effect checkbox" data-effect="rotateY">
-                                <input type="checkbox">
-                                <label>RotateY</label>
-                                <div class="slider" data-min="-180" data-max="180" data-unit="deg">
-                                    <div class="scrubber" data-value="20deg" style="left: 55.5556%;"></div>
-                                </div>
-                            </div>
-                            <div class="field effect checkbox" data-effect="rotateZ">
-                                <input type="checkbox">
-                                <label>RotateZ</label>
-                                <div class="slider" data-min="-180" data-max="180" data-unit="deg">
-                                    <div class="scrubber" data-value="20deg" style="left: 55.5556%;"></div>
-                                </div>
-                            </div>
-                            <div class="field effect checkbox active" data-effect="stagger">
-                                <input type="checkbox" checked="">
-                                <label>Stagger</label>
-                                <div class="slider" data-min="0" data-max="200" data-unit="ms">
-                                    <div class="scrubber" data-value="34ms" style="left: 17%;"></div>
-                                </div>
-                            </div>
-                            <div class="spacer"></div>
-                            <div class="field">
-                                <div class="dropdown scrollable"><span class="old"><select id="Easing" class="" data-settings="{&quot;cutOff&quot;:4}" onchange="site.sandBox.liveEasing(this.value)">
-                                    <option value="ease">ease</option>
-                                    <option value="cubic-bezier(0.47, 0, 0.745, 0.715)">easeInSine</option>
-                                    <option value="cubic-bezier(0.39, 0.575, 0.565, 1)">easeOutSine</option>
-                                    <option value="cubic-bezier(0.445, 0.05, 0.55, 0.95)">easeInOutSine</option>
-                                    <option value="cubic-bezier(0.55, 0.085, 0.68, 0.53)">easeInQuad</option>
-                                    <option value="cubic-bezier(0.25, 0.46, 0.45, 0.94)">easeOutQuad</option>
-                                    <option value="cubic-bezier(0.455, 0.03, 0.515, 0.955)">easeInOutQuad</option>
-                                    <option value="cubic-bezier(0.55, 0.055, 0.675, 0.19)">easeInCubic</option>
-                                    <option value="cubic-bezier(0.215, 0.61, 0.355, 1)">easeOutCubic</option>
-                                    <option value="cubic-bezier(0.645, 0.045, 0.355, 1)">easeInOutCubic</option>
-                                    <option value="cubic-bezier(0.6, -0.28, 0.735, 0.045)">easeInBack</option>
-                                    <option value="cubic-bezier(0.175, 0.885, 0.32, 1.275)">easeOutBack</option>
-                                    <option value="cubic-bezier(0.68, -0.55, 0.265, 1.55)">easeInOutBack</option>
-                                </select></span><span class="selected">ease</span><span class="carat"></span><div><ul><li class="active">ease</li><li>easeInSine</li><li>easeOutSine</li><li>easeInOutSine</li><li>easeInQuad</li><li>easeOutQuad</li><li>easeInOutQuad</li><li>easeInCubic</li><li>easeOutCubic</li><li>easeInOutCubic</li><li>easeInBack</li><li>easeOutBack</li><li>easeInOutBack</li></ul></div></div>
-                            </div>
-
-                            <div class="spacer"></div>
-
-                            <div class="btn" id="Export">Export Configuration</div>
-                        </form>
+                        
                     </div>
                 </div>
             </div>
@@ -631,11 +580,15 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
         });
 		
         $.fn.extend({
-            editable: function () {
-                $(this).each(function () {
+
+            editable: function (){
+
+                $(this).each(function(){
+
                     var $el = $(this),
                     $edittextbox = $('<input type="text"></input>').css('min-width', $el.width()),
-                    submitChanges = function () {
+                    submitChanges = function(){
+
                         if ($edittextbox.val() !== '') {
                             $el.html($edittextbox.val());
                             $el.show();
