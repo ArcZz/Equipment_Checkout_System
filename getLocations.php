@@ -25,7 +25,7 @@
 		}
 	}
 	
-	mysqli_stmt_close ($stmt);
+	mysqli_stmt_close($stmt);
 	
 	echo json_encode($locations);
 	mysqli_close($link);

@@ -262,5 +262,8 @@ input:focus{
     width: 30%;
     padding-bottom: 5px;
 }
-#inUse-wrapper .modal-body select:focus{outline: 0;}
-#inUse-wrapper .close{
+#inUse-wrapper .modal-body select:focus{
+	
+	outline: 0;
+}
+#inUse-wrapper .close{}
