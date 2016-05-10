@@ -11,8 +11,14 @@
 		public $id = -1;
 		public $location = "";
 		public $tags = array();
-		//checked out fields
-		public $outName = "";
+		public $checkoutInfo = null;
+	}
+	
+	class checkOutInfo{
+		
+		public $studentName = "";
+		public $employeeName = "";
+		public $timeExpire = "";
 	}
 	
 	if($stmt = mysqli_prepare($link, "SELECT id, name, location FROM item") or die ("prepare error" . mysqli_error($link))){
@@ -105,6 +111,32 @@
 						}
 					}
 					
+					if($stmtCheckout = mysqli_prepare($link, "SELECT student_id, employee_id, time_expire FROM student_item_transaction WHERE item_id = ?") or die ("prepare error" . mysqli_error($link))){
+						
+						mysqli_stmt_bind_param($stmtCheckout, "s", $id) or die ("bind param" . mysqli_stmt_error($stmtCheckout));
+						
+						if(mysqli_stmt_execute($stmtCheckout) or die ("not executed")){
+							
+							mysqli_stmt_store_result($stmtCheckout) or die (mysqli_stmt_error($stmtCheckout));
+							
+							if(mysqli_stmt_num_rows($stmtCheckout) != 0){
+								
+								mysqli_stmt_bind_result($stmtCheckout, $checkStudent, $checkEmployee, $checkExpire) or die (mysqli_stmt_error($stmtCheckout));
+								
+								mysqli_stmt_fetch($stmtCheckout);
+								
+								$checkInfo = new checkOutInfo();
+								$checkInfo->studentName = $checkStudent;
+								$checkInfo->employeeName = $checkEmployee;
+								$checkInfo->timeExpire = $checkExpire;
+								
+								$new->checkoutInfo = $checkInfo;
+							}
+						}
+					}
+					
+					mysqli_stmt_close($stmtCheckout);
+					
 					$new->tags = $tagList;
 					$itemList[] = $new;
 				}
@@ -112,7 +144,7 @@
 		}
 	}
 	
-	mysqli_stmt_close ($stmt);
+	mysqli_stmt_close($stmt);
 	
 	echo json_encode($itemList);
 	mysqli_close($link);

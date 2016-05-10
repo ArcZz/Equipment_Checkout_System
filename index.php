@@ -214,7 +214,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 					var i = 1;
 					data.forEach(function(element){
 						
-						addMixBox(1, i++, element, mixDiv);
+						addMixBox(1, element, mixDiv);
 					});
 				}
             });
@@ -233,9 +233,16 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 			});
         }
 		
-        function addMixBox(category, value, itemInfo, mixDiv){
+        function addMixBox(category, itemInfo, mixDiv){
         
-            var box = "<div id = 'itemQuickDisplayBox" + itemInfo.id + "' class='mix category-" + category + "' data-value=" + value + " data-name=" + itemInfo.name + " style='display: inline-block;'>";
+			var sortFields = "data-id='" + itemInfo.id + "' data-itemName='" + itemInfo.name + "' data-location='" + itemInfo.location + "'";
+			
+			if(itemInfo.checkoutInfo){
+				
+				sortFields += "data-studentName = '" + itemInfo.checkoutInfo.studentName + "' data-overdueTime = '" + itemInfo.checkoutInfo.timeExpire + "' data-employeeName = '" + itemInfo.checkoutInfo.employeeName + "'";
+			}
+			
+            var box = "<div id = 'itemQuickDisplayBox" + itemInfo.id + "' class='mix category-" + category + "' " + sortFields + " style='display: inline-block;'>";
             var button = "<button type='button' class='displayItemInfo btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>" + itemInfo.name + "</button></div>";
 			var newBox = $.parseHTML(box + button);
 			
