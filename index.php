@@ -180,6 +180,23 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                     $("#inputWaiver").css("background-color", "gold");
                 }
             });
+
+            $("#pickFirstName").click(function(){
+                console.log("Print");
+                $("#ascendingSort").attr("data-sort", "firstName:asc");
+                $("#descendingSort").attr("data-sort", "firstName:desc");
+            });
+            $("#pickLastName").click(function(){
+                console.log("Print");
+                $("#ascendingSort").attr("data-sort", "lastName:asc");
+                $("#descendingSort").attr("data-sort", "lastName:desc");
+            });
+            $("#pickItemName").click(function(){
+                console.log("Print");
+                $("#ascendingSort").attr("data-sort", "itemName:asc");
+                $("#descendingSort").attr("data-sort", "itemName:desc");
+            });
+
         });
 
         function GetTempName(){
@@ -214,7 +231,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 					var i = 1;
 					data.forEach(function(element){
 						
-						addMixBox(1, i++, element, mixDiv);
+						addMixBox(Math.floor(Math.random() * 5) + 1  , i++, element, mixDiv);
 					});
 				}
             });
@@ -478,7 +495,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 									</li>
 									<li>
 										
-										<input type="checkbox" id="car" name="temp" value="1">
+										<input type="checkbox" id="car" name=".category-2" value="1">
 										<label for="car">Car</label>
 									</li>
 									<li>
@@ -488,12 +505,12 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 									</li>
 									<li>
 										
-										<input type="checkbox" id="ping_pong" name="ex2" value="3">
+										<input type="checkbox" id="ping_pong" name="category-4" value="3">
 										<label for="ping_pong">Ping pong</label>
 									</li>
 									<li>
 										
-										<input type="checkbox" id="donkey" name="ex2" value="4">
+										<input type="checkbox" id="donkey" name="category-5" value="4">
 										<label for="donkey">Donkey</label>
 									</li>
 								</ul>
@@ -540,8 +557,18 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                             
 							<label>Sort:</label>
                             <span class="btn sort" data-sort="random">Random</span>
-                            <span class="btn sort" data-sort="value:asc">Ascending</span>
-                            <span class="btn sort" data-sort="value:desc">Descending</span>
+
+                            <div class="btn-group">
+                              <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">Option1 <span class="caret"></span></button>
+                              <ul class="dropdown-menu">
+                                <li> <input type="radio" id="pickFirstName" name="ex1" value="1" checked=""> <label for="pickFirstName">Option1</label></li>
+                                <li><input type="radio" id="pickLastName" name="ex1" value="2"><label for="pickLastName">Option2</label></li>
+                                <li><input type="radio" id="pickItemName" name="ex1" value="3"><label for="pickItemName">Option3</label></li>
+                               </ul>
+                            </div>
+
+                            <span id="ascendingSort"class="btn sort" data-sort="firstName:asc">Ascending</span>
+                            <span id="descendingSort"class="btn sort" data-sort="firstName:desc">Descending</span>
                         </div>
 
                         <button type="button" id="plus "class="btn btn-info" data-toggle="modal" data-target="#addNew"> + </button>
