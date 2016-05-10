@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <?php
+
 session_start();
 
 // A user has to have logged in order to have this 'username' cookie
@@ -12,6 +13,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 	header("Location: login.php");
 	exit;
  }
+ 
 ?>
 
 <html xmlns="https://www.w3.org/1999/xhtml">
@@ -135,14 +137,19 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                 }
             });
             $("#addItem").click(function(){
-                if($("#inputItem").val().trim().length > 0){
-                    $.post("addItem.php", {"item" : $("#inputItem").val().trim()}, function(data){
+                if($("#inputItem").val().trim().length < 1){
+                    $("#inputItem").css("background-color", "gold");
+                }
+                else if($("#inputBarcode").val().trim().length < 1){
+
+                    $("#inputBarcode").css("background-color", "gold");
+                }
+                else{
+
+                    $.post("addItem.php", {"item" : $("#inputItem").val().trim(), "barcode" : $("#inputBarcode").val().trim(), }, function(data){
 
                         addMixBox(1, 50, data, $('#SandBox'));
                     });
-                }
-                else{
-                    $("#inputItem").css("background-color", "gold");
                 }
             });
             $("#addCategory").click(function(){
@@ -429,7 +436,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                                     
                                     <p>
                                         
-                                        <span class="fill">
+                                        <span class="employeeFill">
                                             
                                             <button id="addEmployee" type="button" class="btn btn-default">Add</button>
                                         </span>
@@ -458,9 +465,20 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 
                                     <hr>
                                     <p>
-                                        <button id="addItem" type="button" class="btn btn-default" >Add</button>
+                                        <span class="itemFill">
+                                            
+                                            <button id="addItem" type="button" class="btn btn-default">Add</button>
+                                        </span>
                                         <b>Item Name:</b>
-                                        <span><input id="inputItem" class="add"></span>
+                                        <span>
+                                            
+                                            <input id="inputItem" class="add">
+                                        </span>
+                                        <b>Barcode:</b>
+                                        <span>
+                                            
+                                            <input id="inputBarcode" class="add">
+                                        </span>
                                     </p>
                                     <hr>
                                     <p>
