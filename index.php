@@ -230,8 +230,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 					data = JSON.parse(data);
 					var i = 1;
 					data.forEach(function(element){
-						
-						addMixBox(Math.floor(Math.random() * 5) + 1  , i++, element, mixDiv);
+						addMixBox(i++, element, mixDiv);
 					});
 				}
             });
@@ -250,10 +249,29 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 			});
         }
 		
-        function addMixBox(category, value, itemInfo, mixDiv){
+        function addMixBox(itemInfo, mixDiv){
         
-            var box = "<div id = 'itemQuickDisplayBox" + itemInfo.id + "' class='mix category-" + category + "' data-value=" + value + " data-name=" + itemInfo.name + " style='display: inline-block;'>";
-            var button = "<button type='button' class='displayItemInfo btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>" + itemInfo.name + "</button></div>";
+			var sortFields = " data-itemName = '" + itemInfo.name + "' data-location='" + itemInfo.location + "'";
+			
+			if(itemInfo.checkoutInfo){
+				
+				sortFields += "data-studentName = '" + itemInfo.checkoutInfo.studentName + "' data-overdueTime = '" + itemInfo.checkoutInfo.timeExpire + "' data-employeeName = '" + itemInfo.checkoutInfo.employeeName + "'";
+			}
+			
+			var tags = "<p><b>Tags:</b>";
+			var tagsClass = " ";
+			
+			itemInfo.tags.forEach(function(tag){
+					
+				tags += "<span>" + tag + ", </span>";
+				tagsClass += "item-" + tag + " ";
+			});
+			
+			tags = tags.substring(0, tags.length - 9);
+			tags += "</span></p>";
+			
+            var box = "<div id = 'itemQuickDisplayBox" + itemInfo.id + "' class='mix" + tagsClass + "' " + sortFields + "style='display: inline-block;'>";
+            var button = "<button type='button' class='displayItemInfo btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>" + itemInfo.name + "<br>" + + "</button></div>";
 			var newBox = $.parseHTML(box + button);
 			
             mixDiv.mixItUp("prepend", newBox[0]);
@@ -281,15 +299,6 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 				});
 				
 				itemLocation += "</select>";
-				var tags = "<p><b>Tags:</b>";
-				
-				itemInfo.tags.forEach(function(tag){
-					
-					tags += "<span>" + tag + ", </span>";
-				});
-				
-				tags = tags.substring(0, tags.length - 9);
-				tags += "</span></p>";
 				
 				$("#myModal .modal-body").html(itemName + itemLocation + tags);
 				$("#myModal .modal-footer .removeItem").attr("onClick", "removeItem(" + itemInfo.id + ")");
