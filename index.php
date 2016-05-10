@@ -183,18 +183,18 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 
             $("#pickFirstName").click(function(){
                 console.log("Print");
-                $("#ascendingSort").attr("data-sort", "firstName:asc");
-                $("#descendingSort").attr("data-sort", "firstName:desc");
+                $("#ascendingSort").attr("data-sort", "studentname:asc");
+                $("#descendingSort").attr("data-sort", "studentname:desc");
             });
-            $("#pickLastName").click(function(){
-                console.log("Print");
-                $("#ascendingSort").attr("data-sort", "lastName:asc");
-                $("#descendingSort").attr("data-sort", "lastName:desc");
-            });
+            // $("#pickLastName").click(function(){
+            //     console.log("Print");
+            //     $("#ascendingSort").attr("data-sort", "lastName:asc");
+            //     $("#descendingSort").attr("data-sort", "lastName:desc");
+            // });
             $("#pickItemName").click(function(){
                 console.log("Print");
-                $("#ascendingSort").attr("data-sort", "itemName:asc");
-                $("#descendingSort").attr("data-sort", "itemName:desc");
+                $("#ascendingSort").attr("data-sort", "itemname:asc");
+                $("#descendingSort").attr("data-sort", "itemname:desc");
             });
 
         });
@@ -228,9 +228,8 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 				if(data != "Empty Set"){
 					
 					data = JSON.parse(data);
-					var i = 1;
 					data.forEach(function(element){
-						addMixBox(i++, element, mixDiv);
+						addMixBox(element, mixDiv);
 					});
 				}
             });
@@ -345,15 +344,15 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                             <ul class="dropdown-menu car">
           
                                 <li>
-                                    <input type="checkbox" id="comp" name=".category-1" value="1">
+                                    <input type="checkbox" id="oneHour" name=".category-1" value="1">
                                     <label for="comp">1 hour</label>
                                 </li>
                                 <li>
-                                    <input type="checkbox" id="car" name="temp" value="1">
+                                    <input type="checkbox" id="twoHours" name="temp" value="1">
                                     <label for="car">2 hours</label>
                                 </li>
                                 <li>
-                                    <input type="checkbox" id="car" name="temp" value="1">
+                                    <input type="checkbox" id="threeHours" name="temp" value="1">
                                     <label for="car">3 hours</label>
                                 </li>
                             </ul>      
@@ -499,28 +498,28 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 								<ul class="dropdown-menu car">
 									<li>
 									  
-										<input type="checkbox" id="comp" name=".category-1" value="1">
-										<label for="comp">Computer</label>
+										<input type="checkbox" id="comp" name=".item-laptop" value="1">
+										<label for="comp">Laptop</label>
 									</li>
 									<li>
 										
-										<input type="checkbox" id="car" name=".category-2" value="1">
-										<label for="car">Car</label>
+										<input type="checkbox" id="car" name=".item-mac" value="2">
+										<label for="car">Mac</label>
 									</li>
 									<li>
 										
-										<input type="checkbox" id="bike" name=".category-3" value="2">
-										<label for="bike">Bike</label>
+										<input type="checkbox" id="bike" name=".item-PC" value="3">
+										<label for="bike">PC</label>
 									</li>
 									<li>
 										
-										<input type="checkbox" id="ping_pong" name="category-4" value="3">
-										<label for="ping_pong">Ping pong</label>
+										<input type="checkbox" id="ping_pong" name=".item-charger" value="4">
+										<label for="ping_pong">Charger</label>
 									</li>
 									<li>
 										
-										<input type="checkbox" id="donkey" name="category-5" value="4">
-										<label for="donkey">Donkey</label>
+										<input type="checkbox" id="donkey" name=".item-bike" value="5">
+										<label for="donkey">Bike</label>
 									</li>
 								</ul>
                             </div>
@@ -570,14 +569,14 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                             <div class="btn-group">
                               <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">Option1 <span class="caret"></span></button>
                               <ul class="dropdown-menu">
-                                <li> <input type="radio" id="pickFirstName" name="ex1" value="1" checked=""> <label for="pickFirstName">Option1</label></li>
+                                <li> <input type="radio" id="pickFirstName" name="ex1" value="1" checked=""> <label for="pickFirstName">Name</label></li>
                                 <li><input type="radio" id="pickLastName" name="ex1" value="2"><label for="pickLastName">Option2</label></li>
-                                <li><input type="radio" id="pickItemName" name="ex1" value="3"><label for="pickItemName">Option3</label></li>
+                                <li><input type="radio" id="pickItemName" name="ex1" value="3"><label for="pickItemName">Item Name</label></li>
                                </ul>
                             </div>
 
-                            <span id="ascendingSort"class="btn sort" data-sort="firstName:asc">Ascending</span>
-                            <span id="descendingSort"class="btn sort" data-sort="firstName:desc">Descending</span>
+                            <span id="ascendingSort"class="btn sort" data-sort="firstname:asc">Ascending</span>
+                            <span id="descendingSort"class="btn sort" data-sort="firstname:desc">Descending</span>
                         </div>
 
                         <button type="button" id="plus "class="btn btn-info" data-toggle="modal" data-target="#addNew"> + </button>
