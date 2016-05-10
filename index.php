@@ -235,15 +235,27 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 		
         function addMixBox(category, itemInfo, mixDiv){
         
-			var sortFields = "data-id='" + itemInfo.id + "' data-itemName='" + itemInfo.name + "' data-location='" + itemInfo.location + "'";
+			var sortFields = " data-itemName = '" + itemInfo.name + "' data-location='" + itemInfo.location + "'";
 			
 			if(itemInfo.checkoutInfo){
 				
 				sortFields += "data-studentName = '" + itemInfo.checkoutInfo.studentName + "' data-overdueTime = '" + itemInfo.checkoutInfo.timeExpire + "' data-employeeName = '" + itemInfo.checkoutInfo.employeeName + "'";
 			}
 			
-            var box = "<div id = 'itemQuickDisplayBox" + itemInfo.id + "' class='mix category-" + category + "' " + sortFields + " style='display: inline-block;'>";
-            var button = "<button type='button' class='displayItemInfo btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>" + itemInfo.name + "</button></div>";
+			var tags = "<p><b>Tags:</b>";
+			var tagsClass = " ";
+			
+			itemInfo.tags.forEach(function(tag){
+					
+				tags += "<span>" + tag + ", </span>";
+				tagsClass += "item-" + tag + " ";
+			});
+			
+			tags = tags.substring(0, tags.length - 9);
+			tags += "</span></p>";
+			
+            var box = "<div id = 'itemQuickDisplayBox" + itemInfo.id + "' class='mix" + tagsClass + "' " + sortFields + "style='display: inline-block;'>";
+            var button = "<button type='button' class='displayItemInfo btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>" + itemInfo.name + "<br>" + + "</button></div>";
 			var newBox = $.parseHTML(box + button);
 			
             mixDiv.mixItUp("prepend", newBox[0]);
@@ -271,15 +283,6 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 				});
 				
 				itemLocation += "</select>";
-				var tags = "<p><b>Tags:</b>";
-				
-				itemInfo.tags.forEach(function(tag){
-					
-					tags += "<span>" + tag + ", </span>";
-				});
-				
-				tags = tags.substring(0, tags.length - 9);
-				tags += "</span></p>";
 				
 				$("#myModal .modal-body").html(itemName + itemLocation + tags);
 				$("#myModal .modal-footer .removeItem").attr("onClick", "removeItem(" + itemInfo.id + ")");

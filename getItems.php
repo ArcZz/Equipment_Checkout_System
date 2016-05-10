@@ -127,7 +127,51 @@
 								
 								$checkInfo = new checkOutInfo();
 								$checkInfo->studentName = $checkStudent;
+								
+								if($stmtStudentName = mysqli_prepare($link, "SELECT name_first, name_last FROM student WHERE id = ?") or die ("prepare error" . mysqli_error($link))){
+						
+									mysqli_stmt_bind_param($stmtStudentName, "i", $checkStudent) or die ("bind param" . mysqli_stmt_error($stmtStudentName));
+									
+									if(mysqli_stmt_execute($stmtStudentName) or die ("not executed")){
+										
+										mysqli_stmt_store_result($stmtStudentName) or die (mysqli_stmt_error($stmtStudentName));
+										
+										if(mysqli_stmt_num_rows($stmtStudentName) != 0){
+											
+											mysqli_stmt_bind_result($stmtStudentName, $fName, $lName) or die (mysqli_stmt_error($stmtStudentName));
+											
+											mysqli_stmt_fetch($stmtStudentName);
+											
+											$checkInfo->studentName = $fName . " " . $lName;
+										}
+									}
+								}
+								
+								mysqli_stmt_close($stmtStudentName);
+								
 								$checkInfo->employeeName = $checkEmployee;
+								
+								if($stmtEmployeeName = mysqli_prepare($link, "SELECT name_first, name_last FROM employee WHERE id = ?") or die ("prepare error" . mysqli_error($link))){
+						
+									mysqli_stmt_bind_param($stmtEmployeeName, "i", $checkEmployee) or die ("bind param" . mysqli_stmt_error($stmtEmployeeName));
+									
+									if(mysqli_stmt_execute($stmtEmployeeName) or die ("not executed")){
+										
+										mysqli_stmt_store_result($stmtEmployeeName) or die (mysqli_stmt_error($stmtEmployeeName));
+										
+										if(mysqli_stmt_num_rows($stmtEmployeeName) != 0){
+											
+											mysqli_stmt_bind_result($stmtEmployeeName, $fName, $lName) or die (mysqli_stmt_error($stmtEmployeeName));
+											
+											mysqli_stmt_fetch($stmtEmployeeName);
+											
+											$checkInfo->employeeName = $fName . " " . $lName;
+										}
+									}
+								}
+								
+								mysqli_stmt_close($stmtEmployeeName);
+								
 								$checkInfo->timeExpire = $checkExpire;
 								
 								$new->checkoutInfo = $checkInfo;
