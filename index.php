@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <?php
-
+/*
 session_start();
 
 // A user has to have logged in order to have this 'username' cookie
@@ -13,7 +13,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 	header("Location: login.php");
 	exit;
  }
- 
+ */
 ?>
 
 <html xmlns="https://www.w3.org/1999/xhtml">
@@ -146,7 +146,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                 }
                 else{
 
-                    $.post("addItem.php", {"item" : $("#inputItem").val().trim(), "barcode" : $("#inputBarcode").val().trim(), }, function(data){
+                    $.post("addItem.php", {"item" : $("#inputItem").val().trim(), "location" : $("#selectLocation").val(), "barcode" : $("#inputBarcode").val().trim(), }, function(data){
 
                         addMixBox(1, 50, data, $('#SandBox'));
                     });
@@ -479,7 +479,16 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                                             
                                             <input id="inputBarcode" class="add">
                                         </span>
+                                        <b>Location:</b>
                                     </p>
+                                    <div class="selectClass">
+                                        <select id="selectLocation">
+                                        
+                                            <option value=1>Memorial</option>
+                                            <option value=2>Student Center</option>
+                                        </select>
+                                    </div>
+                                    
                                     <hr>
                                     <p>
                                         <button id="addCategory" type="button" class="btn btn-default" >Add</button>
