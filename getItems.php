@@ -7,9 +7,10 @@
 	
 	class item{
     
-		public $name = '';
+		public $name = "";
 		public $id = -1;
 		public $location = "";
+		public $condition = "";
 		public $tags = array();
 		public $checkoutInfo = null;
 	}
@@ -63,6 +64,48 @@
 					}
 					
 					mysqli_stmt_close($stmtLocation);
+					
+					if($stmtCondition = mysqli_prepare($link, "SELECT item_condition_id FROM item_condition_update WHERE item_id = ?") or die ("prepare error" . mysqli_error($link))){
+						
+						mysqli_stmt_bind_param($stmtCondition, "i", $id) or die ("bind param" . mysqli_stmt_error($stmtCondition));
+						
+						if(mysqli_stmt_execute($stmtCondition) or die ("not executed")){
+							
+							mysqli_stmt_store_result($stmtCondition) or die (mysqli_stmt_error($stmtCondition));
+							
+							if(mysqli_stmt_num_rows($stmtCondition) != 0){
+								
+								mysqli_stmt_bind_result($stmtCondition, $conditionID) or die (mysqli_stmt_error($stmtCondition));
+								
+								mysqli_stmt_fetch($stmtCondition);
+								
+								$new->condition = $conditionID;
+							}
+						}
+					}
+					
+					mysqli_stmt_close($stmtCondition);
+					
+					if($stmtCondition = mysqli_prepare($link, "SELECT name FROM item_condition WHERE id = ?") or die ("prepare error" . mysqli_error($link))){
+						
+						mysqli_stmt_bind_param($stmtCondition, "s", $new->condition) or die ("bind param" . mysqli_stmt_error($stmtCondition));
+						
+						if(mysqli_stmt_execute($stmtCondition) or die ("not executed")){
+							
+							mysqli_stmt_store_result($stmtCondition) or die (mysqli_stmt_error($stmtCondition));
+							
+							if(mysqli_stmt_num_rows($stmtCondition) != 0){
+								
+								mysqli_stmt_bind_result($stmtCondition, $conditionName) or die (mysqli_stmt_error($stmtCondition));
+								
+								mysqli_stmt_fetch($stmtCondition);
+								
+								$new->condition = $conditionName;
+							}
+						}
+					}
+					
+					mysqli_stmt_close($stmtCondition);
 					
 					if($stmtTag = mysqli_prepare($link, "SELECT item_category_id FROM item_has_category WHERE item_id = ?") or die ("prepare error" . mysqli_error($link))){
 										

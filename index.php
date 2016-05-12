@@ -281,64 +281,74 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 				
 				fillModal(itemInfo, tags, checkout);
 			});
+        }
+		
+		function fillModal(itemInfo, tags, checkout){
+				
+			$("#myModal .modal-header").html("<button type = 'button' class = 'close' data-dismiss = 'modal'>x</button><h4 class = 'modal-title'>" + itemInfo.name + " details</h4>");
 			
-			function fillModal(itemInfo, tags, checkout){
+			var modalBody = "<p><b>Item Name:</b><span id = 'change-name'>" + itemInfo.name + "</span></p>";
+			   modalBody += "<p><b>Location:</b><select id = 'select-location'></select>";
+			   modalBody += "<p><b>Condtition:</b><select id = 'select-condition'></select>";
+			   modalBody += tags;
+			   modalBody += "<p><b>Add Tags:</b><input id = 'inputTags' placeholder = 'Enter tags seperated by spaces' type = 'text'><button id='addCategory' type='button' class='btn btn-default'><span class = 'glyphicon glyphicon-plus'></span>Add</button></p>";
+			   modalBody += checkout;
+			
+			$.get("getLocations.php", function(data){
 				
-				$("#myModal .modal-header").html("<button type = 'button' class = 'close' data-dismiss = 'modal'>x</button><h4 class = 'modal-title'>" + itemInfo.name + " details</h4>");
+				data = JSON.parse(data);
 				
-				var modalBody = "<p><b>Item Name:</b><span id = 'change-name'>" + itemInfo.name + "</span></p>";
-				   modalBody += "<p><b>Location:</b><select id = 'select-location'></select>";
-				   modalBody += tags;
-				   modalBody += "<p><b>Add Tags:</b><input id = 'inputTags' placeholder = 'Enter tags seperated by spaces' type = 'text'><button id='addCategory' type='button' class='btn btn-default'><span class = 'glyphicon glyphicon-plus'></span>Add</button></p><hr>";
-				   modalBody += checkout;
-				
-				$.get("getLocations.php", function(data){
+				data.forEach(function(element){
 					
-					data = JSON.parse(data);
-					
-					data.forEach(function(element){
-						
-						$("#myModal .modal-body p #select-location").append("<option value = '" + element + "'>" + element + "</option>");
-					});
+					$("#myModal .modal-body p #select-location").append("<option value = '" + element + "'>" + element + "</option>");
+				});
+				
+				if(itemInfo.location){
 					
 					$("#myModal .modal-body p #select-location").val(itemInfo.location);
-				});
+				}
+			});
+			
+			$.get("getConditions.php", function(data){
 				
-				$("#myModal .modal-body").html(modalBody);
+				data = JSON.parse(data);
 				
-				$("#addCategory").click(function(){
+				data.forEach(function(element){
 					
-					if($("#inputTags").val().trim().length > 0){
-						
-						$("#inputTags").val().trim().split(" ").forEach(function(tag){
-							
-							$.post("addCategory.php", {"category" : tag, "id" : currentBox}, function(data){
-								
-								if(data == "added"){
-									
-									$("#modalTags").append(", <b>" + tag + "</b>");
-								}
-							});
-						});
-					}
-					else{
-						$("#inputTags").css("background-color", "gold");
-					}
+					$("#myModal .modal-body p #select-condition").append("<option value = '" + element + "'>" + element + "</option>");
 				});
 				
-				$("#myModal .modal-footer .removeItem").attr("onClick", "removeItem(" + itemInfo.id + ")");
-			}
+				if(itemInfo.condition){
+					
+					$("#myModal .modal-body p #select-condition").val(itemInfo.condition);
+				}
+				
+			});
 			
-			function split(val){
-				  
-				return val.split( /,\s*/ );
-			}
+			$("#myModal .modal-body").html(modalBody);
 			
-			function extractLast(term){
-			  
-				return split(term).pop();
-			}
-        }
+			$("#addCategory").click(function(){
+				
+				if($("#inputTags").val().trim().length > 0){
+					
+					$("#inputTags").val().trim().split(" ").forEach(function(tag){
+						
+						$.post("addCategory.php", {"category" : tag, "id" : currentBox}, function(data){
+							
+							if(data == "added"){
+								
+								$("#modalTags").append(", <b>" + tag + "</b>");
+							}
+						});
+					});
+				}
+				else{
+					$("#inputTags").css("background-color", "gold");
+				}
+			});
+			
+			$("#myModal .modal-footer .removeItem").attr("onClick", "removeItem(" + itemInfo.id + ")");
+		}
     </script>
 
     <body>
