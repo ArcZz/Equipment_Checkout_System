@@ -29,7 +29,6 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script src="libraries/dropdown-enhancement.js"></script>
-		<script src="autocomplete/jquery-ui.min.js"></script>
 
         <link rel="stylesheet" type="text/css" href="css/design.css">
     </head>
@@ -253,7 +252,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 				checkout += "<p><b>Due back by:</b><span>" + itemInfo.checkoutInfo.timeExpire.toString().substring(0, 24) + "</span></p>";
 			}
 			
-			var tags = "<p><b>Tags:</b>";
+			var tags = "<p id = 'modalTags'><b>Tags:</b>";
 			var tagsClass = " ";
 			
 			itemInfo.tags.forEach(function(tag){
@@ -313,11 +312,12 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 						
 						$("#inputTags").val().trim().split(" ").forEach(function(tag){
 							
-							console.log(tag);
-							
 							$.post("addCategory.php", {"category" : tag, "id" : currentBox}, function(data){
-
-								console.log(data);
+								
+								if(data == "added"){
+									
+									$("#modalTags").append(", <b>" + tag + "</b>");
+								}
 							});
 						});
 					}
