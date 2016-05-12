@@ -35,13 +35,13 @@ input:focus{
 	padding-right: 0;
     height: 150px;
 }
-.glyphicon{
+#rightTab .glyphicon{
 
 	font-size: 30pt;
 	margin-top: 350px;
 }
 
-#addCategory .glyphicon{
+.glyphicon{
 	
 	font-size: 10pt;
 	margin: 0;
@@ -271,4 +271,15 @@ input:focus{
 #inUse-wrapper .modal-body select:focus{
 
 	outline: 0;
+}
+
+#myModal .modal-body #modalTags .btn-group .btn-default{
+	
+	background: none;
+	margin-right: 10px;
+}
+
+#myModal .modal-body #modalTags .btn-group .btn-default:hover{
+	
+	cursor: default;
 }

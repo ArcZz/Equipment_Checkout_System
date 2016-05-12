@@ -315,20 +315,21 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                 checkout = "<hr><p><b>Checked out to:</b><span>" + itemInfo.checkoutInfo.studentName + "</span></p>";
                 checkout += "<p><b>Checked out by:</b><span>" + itemInfo.checkoutInfo.employeeName + "</span></p>";
                 checkout += "<p><b>Due back by:</b><span>" + itemInfo.checkoutInfo.timeExpire.toString().substring(0, 24) + "</span></p>";
-            } else
+            }else
             {
                 sortFields += "data-studentName = '~' data-overdueTime = '~' data-employeeName = '~'";
                 
             }
 
-			var tags = "<p id = 'modalTags'><b>Tags:</b>";
+			var tags = "<div id = 'modalTags'><b>Tags:</b><div class = 'btn-group'>";
 			var tagsClass = " ";
-			itemInfo.tags.forEach(function(tag) {
-				tags += "<span>" + tag + ", </span>";
+			itemInfo.tags.forEach(function(tag){
+				
+				tags += "<button class = 'btn btn-danger deleteTag' value = '" + tag + "' type = 'button'><span class = 'glyphicon glyphicon-remove'></span></button><button class = 'btn btn-default' type = 'button'>" + tag + "</button>";
 				tagsClass += "item-" + tag + " ";
 			});
-			tags = tags.substring(0, tags.length - 9);
-			tags += "</span></p>";
+			
+			tags += "</div></div>";
 			
 			var timeExpire = (itemInfo.checkoutInfo) ? "<br>" + itemInfo.checkoutInfo.timeExpire.toTimeString().substring(0, 8) : "";
 			var studentName = (itemInfo.checkoutInfo) ? itemInfo.checkoutInfo.studentName + "<br>": "";
@@ -337,7 +338,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
             var button = "<button type='button' class='displayItemInfo btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>" + studentName + itemInfo.name + timeExpire + "</button></div>";
 			var newBox = $.parseHTML(box + button);
 			mixDiv.mixItUp("prepend", newBox[0]);
-			$(newBox).click(function() {
+			$(newBox).click(function(){
 				currentBox = itemInfo.id;
 				//console.log(itemInfo);
                 $("#myModal .modal-footer .checkinItem").attr("onClick", "checkinItem(" + itemInfo.id + ")");
@@ -386,10 +387,20 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 					
 					$("#myModal .modal-body p #select-condition").val(itemInfo.condition);
 				}
-				
 			});
 			
 			$("#myModal .modal-body").html(modalBody);
+			
+			$(".deleteTag").click(function(){
+				
+				var button = $(this);
+				
+				$.post("deleteTag.php", {"tag" : $(this).val(), "id" : currentBox}, function(data){
+					
+					button.next().remove();
+					button.remove();
+				});
+			});
 			
 			$("#addCategory").click(function(){
 				
@@ -400,11 +411,19 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 						$.post("addCategory.php", {"category" : tag, "id" : currentBox}, function(data){
 							
 							if(data == "added"){
-								if(itemInfo.tags[0])
-                                {
-                                    itemInfo.tags.push(tag);
-                                }
-								$("#modalTags").append(", <b>" + tag + "</b>");
+								
+								$("#modalTags .btn-group").append("<button class = 'btn btn-danger deleteTag' value = '" + tag + "' type = 'button'><span class = 'glyphicon glyphicon-remove'></span></button><button class = 'btn btn-default' type = 'button'>" + tag + "</button>");
+								
+								$(".deleteTag").click(function(){
+									
+									var button = $(this);
+									
+									$.post("deleteTag.php", {"tag" : $(this).val(), "id" : currentBox}, function(data){
+										
+										button.next().remove();
+										button.remove();
+									});
+								});
 							}
 						});
 					});
