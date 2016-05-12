@@ -187,14 +187,19 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 			});
 
             $("#addItem").click(function(){
-                if($("#inputItem").val().trim().length > 0){
-                    $.post("addItem.php", {"item" : $("#inputItem").val().trim()}, function(data){
+                if($("#inputItem").val().trim().length < 1){
+                    $("#inputItem").css("background-color", "gold");
+                }
+                else if($("#inputBarcode").val().trim().length < 1){
+
+                    $("#inputBarcode").css("background-color", "gold");
+                }
+                else{
+
+                    $.post("addItem.php", {"item" : $("#inputItem").val().trim(), "location" : $("#selectLocation").val(), "barcode" : $("#inputBarcode").val().trim(), }, function(data){
 
                         addMixBox(1, 50, data, $('#SandBox'));
                     });
-                }
-                else{
-                    $("#inputItem").css("background-color", "gold");
                 }
             });
            
@@ -467,7 +472,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 							<ul class="dropdown-menu">
 
 								<li>
-									<input id="oneHour" name="oneHour" value="1">
+									<input id="oneHour" name="oneHour">
 									<label for="oneHour">1 hour</label>
 								</li>
 								<li>
@@ -541,10 +546,30 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                 <!-- Modal body-->
 								<div class="modal-body">
                                     <p>
-                                        <button id="addItem" type="button" class="btn btn-default" >Add</button>
+                                        <span class="itemFill">
+                                            
+                                            <button id="addItem" type="button" class="btn btn-default">Add</button>
+                                        </span>
                                         <b>Item Name:</b>
-                                        <span><input id="inputItem" class="add"></span>
+                                        <span>
+                                            
+                                            <input id="inputItem" class="add">
+                                        </span>
+                                        <b>Barcode:</b>
+                                        <span>
+                                            
+                                            <input id="inputBarcode" class="add">
+                                        </span>
+                                        <b>Location:</b>
                                     </p>
+                                    <div class="selectClass">
+                                        <select id="selectLocation">
+                                        
+                                            <option value=1>Memorial</option>
+                                            <option value=2>Student Center</option>
+                                        </select>
+                                    </div>
+                                    
                                     <hr>
                                     <p>
                                         <button id="addLocation" type="button" class="btn btn-default" name="testme">Add</button>

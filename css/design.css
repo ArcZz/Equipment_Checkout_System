@@ -221,9 +221,15 @@ input:focus{
 }
 #inUse-wrapper #addNew .modal-body b{
     float: left;
+    font-size: 80%;
+}
+#inUse-wrapper #addNew .modal-body hr{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 #inUse-wrapper #addNew .modal-body input{
     width: 100%;
+    font-size: 80%;
 }
 #inUse-wrapper #addNew .modal-body span{
     display: block;
@@ -231,14 +237,24 @@ input:focus{
     padding: 0 5px;
     margin: 5px 0;
 }
-#inUse-wrapper #addNew .modal-body .fill{
+#inUse-wrapper #addNew .modal-body .employeeFill{
     float: right;
     height: 150px;
     padding: 0;
     margin: 0;
 }
+#inUse-wrapper #addNew .modal-body .itemFill{
+    float: right;
+    height: 90px;
+    padding: 0;
+    margin: 0;
+}
 #inUse-wrapper #addNew .modal-body button{
     float: right;
+}
+#inUse-wrapper #addNew .selectClass select{
+    font-size: 12pt;
+    margin-left: 6px;
 }
 #inUse-wrapper #addNew .modal-body #addEmployee{
     margin-top: 0;
