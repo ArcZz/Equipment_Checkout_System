@@ -32,25 +32,25 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 	<script type="text/javascript">
 		var selected = [];
 		var currentBox = -1;
+        var andOrValue = 0;
 		$(function() {
-
 			$('#SandBox').mixItUp();
 
       //for filter checked or unchecked
 			$('.car input:checkbox').change(function() {
 				if ($(this).is(":checked")) {
-					selected.push($(this).attr('name'));
-					var tempName = GetTempName();
-					$('#SandBox').mixItUp('filter', tempName);
-			  	}
+                    selected.push($(this).attr('name'));
+                    var tempName = GetTempName();
+                    $('#SandBox').mixItUp('filter', tempName);
+                }
                 else {
-					var index = selected.indexOf($(this).attr('name'));
-					if (index > -1) {
-						selected.splice(index, 1);
-					}
-					var tempName = GetTempName();
-					$('#SandBox').mixItUp('filter', tempName);
-			   	}
+                    var index = selected.indexOf($(this).attr('name'));
+                    if (index > -1) {
+                        selected.splice(index, 1);
+                    }
+                    var tempName = GetTempName();
+                    $('#SandBox').mixItUp('filter', tempName);
+                }
 		   	});
 
     	addItemMixBoxes($('#SandBox'));   //newfuntion
@@ -245,36 +245,22 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                 $("#descendingSort").attr("data-sort", "itemname:desc");
             });
 
+            $("#and-or-filter").click(function(){
+                var newValue = $('input:radio[name=filter-and-or]:checked').val();
+                andOrValue = newValue;
+
+                var tempName = GetTempName();
+                $('#SandBox').mixItUp('filter', tempName);
+            });
+            
         });
-
-        function GetTempName(){
-
-            var tempName = "";
-
-            for(var i = 0; i < selected.length; i++){
-
-                tempName += selected[i];
-
-                if(i < selected.length - 1){
-
-                    tempName += ",";
-                }
-            }
-
-            if(tempName == ""){
-
-                tempName = "all";
-            }
-
-            return tempName;
-        }
 
     //for the filter
 		function GetTempName() {
 			var tempName = "";
 			for (var i = 0; i < selected.length; i++) {
 				tempName += selected[i];
-				if (i < selected.length - 1) {
+				if (i < selected.length - 1 && andOrValue==1) {
 					tempName += ",";
 				}
 			}
@@ -283,6 +269,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 			}
 			return tempName;
 		}
+
    //for add a new item in box
 		function addItemMixBoxes(mixDiv) { //new
 			$.post("getItems.php", function(data) {
@@ -644,6 +631,23 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                                     </li>
 								</ul>
 							</div>
+
+                            <div class="btn-group">
+
+                                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton time"> And/Or <span class="caret"></span></button>
+
+                                <ul class="dropdown-menu and-or-filter" id="and-or-filter">
+
+                                    <li>
+                                        <input type="radio" id="filter-and" name="filter-and-or" value="0" checked>
+                                        <label for="filter-and">And</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="filter-or" name="filter-and-or" value="1">
+                                        <label for="filter-or">Or</label>
+                                    </li>
+                                </ul>
+                            </div>
 						</div>
 
 						<div class="group">
