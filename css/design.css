@@ -96,7 +96,7 @@ input:focus{
     flex-direction: row-reverse;
     padding: 6px 2% 10px 1%;
 	width: auto;
-}      
+}
 #topRibbon #button-div{
     width: 230px;
 }
@@ -105,7 +105,7 @@ input:focus{
     font-size: 18px;
     height: 40px;
     width: 100px;
-    margin-top: 12px;
+    margin-top: 19px;;
     text-transform: uppercase;
     background: #EEE;
     box-shadow: 0 0 27px #EEE inset;
@@ -114,7 +114,7 @@ input:focus{
 #topRibbon #button-div .time{
 	float: right;
     margin-top: 25px;
-    
+
 }
 #topRibbon #scannedText-div{
 
@@ -169,7 +169,7 @@ input:focus{
     color: #232323;
     background: #c89315;
 }
- 
+
 #inUse-wrapper .modal{
     height: auto;
     width: auto;
@@ -248,6 +248,6 @@ input:focus{
     padding-bottom: 5px;
 }
 #inUse-wrapper .modal-body select:focus{
-	
+
 	outline: 0;
 }
