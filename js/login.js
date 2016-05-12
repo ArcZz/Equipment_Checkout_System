@@ -49,7 +49,6 @@ $("#submit").click(function(){
                  response("sry, this user already existed");
              }
                else if(data=="signin"){
-                 alert(" success! Pls remember ur username and password.");
                  location.reload(true);
                }
       });

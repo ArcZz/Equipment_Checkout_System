@@ -37,13 +37,13 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 			$('#SandBox').mixItUp();
 
       //for filter checked or unchecked
-			$('.car input:checkbox, .other input:checkbox').change(function() {
+			$('.car input:checkbox').change(function() {
 				if ($(this).is(":checked")) {
 					selected.push($(this).attr('name'));
 					var tempName = GetTempName();
 					$('#SandBox').mixItUp('filter', tempName);
 			  	}
-        else {
+                else {
 					var index = selected.indexOf($(this).attr('name'));
 					if (index > -1) {
 						selected.splice(index, 1);
@@ -51,7 +51,6 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 					var tempName = GetTempName();
 					$('#SandBox').mixItUp('filter', tempName);
 			   	}
-				  $('#textbox1').val($(this).is(':checked'));
 		   	});
 
     	addItemMixBoxes($('#SandBox'));   //newfuntion
@@ -89,13 +88,14 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 					$.post("checkOut.php", {
 						"student": $("#student").val().trim(),
 						"item": $("#item").val().trim(),
-						"time": Date().substring(16, 24)
+						"time": timeDue
 					}, function(data) {
             if(data=="existed"){
               alert(" this item already is already checked out");
             }
             else if(data=="Success"){
-              alert(" successed");
+                //alert(" successed");
+                location.reload(true);
             }
             else if(data=="No Change"){
               alert(" checked out fail !");
@@ -186,29 +186,6 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 				$("#descendingSort").attr("data-sort", "itemname:desc");
 			});
 
-            $("#addEmployee").click(function(){
-                if($("#inputEmployeeUser").val().trim().length < 1){
-                    $("#inputEmployeeUser").css("background-color", "gold");
-                }
-                else if($("#inputEmployeeFName").val().trim().length < 1){
-
-                    $("#inputEmployeeFName").css("background-color", "gold");
-                }
-                else if($("#inputEmployeeLName").val().trim().length < 1){
-                    $("#inputEmployeeLName").css("background-color", "gold");
-
-                }
-                else if($("#inputEmployeePass").val().trim().length < 1){
-                    $("#inputEmployeePass").css("background-color", "gold");
-                }
-                else{
-
-                    $.post("addEmployee.php", {"username" : $("#inputEmployeeUser").val().trim(), "first" : $("#inputEmployeeFName").val().trim(), "last" : $("#inputEmployeeLName").val().trim(), "pass" : $("#inputEmployeePass").val().trim(), }, function(data){
-
-                        console.log(data);
-                    });
-                }
-            });
             $("#addItem").click(function(){
                 if($("#inputItem").val().trim().length > 0){
                     $.post("addItem.php", {"item" : $("#inputItem").val().trim()}, function(data){
@@ -363,13 +340,15 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 			var timeExpire = (itemInfo.checkoutInfo) ? "<br>" + itemInfo.checkoutInfo.timeExpire.toTimeString().substring(0, 8) : "";
 			var studentName = (itemInfo.checkoutInfo) ? itemInfo.checkoutInfo.studentName + "<br>": "";
 			
-            var box = "<div id = 'itemQuickDisplayBox" + itemInfo.id + "' class='mix" + tagsClass + "' " + sortFields + "style='display: inline-block;'>";
+            var box = "<div id = 'itemQuickDisplayBox" + itemInfo.id + "' class='mix" + tagsClass + itemInfo.condition + "' " + sortFields + "style='display: inline-block;'>";
             var button = "<button type='button' class='displayItemInfo btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>" + studentName + itemInfo.name + timeExpire + "</button></div>";
 			var newBox = $.parseHTML(box + button);
 			mixDiv.mixItUp("prepend", newBox[0]);
 			$(newBox).click(function() {
 				currentBox = itemInfo.id;
 				//console.log(itemInfo);
+                $("#myModal .modal-footer .checkinItem").attr("onClick", "checkinItem(" + itemInfo.id + ")");
+                $("#myModal .modal-footer .removeItem").attr("onClick", "removeItem(" + itemInfo.id + ")");
 				
 				fillModal(itemInfo, tags, checkout);
 			});
@@ -428,7 +407,10 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 						$.post("addCategory.php", {"category" : tag, "id" : currentBox}, function(data){
 							
 							if(data == "added"){
-								
+								if(itemInfo.tags[0])
+                                {
+                                    itemInfo.tags.push(tag);
+                                }
 								$("#modalTags").append(", <b>" + tag + "</b>");
 							}
 						});
@@ -482,19 +464,19 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 
 							<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton time"> Time <span class="caret"></span></button>
 
-							<ul class="dropdown-menu car">
+							<ul class="dropdown-menu">
 
 								<li>
-									<input type="checkbox" id="oneHour" name=".category-1" value="1">
-									<label for="comp">1 hour</label>
+									<input id="oneHour" name="oneHour" value="1">
+									<label for="oneHour">1 hour</label>
 								</li>
 								<li>
-									<input type="checkbox" id="twoHours" name="temp" value="1">
-									<label for="car">2 hours</label>
+									<input id="twoHours" name="temp" value="1">
+									<label for="twoHours">2 hours</label>
 								</li>
 								<li>
-									<input type="checkbox" id="threeHours" name="temp" value="1">
-									<label for="car">3 hours</label>
+									<input id="threeHours" name="temp" value="1">
+									<label for="threeHours">3 hours</label>
 								</li>
 							</ul>
 						</div>
@@ -558,37 +540,6 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 								</div>
                 <!-- Modal body-->
 								<div class="modal-body">
-                <!-- add a new employee -->
-									<p>
-
-										<span class="fill">
-
-                        <button id="addEmployee" type="button" class="btn btn-default">Add</button>
-                                        </span>
-										<b>Employee Pawprint:</b>
-										<span>
-
-                                            <input id="inputEmployeeUser" class="add">
-                                        </span>
-										<b>Employee First Name:</b>
-										<span>
-
-                                            <input id="inputEmployeeFName" class="add">
-                                        </span>
-										<b>Employee Last Name:</b>
-										<span>
-
-                                            <input id="inputEmployeeLName" class="add">
-                                        </span>
-										<b>Employee Password:</b>
-
-										<span>
-
-                                            <input id="inputEmployeePass" class="add">
-                                        </span>
-                                    </p>
-
-                                    <hr>
                                     <p>
                                         <button id="addItem" type="button" class="btn btn-default" >Add</button>
                                         <b>Item Name:</b>
@@ -620,15 +571,15 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                         <div class="group filterAlign">
 							<label>Filter:</label>
 							<div class="btn-group">
-								<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton "> Item <span class="caret"></span></button>
+								<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton "> Tags <span class="caret"></span></button>
 								<ul class="dropdown-menu car">
 									<li>
 										<input type="checkbox" id="comp" name=".item-laptop" value="1">
 										<label for="comp">Laptop</label>
 									</li>
 									<li>
-										<input type="checkbox" id="car" name=".item-mac" value="2">
-										<label for="car">Mac</label>
+										<input type="checkbox" id="mac" name=".item-mac" value="2">
+										<label for="mac">Mac</label>
 									</li>
 									<li>
 										<input type="checkbox" id="bike" name=".item-PC" value="3">
@@ -644,37 +595,27 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 									</li>
 								</ul>
 							</div>
-							<div class="btn-group">
-								<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton"> Category <span class="caret"></span></button>
-								<ul class="dropdown-menu other">
-									<li>
-
-										<input type="checkbox" id="group1" name=".category-2" value="1">
-										<label for="group1">Group 1</label>
-									</li>
-									<li>
-
-										<input type="checkbox" id="group2" name="ex2" value="1">
-										<label for="group2">Group 2</label>
-									</li>
-								</ul>
-							</div>
 
 							<div class="btn-group">
 
 								<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton"> Condition <span class="caret"></span></button>
-								<ul class="dropdown-menu">
+								<ul class="dropdown-menu car">
 
 									<li>
 
-										<input type="checkbox" id="ex2_1" name="ex2" value="1">
-										<label for="ex2_1">Good</label>
+										<input type="checkbox" id="ex2_1" name=".working" value="1">
+										<label for="ex2_1">Working</label>
 									</li>
 									<li>
 
-										<input type="checkbox" id="ex2_2" name="ex2" value="2">
-										<label for="ex2_2">Damaged</label>
+										<input type="checkbox" id="ex2_2" name=".broken" value="2">
+										<label for="ex2_2">Broken</label>
 									</li>
+                                    <li>
+
+                                        <input type="checkbox" id="ex2_2" name=".needs_repair_but_works" value="2">
+                                        <label for="ex2_2">Needs repair</label>
+                                    </li>
 								</ul>
 							</div>
 						</div>
