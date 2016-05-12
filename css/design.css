@@ -177,6 +177,11 @@ input:focus{
     border-radius: 0;
     border: 0;
 }
+
+#inUse-wrapper .modal .removeItem{
+    float: left;
+}
+
 #inUse-wrapper .close{
     position: absolute;
     top: 3px;

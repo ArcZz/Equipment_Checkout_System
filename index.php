@@ -82,8 +82,9 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 				} else if ($("#item").val().trim().length < 1) {
 					$("#item").attr("placeholder", "Can not be NULL");
 				} else {
-					var date = new Date();
-					date.setHours(date.getHours() + 2);
+					var date = new Date(),
+                        inputedTime = $('input:radio[name=time]:checked').val();
+					date.setHours(date.getHours() + inputedTime);
 					var timeDue = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":00";
 					$.post("checkOut.php", {
 						"student": $("#student").val().trim(),
@@ -465,22 +466,22 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 							<button class="submit" id="check" type="button">Submit</button>
 						</form>
 
-						<div class="btn-group">
+						<div class="btn-group" id="selected-time">
 
 							<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle bringButton time"> Time <span class="caret"></span></button>
 
 							<ul class="dropdown-menu">
 
 								<li>
-									<input id="oneHour" name="oneHour">
+									<input type="radio" id="oneHour" name="time" value="1" checked>
 									<label for="oneHour">1 hour</label>
 								</li>
 								<li>
-									<input id="twoHours" name="temp" value="1">
+									<input type="radio" id="twoHours" name="time" value="2">
 									<label for="twoHours">2 hours</label>
 								</li>
 								<li>
-									<input id="threeHours" name="temp" value="1">
+									<input type="radio" id="threeHours" name="time" value="3">
 									<label for="threeHours">3 hours</label>
 								</li>
 							</ul>
@@ -525,7 +526,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 								<div class="modal-footer">
                   <button type="button" class="btn btn-danger checkinItem" data-dismiss="modal">checkin</button>
                 	<?php if($_SESSION["permissions"]<2){ ?>
-									<button type="button" class="btn btn-danger removeItem " data-dismiss="modal">Remove</button>
+									<button type="button" class="btn btn-danger removeItem" data-dismiss="modal">Remove</button>
 									<button type="button" class="btn btn-default " data-dismiss="modal">Save</button>
                   <?php } ?>
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
