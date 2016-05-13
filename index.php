@@ -196,13 +196,15 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                 }
                 else{
 
-                    $.post("addItem.php", {"item" : $("#inputItem").val().trim(), "location" : $("#selectLocation").val(), "barcode" : $("#inputBarcode").val().trim(), }, function(data){
+                    $.post("addItem.php", {"item" : $("#inputItem").val().trim(),
+                                  "location" : $("#selectLocation").val(),
+                                   "barcode" : $("#inputBarcode").val().trim(), }, function(data){
 
                         addMixBox(1, 50, data, $('#SandBox'));
                     });
                 }
             });
-           
+
             $("#addLocation").click(function(){
                 if($("#inputWaiver").val().trim().length > 0){
                     $.post("addLocation.php", {"location" : $("#inputLocation").val().trim()}, function(data){
@@ -304,6 +306,19 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 				}
 			});
 		}
+  //for save a item in item table
+  function saveItem(itemID) {
+    $.post("saveItem.php", {
+      "id": currentBox,
+      "locationitem": $("#select-location").val(),
+      "conditionitem": $("#select-condition").val()
+    }, function(data) {
+      console.log(data);
+      location.reload(true);
+
+    });
+  }
+
     function checkinItem(itemID) {
       $.post("checkinItem.php", {
         "id": currentBox
@@ -319,9 +334,10 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 
 			var sortFields = " data-itemName = '" + itemInfo.name + "'",
                 checkout = "";
-            
+
             if(itemInfo.checkoutInfo){
-                
+
+
                 itemInfo.checkoutInfo.timeExpire = new Date(itemInfo.checkoutInfo.timeExpire);
                 sortFields += "data-studentName = '" + itemInfo.checkoutInfo.studentName + "' data-overdueTime = '" + itemInfo.checkoutInfo.timeExpire + "' data-employeeName = '" + itemInfo.checkoutInfo.employeeName + "'";
                 checkout = "<hr><p><b>Checked out to:</b><span>" + itemInfo.checkoutInfo.studentName + "</span></p>";
@@ -330,7 +346,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
             } else
             {
                 sortFields += "data-studentName = '~' data-overdueTime = '~' data-employeeName = '~'";
-                
+
             }
 
 			var tags = "<p id = 'modalTags'><b>Tags:</b>";
@@ -341,10 +357,10 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 			});
 			tags = tags.substring(0, tags.length - 9);
 			tags += "</span></p>";
-			
+
 			var timeExpire = (itemInfo.checkoutInfo) ? "<br>" + itemInfo.checkoutInfo.timeExpire.toTimeString().substring(0, 8) : "";
 			var studentName = (itemInfo.checkoutInfo) ? itemInfo.checkoutInfo.studentName + "<br>": "";
-			
+
             var box = "<div id = 'itemQuickDisplayBox" + itemInfo.id + "' class='mix" + tagsClass + itemInfo.condition + "' " + sortFields + "style='display: inline-block;'>";
             var button = "<button type='button' class='displayItemInfo btn btn-info btn-lg' data-toggle='modal' data-target='#myModal'>" + studentName + itemInfo.name + timeExpire + "</button></div>";
 			var newBox = $.parseHTML(box + button);
@@ -354,63 +370,64 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 				//console.log(itemInfo);
                 $("#myModal .modal-footer .checkinItem").attr("onClick", "checkinItem(" + itemInfo.id + ")");
                 $("#myModal .modal-footer .removeItem").attr("onClick", "removeItem(" + itemInfo.id + ")");
-				
+                $("#myModal .modal-footer .saveItem").attr("onClick", "saveItem(" + itemInfo.id + ")");
+
 				fillModal(itemInfo, tags, checkout);
 			});
         }
-		
+
 		function fillModal(itemInfo, tags, checkout){
-				
+
 			$("#myModal .modal-header").html("<button type = 'button' class = 'close' data-dismiss = 'modal'>x</button><h4 class = 'modal-title'>" + itemInfo.name + " details</h4>");
-			
+
 			var modalBody = "<p><b>Item Name:</b><span id = 'change-name'>" + itemInfo.name + "</span></p>";
 			   modalBody += "<p><b>Location:</b><select id = 'select-location'></select>";
 			   modalBody += "<p><b>Condtition:</b><select id = 'select-condition'></select>";
 			   modalBody += tags;
 			   modalBody += "<p><b>Add Tags:</b><input id = 'inputTags' placeholder = 'Enter tags seperated by spaces' type = 'text'><button id='addCategory' type='button' class='btn btn-default'><span class = 'glyphicon glyphicon-plus'></span>Add</button></p>";
 			   modalBody += checkout;
-			
+
 			$.get("getLocations.php", function(data){
-				
+
 				data = JSON.parse(data);
-				
+
 				data.forEach(function(element){
-					
+
 					$("#myModal .modal-body p #select-location").append("<option value = '" + element + "'>" + element + "</option>");
 				});
-				
+
 				if(itemInfo.location){
-					
+
 					$("#myModal .modal-body p #select-location").val(itemInfo.location);
 				}
 			});
-			
+
 			$.get("getConditions.php", function(data){
-				
+
 				data = JSON.parse(data);
-				
+
 				data.forEach(function(element){
-					
+
 					$("#myModal .modal-body p #select-condition").append("<option value = '" + element + "'>" + element + "</option>");
 				});
-				
+
 				if(itemInfo.condition){
-					
+
 					$("#myModal .modal-body p #select-condition").val(itemInfo.condition);
 				}
-				
+
 			});
-			
+
 			$("#myModal .modal-body").html(modalBody);
-			
+
 			$("#addCategory").click(function(){
-				
+
 				if($("#inputTags").val().trim().length > 0){
-					
+
 					$("#inputTags").val().trim().split(" ").forEach(function(tag){
-						
+
 						$.post("addCategory.php", {"category" : tag, "id" : currentBox}, function(data){
-							
+
 							if(data == "added"){
 								if(itemInfo.tags[0])
                                 {
@@ -425,7 +442,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 					$("#inputTags").css("background-color", "gold");
 				}
 			});
-			
+
 			$("#myModal .modal-footer .removeItem").attr("onClick", "removeItem(" + itemInfo.id + ")");
 		}
     </script>
@@ -526,7 +543,7 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                   <button type="button" class="btn btn-danger checkinItem" data-dismiss="modal">checkin</button>
                 	<?php if($_SESSION["permissions"]<2){ ?>
 									<button type="button" class="btn btn-danger removeItem " data-dismiss="modal">Remove</button>
-									<button type="button" class="btn btn-default " data-dismiss="modal">Save</button>
+									<button type="button" class="btn btn-default  saveItem " data-dismiss="modal">Update</button>
                   <?php } ?>
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 								</div>
@@ -547,29 +564,29 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 								<div class="modal-body">
                                     <p>
                                         <span class="itemFill">
-                                            
+
                                             <button id="addItem" type="button" class="btn btn-default">Add</button>
                                         </span>
                                         <b>Item Name:</b>
                                         <span>
-                                            
+
                                             <input id="inputItem" class="add">
                                         </span>
                                         <b>Barcode:</b>
                                         <span>
-                                            
+
                                             <input id="inputBarcode" class="add">
                                         </span>
                                         <b>Location:</b>
                                     </p>
                                     <div class="selectClass">
                                         <select id="selectLocation">
-                                        
+
                                             <option value=1>Memorial</option>
                                             <option value=2>Student Center</option>
                                         </select>
                                     </div>
-                                    
+
                                     <hr>
                                     <p>
                                         <button id="addLocation" type="button" class="btn btn-default" name="testme">Add</button>
@@ -584,15 +601,15 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
                                     </p>
                                 </div>
                                 <div class="modal-footer">
-                                 
-									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="control-bar sandbox-control-bar" style="overflow: visible;">
-                        
+
                         <div class="group filterAlign">
 							<label>Filter:</label>
 							<div class="btn-group">
