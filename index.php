@@ -347,8 +347,6 @@ $username = empty($_COOKIE['userid']) ? '' : $_COOKIE['userid'];
 
             tags += "</div></div>";
 
-			tags = tags.substring(0, tags.length - 9);
-			tags += "</span></p>";
 			var timeExpire = (itemInfo.checkoutInfo) ? "<br>" + itemInfo.checkoutInfo.timeExpire.toTimeString().substring(0, 8) : "";
 			var studentName = (itemInfo.checkoutInfo) ? itemInfo.checkoutInfo.studentName + "<br>": "";
 
