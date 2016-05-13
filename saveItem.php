@@ -32,34 +32,28 @@
  $stmt = mysqli_prepare($link, "SELECT item_id  FROM student_item_transaction WHERE item_id = ?") or die ("prepare error" . mysqli_error($link));
  	mysqli_stmt_bind_param($stmt, "s", $id) or die ("bind param" . mysqli_stmt_error($stmt));
 
- 	if(mysqli_stmt_execute($stmt) or die ("not executed")){
+   	mysqli_stmt_execute($stmt) or die ("not executed");
 
  		mysqli_stmt_store_result($stmt) or die (mysqli_stmt_error($stmt));
 
  		if(mysqli_stmt_num_rows($stmt))
-		{
-			  mysqli_stmt_close($stmt);
-			if($stmt = mysqli_prepare($link, "UPDATE student_item_transaction SET item_condition_id  = ?, location_id = ? WHERE item_id = ?") or die ("prepare error" . mysqli_error($link)))
-				{
+		{ mysqli_stmt_close($stmt);
+			$stmt = mysqli_prepare($link, "UPDATE student_item_transaction SET item_condition_id  = ?, location_id = ? WHERE item_id = ?") or die ("prepare error" . mysqli_error($link));
 				 mysqli_stmt_bind_param($stmt, "ddd", $cid,$lid,$id) or die ("bind param" . mysqli_stmt_error($stmt));
 				 mysqli_stmt_execute($stmt) or die ("not executed4");
 						if(mysqli_affected_rows($link)){
 							print "s";
 						}
-
-				}
-
- 		}
-	}
+ 	 	}else{
+				print "no";
+		}
 
   mysqli_stmt_close($stmt);
-	if($stmt = mysqli_prepare($link, "UPDATE item SET location = ? WHERE id = ?") or die ("prepare error" . mysqli_error($link)))
-  {
+$stmt = mysqli_prepare($link, "UPDATE item SET location = ? WHERE id = ?") or die ("prepare error" . mysqli_error($link));
 		mysqli_stmt_bind_param($stmt, "dd", $lid, $id) or die ("bind param" . mysqli_stmt_error($stmt));
 
 		mysqli_stmt_execute($stmt) or die ("not executed 13");
-			if(mysqli_affected_rows($link)){
-          print "s";
+	if(mysqli_affected_rows($link)){
         mysqli_stmt_close($stmt);
 				if($stmt = mysqli_prepare($link, "UPDATE item_condition_update SET item_condition_id  = ? WHERE item_id = ?") or die ("prepare error" . mysqli_error($link)))
 			    {
@@ -74,10 +68,6 @@
 		}else{
 				var_dump($lid);
 			}
-
-	}
-
-
 
 	mysqli_stmt_close($stmt);
 	mysqli_close($link);
